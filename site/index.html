@@ -1,39 +1,34 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>小王投资盯盘站</title>
-<style>
-:root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#6b778c;--line:#e3e8f0;--blue:#2563eb;--green:#087f5b;--amber:#a16207;--red:#b42318}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
-.wrap{max-width:1180px;margin:auto;padding:16px 14px 60px}.top{position:sticky;top:0;background:rgba(245,247,251,.94);backdrop-filter:blur(12px);z-index:5;padding-bottom:10px}
-h1{margin:0;font-size:22px}.sub,.muted{color:var(--muted);font-size:12px}.tabs{display:flex;gap:7px;overflow:auto;margin-top:12px}.tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;white-space:nowrap}.tabs button.on{background:#eaf1ff;color:var(--blue);border-color:#c8d7ff}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 5px 18px #1720330b}.v{font-size:22px;font-weight:800}.k{font-size:11px;color:var(--muted)}section{margin-top:18px}.section-title{font-size:17px;font-weight:800;margin-bottom:8px}
-.table{overflow:auto;border:1px solid var(--line);border-radius:12px}.table table{border-collapse:collapse;width:100%;min-width:950px}.table th,.table td{padding:8px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{background:#f8fafc}.tag{display:inline-block;border-radius:999px;padding:3px 7px;font-size:11px;background:#eef2f7}.good{background:#e8f7f1;color:var(--green)}.warn{background:#fff5d9;color:var(--amber)}.bad{background:#fdeceb;color:var(--red)}
-.target{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:9px;background:#fff}.target b{font-size:15px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:9px 0}.metric{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:8px}.metric span{display:block;color:var(--muted);font-size:10px}.metric b{font-size:13px}.note{background:#f8fafc;border-radius:11px;padding:9px;font-size:12px}.anomaly{border-left:4px solid #e2a93b;padding:10px;background:#fffdf6;border-radius:9px;margin:7px 0}.history{padding:10px;border:1px solid var(--line);border-radius:11px;margin:7px 0;background:#fff}
-@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.grid{grid-template-columns:1fr 1fr}.v{font-size:18px}}
-.hidden{display:none}
-</style></head>
-<body><div class="wrap">
-<header class="top"><h1>小王投资盯盘站</h1><div class="sub">13笔实际持仓 · 9个估值监控 · 参考仓位偏离 · L2数据健康</div><div class="tabs" id="tabs"></div></header>
-<main id="app"></main>
-<div class="muted" style="margin-top:20px">页面数据为项目当前快照；每日自动化运行后应覆盖/追加同一站点数据。失败或过期数据不会标成当日正式数据。</div>
-</div>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小王投资盯盘站</title>
+<style>body{font:14px system-ui;margin:0;background:#f5f7fb;color:#172033}.wrap{max-width:1100px;margin:auto;padding:16px}.card{background:white;border:1px solid #e3e8f0;border-radius:14px;padding:14px;margin:10px 0}table{width:100%;border-collapse:collapse}td,th{padding:7px;border-bottom:1px solid #eee;text-align:left}.tabs{display:flex;gap:6px;overflow:auto}.tabs button{padding:8px;border:1px solid #ddd;border-radius:20px;background:white}.hidden{display:none}.good{background:#e8f7f1}</style></head>
+<body><div class="wrap"><h1>小王投资盯盘站</h1><div id="meta"></div><div class="tabs" id="tabs"></div><main id="app"></main></div>
 <script>
-const D={"basis":"2026-09-18","run_at":"2026-09-19T00:10:56+08:00","account":{"total_assets":4151.27,"total_pnl":-1.02,"today_pnl":40.6},"holdings":[["摩根标普500指数(QDII)C","019305",635.36,15.31,1.661,"2026-09-16","最新正式净值","过期于基准日"],["建信纳斯达克100指数(QDII)C人民币","012752",624.64,15.05,3.2705,"2026-09-16","最新正式净值","过期于基准日"],["华泰柏瑞中证红利低波ETF联接C","007467",609.43,14.68,1.5881,"2026-09-17","最新正式净值","过期于基准日"],["南方有色金属ETF联接C","004433",596.19,14.36,1.6263,"2026-09-17","最新正式净值","过期于基准日"],["鹏华弘利混合C","001123",514.47,12.39,1.8404,"2026-09-17","最新正式净值","过期于基准日"],["广发中债7-10年国开债指数E","011062",301.19,7.26,1.375,"2026-09-17","最新正式净值","过期于基准日"],["富国中证港股通互联网ETF联接C","014674",203.1,4.89,0.603,"2026-09-17","最新正式净值","过期于基准日"],["中欧中证人工智能主题指数发起C","023462",192.36,4.63,1.8075,"2026-09-17","最新正式净值","过期于基准日"],["广发成长甄选混合C","026733",145.65,3.51,1.205,"2026-09-17","最新正式净值","过期于基准日"],["国泰黄金ETF联接A","000218",134.57,3.24,3.3715,"2026-09-17","最新正式净值","过期于基准日"],["华夏中证沪深黄金产业股票ETF发起式联接C","021075",93.13,2.24,1.5148,"2026-09-18","正式单位净值","当日"],["汇添富沪深300基本面增强指数C","010855",50.88,1.23,0.7885,"2026-09-18","正式单位净值","当日"],["易方达中证A50ETF联接发起式C","021207",50.3,1.21,1.2433,"2026-09-17","最新正式净值","过期于基准日"]],"vals":[["红利低波","H30269","股息率 4.94% / CN10Y 1.678% / 利差 3.262pt","2026-09-18","观察","5年公开分位背景；正式L2仍需≥60个真实点"],["黄金","AU9999","黄金 4372.27 USD/oz","2026-09-18","仓位参考","无PE/PB/PS估值；不设硬目标仓位"],["沪深300","000300","PE 15.49 / PE分位 33.20% / PB 1.422","2026-09-18","观察","公开5年分位背景；正式L2另行累计"],["中证A50","930050","PE 15.79 / PE分位 16.26%","2026-09-18","观察","公开5年分位背景；正式L2另行累计"],["CS人工智能","930713","PS 4.66 / PS分位 68.73% / PE 49.29 / PB 7.86","2026-09-18","观察","PE不作为主指标；重点观察业绩兑现"],["港股通互联网","931637","PS 2.26 / PS分位 1.49% / PE 19.61 / PB 2.27","2026-09-18","低位关注","继续观察盈利与政策变量；正式L2另行累计"],["有色金属","000819","PB 3.62 / PB分位 69.87%","2026-09-18","观察","周期属性明显；正式L2仍需累计"],["纳斯达克100","NDX","PE 29.13 / US10Y 4.947% / ERP -1.514%","2026-09-18","偏高观察","PE最新披露日期为9/13；价格与利率为9/18"],["标普500","SPX","PE 26.70 / US10Y 4.947% / ERP -1.202%","2026-09-18","偏高观察","价格与利率为9/18；PE为公开当前口径"]],"alloc":[["标普500",15.31,15,"12–18%","区间内"],["纳斯达克100",15.05,12,"10–15%","高于上沿"],["红利低波",14.68,18,"15–20%","低于下沿"],["沪深300",1.23,12,"10–15%","低于下沿"],["中证A50",1.21,7,"5–8%","低于下沿"],["港股通互联网",4.89,8,"5–10%","低于下沿"],["CS人工智能",4.63,5,"3–6%","区间内"],["有色金属",14.36,7,"5–8%","高于上沿"],["黄金",3.24,8,"6–10%","低于下沿"]],"anoms":[["历史不足","红利低波 / 沪深300 / A50 / AI / 港股互联网 / 有色 / 纳指100 / 标普500","正式L2序列当前仅1个真实点，门槛为60；公开网页分位背景不等同于正式L2。"],["口径修复","组合缓冲","不再把未映射剩余资产重复计入“债券/混合/现金缓冲”占比；黄金8%仅为参考中心，不是硬目标。"]],"history":[["2026-09-18","2026-09-19T00:10:56+08:00","13/13基金成功核验；估值9/9；L2历史未达60点"]]};
-const tabs=[["home","总览"],["holdings","13笔持仓"],["valuation","9个估值"],["allocation","仓位偏离"],["health","数据健康"],["history","历史"]];
-function tag(t){let c=t.includes("区间内")||t.includes("当日")||t.includes("正式")||t.includes("低位")?"good":t.includes("高")||t.includes("不足")||t.includes("过期")||t.includes("偏高")||t.includes("低于")?"warn":"neutral";return '<span class="tag '+c+'">'+t+'</span>'}
-function render(id){
-document.querySelectorAll("section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");
+let D,H;
+const tabs=[["overview","总览"],["holdings","13笔持仓"],["valuation","9个估值"],["allocation","仓位偏离"],["health","数据健康"],["history","历史"]];
+function esc(s){return String(s??"").replace(/[&<>]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[x]))}
+function show(k,b){document.querySelectorAll("main>section").forEach(x=>x.classList.add("hidden"));document.getElementById(k).classList.remove("hidden");document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("good"));b.classList.add("good")}
+async function load(){
+ D=await fetch("data/latest.json?x="+Date.now()).then(r=>r.json());
+ H=await fetch("data/history.json?x="+Date.now()).then(r=>r.json());
+ const L=D.latest,M=L.market||{};
+ document.getElementById("meta").innerHTML='<div class="card">数据基准日：<b>'+esc(L._daily_fetch.data_basis_date)+'</b>　运行：'+esc(L._daily_fetch.attempted_at)+'<br>13笔持仓 · 9个估值监控 · 正式L2门槛60个真实历史点</div>';
+ document.getElementById("tabs").innerHTML=tabs.map(t=>'<button onclick="show(\''+t[0]+'\',this)">'+t[1]+"</button>").join("");
+ document.getElementById("app").innerHTML=
+ '<section id="overview"><div class="card"><h2>当前状态</h2><p>网站只读取 site/data。失败、估算、过期数据保留真实日期并显式标记，不冒充当日正式数据。</p><p>黄金仅作为参考仓位，不设硬目标。</p></div></section>'+
+ '<section id="holdings" class="hidden"><div class="card"><h2>13笔实际持仓</h2><table><tr><th>基金</th><th>金额</th><th>净值</th><th>日期</th><th>状态</th></tr>'+
+ D.portfolio.holdings.map(h=>{const x=L.funds[h.code]||{};return "<tr><td>"+esc(h.name)+"</td><td>¥"+h.holding_value.toFixed(2)+"</td><td>"+(x.nav??"—")+"</td><td>"+esc(x.date||"—")+"</td><td>"+esc(x.fetch_status||"—")+"</td></tr>"}).join("")+
+ '</table></div></section>'+
+ '<section id="valuation" class="hidden"><div class="card"><h2>9个估值监控</h2>'+
+ D.watchlist.targets.map(t=>{const x=M[t.key]||{};return '<div class="card"><b>'+esc(t.name)+" · "+esc(t.index.code)+'</b><pre>'+esc(JSON.stringify(x,null,2))+"</pre></div>"}).join("")+
+ '</div></section>'+
+ '<section id="allocation" class="hidden"><div class="card"><h2>参考仓位偏离</h2><p>只用于监控，不是硬性目标，不自动调仓。</p><table><tr><th>标的</th><th>当前</th><th>中心</th><th>区间</th><th>状态</th></tr>'+
+ ((H.records.at(-1)?.allocation_deviation)||[]).map(x=>"<tr><td>"+esc(x.key)+"</td><td>"+x.current_pct+"%</td><td>"+x.reference_pct+"%</td><td>"+x.range_pct.join("–")+"%</td><td>"+esc(x.state)+"</td></tr>").join("")+
+ '</table></div></section>'+
+ '<section id="health" class="hidden"><div class="card"><h2>数据健康</h2><pre>'+esc(JSON.stringify({l2:D.l2,anomalies:H.records.at(-1)?.anomalies||[]},null,2))+'</pre></div></section>'+
+ '<section id="history" class="hidden"><div class="card"><h2>历史</h2>'+
+ H.records.slice().reverse().map(x=>'<div class="card"><b>'+esc(x.data_basis_date)+"</b>　"+esc(x.completeness||"")+"</div>").join("")+
+ '</div></section>';
 }
-function build(){
-document.getElementById("tabs").innerHTML=tabs.map((x,i)=>'<button class="'+(i?'':'on')+'" onclick="renderTab(\''+x[0]+'\',this)">'+x[1]+'</button>').join("");
-document.getElementById("app").innerHTML=
-'<section id="home"><div class="grid"><div class="card"><div class="k">数据基准日</div><div class="v">'+D.basis+'</div><div class="muted">运行 '+D.run_at+'</div></div><div class="card"><div class="k">总资产</div><div class="v">¥'+D.account.total_assets.toFixed(2)+'</div><div class="muted">累计盈亏 ¥'+D.account.total_pnl.toFixed(2)+'</div></div><div class="card"><div class="k">当日盈亏</div><div class="v">¥'+D.account.today_pnl.toFixed(2)+'</div></div><div class="card"><div class="k">数据完整性</div><div class="v">13/13</div><div class="muted">基金成功核验；估值9/9</div></div></div><section><div class="card"><div class="section-title">今日状态</div><div class="note">正式净值、估值数据按实际可用日期展示；过期数据明确标注，不将估算值冒充正式当日数据。正式L2计算仍受“≥60个真实历史点”门槛约束。</div></div></section></section>'+
-'<section id="holdings" class="hidden"><div class="card"><div class="section-title">13笔实际持仓</div><div class="table"><table><thead><tr><th>基金</th><th>代码</th><th>持仓</th><th>占比</th><th>净值</th><th>净值日期</th><th>状态</th></tr></thead><tbody>'+D.holdings.map(h=>'<tr><td>'+h[0]+'</td><td>'+h[1]+'</td><td>¥'+h[2].toFixed(2)+'</td><td>'+h[3].toFixed(2)+'%</td><td>'+h[4]+'</td><td>'+h[5]+'</td><td>'+tag(h[6]+' · '+h[7])+'</td></tr>').join("")+'</tbody></table></div></div></section>'+
-'<section id="valuation" class="hidden"><div class="section-title">9个估值监控</div>'+D.vals.map(v=>'<div class="target"><b>'+v[0]+' · '+v[1]+'</b> '+tag(v[4])+'<div class="metrics"><div class="metric"><span>核心数据</span><b>'+v[2]+'</b></div><div class="metric"><span>数据日期</span><b>'+v[3]+'</b></div></div><div class="note"><b>长期判断：</b>'+v[5]+'<br><b>今日观察：</b>'+v[4]+'</div></div>').join("")+'</section>'+
-'<section id="allocation" class="hidden"><div class="card"><div class="section-title">组合参考区间偏离</div><div class="muted">仅做监控，不自动调仓；黄金8%为参考中心，不是硬目标。</div><div class="table"><table><thead><tr><th>标的</th><th>当前</th><th>参考中心</th><th>区间</th><th>状态</th></tr></thead><tbody>'+D.alloc.map(a=>'<tr><td>'+a[0]+'</td><td>'+a[1].toFixed(2)+'%</td><td>'+a[2]+'%</td><td>'+a[3]+'</td><td>'+tag(a[4])+'</td></tr>').join("")+'</tbody></table></div></div></section>'+
-'<section id="health" class="hidden"><div class="card"><div class="section-title">异常与数据健康</div>'+D.anoms.map(a=>'<div class="anomaly"><b>'+a[0]+'</b><div><b>'+a[1]+'</b></div><div class="muted">'+a[2]+'</div></div>').join("")+'<div class="note">正式L2：valuation_engine.py负责计算；当前历史样本不足时不输出正式L2信号，不插值、不模拟、不伪造。</div></div></section>'+
-'<section id="history" class="hidden"><div class="card"><div class="section-title">历史运行</div>'+D.history.map(h=>'<div class="history"><b>基准日 '+h[0]+'</b><div class="muted">运行：'+h[1]+'</div><div>'+h[2]+'</div></div>').join("")+'</div></section>';
-}
-function renderTab(id,b){document.querySelectorAll("section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");}
-build();render("home");setInterval(()=>location.reload(),60000);
+load();setInterval(load,60000);
 </script></body></html>
