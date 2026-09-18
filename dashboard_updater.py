@@ -58,9 +58,16 @@ def main(day):
     for h in p["holdings"]:
         x=dict(h);x["market"]=funds[h["code"]];x["weight_pct"]=round(h["holding_value"]/p["account_summary"]["total_assets"]*100,2);holdings.append(x)
     ref=w["allocation_framework"]["reference_pct"];rng=w["allocation_framework"]["range_pct"];by={}
+    fund_to_target={}
+    for t in w["targets"]:
+        for fh in t.get("funds",[]):
+            fund_to_target[fh["code"]]=t["key"]
     for h in holdings:
-        if h.get("valuation_target"):by[h["valuation_target"]]=by.get(h["valuation_target"],0)+h["weight_pct"]
-    reserve=round(sum(h["weight_pct"] for h in holdings if not h.get("valuation_target")),2);alloc=[]
+        target=fund_to_target.get(h["code"])
+        if target:
+            h["valuation_target"]=target
+            by[target]=by.get(target,0)+h["weight_pct"]
+    reserve=round(sum(h["weight_pct"] for h in holdings if h["code"] not in fund_to_target),2);alloc=[]
     for k in ref:
         cur=reserve if k=="reserve" else by.get(k,0);lo,hi=rng[k];state="within" if lo<=cur<=hi else "below" if cur<lo else "above";alloc.append({"key":k,"current_pct":cur,"reference_pct":ref[k],"range_pct":rng[k],"state":state,"deviation_from_center_pct":round(cur-ref[k],2)})
     an=[]
