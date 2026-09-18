@@ -1,7 +1,7 @@
 name: Daily investment dashboard update
 on:
   schedule:
-    - cron: "0 9 * * *"
+    - cron: "0 9 * * *" # 17:00 Asia/Shanghai
   workflow_dispatch:
 permissions:
   contents: write
@@ -11,14 +11,19 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
+    env:
+      LIXINGER_TOKEN: ${{ secrets.LIXINGER_TOKEN }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python dashboard_updater.py --date "$(TZ=Asia/Shanghai date +%F)"
+      - name: Backfill 5y/10y valuation history
+        run: python history_backfill.py --date "$(TZ=Asia/Shanghai date +%F)" --years 5 --extend-years 10
+      - name: Update today's data and run L2
+        run: python dashboard_updater.py --date "$(TZ=Asia/Shanghai date +%F)"
       - name: Commit data
         run: |
           git config user.name "github-actions[bot]"
@@ -26,5 +31,3 @@ jobs:
           git add data site/data
           git diff --cached --quiet || git commit -m "data: daily investment update $(TZ=Asia/Shanghai date +%F)"
           git push
-
-# manual integration test trigger: 2026-09-19
