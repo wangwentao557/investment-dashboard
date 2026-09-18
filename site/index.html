@@ -1,34 +1,87 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小王投资盯盘站</title>
-<style>body{font:14px system-ui;margin:0;background:#f5f7fb;color:#172033}.wrap{max-width:1100px;margin:auto;padding:16px}.card{background:white;border:1px solid #e3e8f0;border-radius:14px;padding:14px;margin:10px 0}table{width:100%;border-collapse:collapse}td,th{padding:7px;border-bottom:1px solid #eee;text-align:left}.tabs{display:flex;gap:6px;overflow:auto}.tabs button{padding:8px;border:1px solid #ddd;border-radius:20px;background:white}.hidden{display:none}.good{background:#e8f7f1}</style></head>
-<body><div class="wrap"><h1>小王投资盯盘站</h1><div id="meta"></div><div class="tabs" id="tabs"></div><main id="app"></main></div>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>小王投资仪表盘</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--ink:#162033;--muted:#718096;--line:#e7ecf3;--blue:#2563eb;--blue2:#eff6ff;--green:#0f9d6e;--greenbg:#ecfdf5;--amber:#c77b00;--amberbg:#fff7e6;--red:#d64545;--redbg:#fff1f1;--shadow:0 6px 24px rgba(20,35,60,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1180px;margin:auto;padding:24px 18px 48px}.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:18px}.brand h1{margin:0;font-size:25px;letter-spacing:-.5px}.brand p{margin:5px 0 0;color:var(--muted);font-size:12px}.refresh{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 11px;color:#4a5568}
+.hero{background:linear-gradient(135deg,#0d1729,#172b4d);color:#fff;border-radius:18px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}.hero .label{opacity:.72;font-size:12px}.hero .value{font-size:30px;font-weight:750;margin:3px 0}.hero .sub{font-size:12px;opacity:.75}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.metric{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px}.metric b{display:block;font-size:16px}.metric span{font-size:11px;opacity:.68}
+.tabs{position:sticky;top:0;z-index:5;display:flex;gap:7px;overflow:auto;padding:5px 0 10px;background:linear-gradient(var(--bg) 75%,transparent);scrollbar-width:none}.tabs button{white-space:nowrap;border:1px solid var(--line);background:#fff;color:#536174;border-radius:999px;padding:8px 13px;font-weight:600}.tabs button.active{background:#172b4d;color:#fff;border-color:#172b4d}
+.section{margin-top:5px}.section-head{display:flex;justify-content:space-between;align-items:center;margin:14px 2px 9px}.section-head h2{font-size:17px;margin:0}.section-head span{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 2px 8px rgba(20,35,60,.025)}.card-title{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.title{font-weight:700}.code{color:var(--muted);font-size:11px;margin-top:2px}.tag{font-size:11px;border-radius:999px;padding:4px 8px;background:var(--greenbg);color:var(--green);white-space:nowrap}.tag.warn{background:var(--amberbg);color:var(--amber)}.tag.bad{background:var(--redbg);color:var(--red)}
+.big{font-size:23px;font-weight:750;margin:11px 0 2px}.muted{color:var(--muted);font-size:12px}.row{display:flex;justify-content:space-between;gap:12px;margin-top:8px}.bar{height:7px;background:#edf1f6;border-radius:99px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:#3b82f6;border-radius:99px}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:650px}.table th,.table td{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}.table th{font-size:11px;color:var(--muted);font-weight:600}.table td:first-child{font-weight:650}.pill{font-size:11px;padding:3px 7px;border-radius:999px;background:#f1f5f9;color:#526071}.pill.ok{background:var(--greenbg);color:var(--green)}.pill.stale{background:var(--amberbg);color:var(--amber)}
+.empty{padding:22px;text-align:center;color:var(--muted)}.note{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:11px;color:#5f6b7a;font-size:12px;margin-top:10px}.hidden{display:none!important}
+.val-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.val-card{min-height:175px}.facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.fact{background:#f8fafc;border-radius:9px;padding:7px 9px}.fact span{display:block;color:var(--muted);font-size:10px}.fact b{font-size:13px}.judgement{margin-top:10px;padding:9px 10px;border-radius:10px;background:#f8fafc;font-size:12px;color:#4b5563}
+@media(max-width:760px){.wrap{padding:15px 12px 35px}.top{align-items:center}.refresh{font-size:11px}.grid,.val-grid{grid-template-columns:1fr}.metrics{gap:7px}.metric{padding:9px}.metric b{font-size:14px}.hero{padding:17px}.hero .value{font-size:26px}.tabs{margin:0 -12px;padding-left:12px;padding-right:12px}.card{padding:13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><h1>小王投资仪表盘</h1><p>持仓 · 估值 · 仓位 · 数据健康 · 历史</p></div>
+    <button class="refresh" onclick="load()">↻ 刷新</button>
+  </header>
+  <div id="hero"></div>
+  <nav class="tabs" id="tabs"></nav>
+  <main id="app"></main>
+</div>
 <script>
 let D,H;
 const tabs=[["overview","总览"],["holdings","13笔持仓"],["valuation","9个估值"],["allocation","仓位偏离"],["health","数据健康"],["history","历史"]];
-function esc(s){return String(s??"").replace(/[&<>]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[x]))}
-function show(k,b){document.querySelectorAll("main>section").forEach(x=>x.classList.add("hidden"));document.getElementById(k).classList.remove("hidden");document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("good"));b.classList.add("good")}
+const esc=s=>String(s??"").replace(/[&<>"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[x]));
+const pct=(v)=>Number(v||0).toFixed(1)+"%";
+function statusTag(s){
+ const stale=/stale|failed|error|estimate|estimated/i.test(String(s||""));
+ return '<span class="tag '+(stale?"warn":"")+'">'+esc(s||"—")+"</span>";
+}
+function show(k,b){document.querySelectorAll(".tabsec").forEach(x=>x.classList.add("hidden"));document.getElementById(k).classList.remove("hidden");document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");}
+function valFacts(x){
+ const out=[];
+ if(x.dividend_yield!=null) out.push(["股息率",x.dividend_yield+"%"]);
+ if(x.cn10y!=null) out.push(["中债10Y",x.cn10y+"%"]);
+ if(x.spread!=null) out.push(["利差",x.spread+"pt"]);
+ if(x.pe!=null) out.push(["PE",x.pe]);
+ if(x.pe_percentile!=null) out.push(["PE历史分位",x.pe_percentile+"%"]);
+ if(x.pb!=null) out.push(["PB",x.pb]);
+ if(x.pb_percentile!=null) out.push(["PB历史分位",x.pb_percentile+"%"]);
+ if(x.ps!=null) out.push(["PS",x.ps]);
+ if(x.ps_percentile!=null) out.push(["PS历史分位",x.ps_percentile+"%"]);
+ if(x.us10y!=null) out.push(["美债10Y",x.us10y+"%"]);
+ if(x.erp!=null) out.push(["ERP",x.erp+"%"]);
+ if(x.gold_usd_oz!=null) out.push(["金价",x.gold_usd_oz+" USD/oz"]);
+ return out.map(a=>'<div class="fact"><span>'+esc(a[0])+'</span><b>'+esc(a[1])+'</b></div>').join("");
+}
+function valAdvice(key,x){
+ if(key==="gold") return "今日观察：关注价格趋势与宏观利率变化；黄金仅作参考仓位，不设硬目标。";
+ if(x.pe_percentile!=null) return "今日观察：PE历史分位 "+x.pe_percentile+"%，结合盈利与利率继续观察。";
+ if(x.ps_percentile!=null) return "今日观察：PS历史分位 "+x.ps_percentile+"%，同时核对盈利质量与估值变化。";
+ if(x.pb_percentile!=null) return "今日观察：PB历史分位 "+x.pb_percentile+"%，结合盈利周期判断。";
+ if(x.spread!=null) return "今日观察：股息率与10Y利率利差为 "+x.spread+"pt，观察风险补偿变化。";
+ if(x.erp!=null) return "今日观察：ERP为 "+x.erp+"%，同时关注美债利率与盈利预期。";
+ return "今日观察：等待更多真实历史数据形成稳定估值背景。";
+}
 async function load(){
- D=await fetch("data/latest.json?x="+Date.now()).then(r=>r.json());
- H=await fetch("data/history.json?x="+Date.now()).then(r=>r.json());
- const L=D.latest,M=L.market||{};
- document.getElementById("meta").innerHTML='<div class="card">数据基准日：<b>'+esc(L._daily_fetch.data_basis_date)+'</b>　运行：'+esc(L._daily_fetch.attempted_at)+'<br>13笔持仓 · 9个估值监控 · 正式L2门槛60个真实历史点</div>';
- document.getElementById("tabs").innerHTML=tabs.map(t=>'<button onclick="show(\''+t[0]+'\',this)">'+t[1]+"</button>").join("");
- document.getElementById("app").innerHTML=
- '<section id="overview"><div class="card"><h2>当前状态</h2><p>网站只读取 site/data。失败、估算、过期数据保留真实日期并显式标记，不冒充当日正式数据。</p><p>黄金仅作为参考仓位，不设硬目标。</p></div></section>'+
- '<section id="holdings" class="hidden"><div class="card"><h2>13笔实际持仓</h2><table><tr><th>基金</th><th>金额</th><th>净值</th><th>日期</th><th>状态</th></tr>'+
- D.portfolio.holdings.map(h=>{const x=L.funds[h.code]||{};return "<tr><td>"+esc(h.name)+"</td><td>¥"+h.holding_value.toFixed(2)+"</td><td>"+(x.nav??"—")+"</td><td>"+esc(x.date||"—")+"</td><td>"+esc(x.fetch_status||"—")+"</td></tr>"}).join("")+
- '</table></div></section>'+
- '<section id="valuation" class="hidden"><div class="card"><h2>9个估值监控</h2>'+
- D.watchlist.targets.map(t=>{const x=M[t.key]||{};return '<div class="card"><b>'+esc(t.name)+" · "+esc(t.index.code)+'</b><pre>'+esc(JSON.stringify(x,null,2))+"</pre></div>"}).join("")+
- '</div></section>'+
- '<section id="allocation" class="hidden"><div class="card"><h2>参考仓位偏离</h2><p>只用于监控，不是硬性目标，不自动调仓。</p><table><tr><th>标的</th><th>当前</th><th>中心</th><th>区间</th><th>状态</th></tr>'+
- ((H.records.at(-1)?.allocation_deviation)||[]).map(x=>"<tr><td>"+esc(x.key)+"</td><td>"+x.current_pct+"%</td><td>"+x.reference_pct+"%</td><td>"+x.range_pct.join("–")+"%</td><td>"+esc(x.state)+"</td></tr>").join("")+
- '</table></div></section>'+
- '<section id="health" class="hidden"><div class="card"><h2>数据健康</h2><pre>'+esc(JSON.stringify({l2:D.l2,anomalies:H.records.at(-1)?.anomalies||[]},null,2))+'</pre></div></section>'+
- '<section id="history" class="hidden"><div class="card"><h2>历史</h2>'+
- H.records.slice().reverse().map(x=>'<div class="card"><b>'+esc(x.data_basis_date)+"</b>　"+esc(x.completeness||"")+"</div>").join("")+
- '</div></section>';
+ try{
+  [D,H]=await Promise.all([fetch("data/latest.json?x="+Date.now()).then(r=>r.json()),fetch("data/history.json?x="+Date.now()).then(r=>r.json())]);
+  const L=D.latest,M=L.market||{}, S=D.portfolio.account_summary||{}, rec=(H.records||[]).at(-1)||{};
+  document.getElementById("hero").innerHTML='<div class="hero"><div class="label">数据基准日</div><div class="value">'+esc(L._daily_fetch.data_basis_date)+'</div><div class="sub">实际运行：'+esc(L._daily_fetch.attempted_at)+' · '+L._daily_fetch.fund_success_count+"/"+L._daily_fetch.fund_total+" 笔持仓数据已核验</div><div class="metrics"><div class="metric"><span>账户总资产</span><b>¥'+Number(S.total_assets||0).toFixed(2)+'</b></div><div class="metric"><span>累计盈亏</span><b>¥'+Number(S.total_pnl||0).toFixed(2)+'</b></div><div class="metric"><span>今日盈亏</span><b>¥'+Number(S.today_pnl||0).toFixed(2)+'</b></div></div></div>';
+  document.getElementById("tabs").innerHTML=tabs.map(t=>'<button onclick="show(\''+t[0]+'\',this)">'+t[1]+'</button>').join("");
+  const holdings=D.portfolio.holdings||[];
+  const total=Number(S.total_assets||0);
+  document.getElementById("app").innerHTML=
+   '<section id="overview" class="tabsec"><div class="section-head"><h2>今日概览</h2><span>'+esc(L._daily_fetch.data_basis_date)+'</span></div><div class="grid"><div class="card"><div class="card-title"><div><div class="title">持仓覆盖</div><div class="code">实际持仓数据</div></div>'+statusTag(L._daily_fetch.fund_success_count+"/"+L._daily_fetch.fund_total)+'</div><div class="big">'+L._daily_fetch.fund_success_count+"/"+L._daily_fetch.fund_total+'</div><div class="bar"><i style="width:'+100*L._daily_fetch.fund_success_count/L._daily_fetch.fund_total+'%"></i></div><div class="muted">未核验数据不会冒充当日数据。</div></div><div class="card"><div class="card-title"><div><div class="title">估值监控</div><div class="code">9个观察对象</div></div>'+statusTag("9个")+'</div><div class="big">9</div><div class="muted">PE / PB / PS / 股息率 / ERP 等指标</div><div class="note">正式 L2：至少 60 个真实历史点；当前不足时只展示已有数据。</div></div></div><div class="section-head"><h2>估值速览</h2><span>点击“9个估值”查看详情</span></div><div class="val-grid">'+D.watchlist.targets.map(t=>{const x=M[t.key]||{};return '<div class="card val-card"><div class="card-title"><div><div class="title">'+esc(t.name)+'</div><div class="code">'+esc(t.index.code)+'</div></div>'+statusTag(x.fetch_status)+'</div><div class="big">'+(x.pe!=null?"PE "+x.pe:x.ps!=null?"PS "+x.ps:x.pb!=null?"PB "+x.pb:x.dividend_yield!=null?"股息率 "+x.dividend_yield+"%":x.gold_usd_oz!=null?"$"+x.gold_usd_oz:x.erp!=null?"ERP "+x.erp+"%":"—")+'</div><div class="muted">数据日期 '+esc(x.date||"—")+'</div></div>'}).join("")+'</div></section>'+
+   '<section id="holdings" class="tabsec hidden"><div class="section-head"><h2>13笔实际持仓</h2><span>按持仓金额排序</span></div><div class="card table-wrap"><table class="table"><thead><tr><th>基金</th><th>持仓金额</th><th>占比</th><th>最新净值</th><th>净值日期</th><th>数据状态</th></tr></thead><tbody>'+holdings.map(h=>{const x=L.funds[h.code]||{};const p=total?100*h.holding_value/total:0;return '<tr><td>'+esc(h.name)+'<div class="code">'+esc(h.code)+'</div></td><td>¥'+Number(h.holding_value).toFixed(2)+'</td><td>'+p.toFixed(1)+'%</td><td>'+(x.nav??"—")+'</td><td>'+esc(x.date||"—")+'</td><td><span class="pill '+(x.fetch_status==="verified_latest"?"ok":"stale")+'">'+esc(x.fetch_status||"—")+'</span></td></tr>'}).join("")+'</tbody></table></div></section>'+
+   '<section id="valuation" class="tabsec hidden"><div class="section-head"><h2>9个估值监控</h2><span>当前数据 + 今日观察</span></div><div class="val-grid">'+D.watchlist.targets.map(t=>{const x=M[t.key]||{};return '<div class="card val-card"><div class="card-title"><div><div class="title">'+esc(t.name)+'</div><div class="code">'+esc(t.index.code)+'</div></div>'+statusTag(x.fetch_status)+'</div><div class="facts">'+valFacts(x)+'</div><div class="judgement"><b>今日观察：</b>'+esc(valAdvice(t.key,x))+'<br><span class="muted">数据日期：'+esc(x.date||"—")+' · 来源：'+esc(x.source||"—")+'</span></div></div>'}).join("")+'</div><div class="note">长期判断由正式估值引擎基于真实历史数据形成；LLM不代替估值引擎计算数值信号。</div></section>'+
+   '<section id="allocation" class="tabsec hidden"><div class="section-head"><h2>参考仓位偏离</h2><span>仅监控，不自动调仓</span></div><div class="card table-wrap"><table class="table"><thead><tr><th>标的</th><th>当前</th><th>参考中心</th><th>参考区间</th><th>状态</th></tr></thead><tbody>'+((rec.allocation_deviation)||[]).map(x=>'<tr><td>'+esc(x.key)+'</td><td>'+x.current_pct+'%</td><td>'+x.reference_pct+'%</td><td>'+x.range_pct.join(" – ")+'%</td><td><span class="pill">'+esc(x.state)+'</span></td></tr>').join("")+'</tbody></table></div></section>'+
+   '<section id="health" class="tabsec hidden"><div class="section-head"><h2>数据健康</h2><span>不隐藏失败项</span></div><div class="grid"><div class="card"><div class="title">L2 状态</div><div class="big">'+esc(D.l2&&D.l2.status||"no_data")+'</div><div class="muted">正式计算门槛：≥60 个真实历史点</div></div><div class="card"><div class="title">异常 / 警告</div><div class="big">'+((rec.anomalies||[]).length)+'</div><div class="muted">'+((rec.anomalies||[]).length?"存在需要查看的异常项。":"当前快照未记录异常。")+'</div></div></div><div class="card" style="margin-top:12px"><div class="title">数据说明</div><div class="note">网站不把估算、失败、过期数据显示成当日正式数据；抓取失败时保留上一可靠值并标记状态。历史数据只接受真实观测点，不插值、不模拟、不伪造。</div></div></section>'+
+   '<section id="history" class="tabsec hidden"><div class="section-head"><h2>历史记录</h2><span>'+((H.records||[]).length)+' 个数据日</span></div><div class="grid">'+(H.records||[]).slice().reverse().map(x=>'<div class="card"><div class="card-title"><div><div class="title">'+esc(x.data_basis_date)+'</div><div class="code">运行 '+esc(x.attempted_at||"—")+'</div></div><span class="pill">'+esc(x.completeness||"—")+'</span></div><div class="row"><span class="muted">持仓覆盖</span><b>'+esc(x.fund_success_count??"—")+'/'+esc(x.fund_total??"—")+'</b></div></div>').join("")+'</div></section>';
+  const first=document.querySelector(".tabs button");show("overview",first);
+ }catch(e){document.getElementById("app").innerHTML='<div class="card empty">数据加载失败，请稍后刷新。<br><span class="muted">'+esc(e.message)+'</span></div>'}
 }
 load();setInterval(load,60000);
-</script></body></html>
+</script>
+</body></html>
