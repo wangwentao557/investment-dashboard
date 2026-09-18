@@ -1,0 +1,36 @@
+name: Backfill valuation history
+on:
+  workflow_dispatch:
+    inputs:
+      years:
+        description: "Primary history years"
+        required: true
+        default: "5"
+      extend_years:
+        description: "Extended history years"
+        required: true
+        default: "10"
+permissions:
+  contents: write
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      LIXINGER_TOKEN: ${{ secrets.LIXINGER_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python history_backfill.py --date "$(TZ=Asia/Shanghai date +%F)" --years "${{ inputs.years }}" --extend-years "${{ inputs.extend_years }}"
+      - run: python valuation_engine.py --config watchlist.json
+      - run: python sync_site.py
+      - name: Commit backfill
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data site/data
+          git diff --cached --quiet || git commit -m "data: backfill valuation history"
+          git push
