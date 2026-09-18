@@ -26,3 +26,5 @@ jobs:
           git add data site/data
           git diff --cached --quiet || git commit -m "data: daily investment update $(TZ=Asia/Shanghai date +%F)"
           git push
+
+# manual integration test trigger: 2026-09-19
