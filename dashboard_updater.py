@@ -93,9 +93,9 @@ def fund(code):
             pass
     return {"fetch_status":"failed","failure_reason":"primary and backup source unavailable","estimated":False}
 
-def append_point(key,col,day,market):
+def append_point(key,col,day,market,date_field="date"):
     d=market.get(key,{})
-    if d.get("date")!=day or d.get(col) is None:return False
+    if d.get(date_field)!=day or d.get(col) is None:return False
     p=DATA/"history"/f"{key}.csv";p.parent.mkdir(parents=True,exist_ok=True)
     old={}
     if p.exists():
@@ -130,9 +130,29 @@ def main(day):
             else:
                 d["fetch_status"]="stale_failed";d["fetch_error"]=q.get("error","no value")
 
+    # Public-source fallback for overseas macro inputs and gold.
+    if not token():
+        try:
+            j=SESSION.get("https://query1.finance.yahoo.com/v8/finance/chart/^TNX?range=5d&interval=1d",timeout=10).json()["chart"]["result"][0]
+            i=len(j["timestamp"])-1;us10y=float(j["indicators"]["quote"][0]["close"][i])/10
+            us_date=datetime.fromtimestamp(j["timestamp"][i],timezone.utc).date().isoformat()
+            for k in ("ndx","spx"):
+                d=market.setdefault(k,{})
+                d["us10y"]=us10y;d["us10y_date"]=us_date
+                if d.get("pe") not in (None,0) and d.get("date")==us_date:
+                    d["erp"]=100/float(d["pe"])-us10y;d["erp_date"]=us_date
+        except Exception:
+            pass
+    try:
+        j=SESSION.get("https://query1.finance.yahoo.com/v8/finance/chart/XAUUSD=X?range=5d&interval=1d",timeout=10).json()["chart"]["result"][0]
+        i=len(j["timestamp"])-1;g=float(j["indicators"]["quote"][0]["close"][i])
+        gd=datetime.fromtimestamp(j["timestamp"][i],timezone.utc).date().isoformat()
+        market.setdefault("gold",{})["index_name"]="黄金";market["gold"]["gold_usd_oz"]=g;market["gold"]["date"]=gd;market["gold"]["source"]="Yahoo Finance";market["gold"]["fetch_status"]="success"
+    except Exception:
+        if "gold" in market:market["gold"]["fetch_status"]="stale"
     funds={h["code"]:fund(h["code"]) for h in portfolio["holdings"]}
-    for key,col in [("div_lowvol","spread"),("hs300","pe"),("csi_a50","pe"),("cs_ai","ps"),("hk_internet","ps"),("metals","pb"),("ndx","erp"),("spx","erp")]:
-        append_point(key,col,day,market)
+    for key,col,date_field in [("div_lowvol","spread","spread_date"),("hs300","pe","date"),("csi_a50","pe","date"),("cs_ai","ps","date"),("hk_internet","ps","date"),("metals","pb","date"),("ndx","erp","erp_date"),("spx","erp","erp_date")]:
+        append_point(key,col,day,market,date_field)
 
     snapshot={
         "_daily_fetch":{
