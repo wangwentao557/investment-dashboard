@@ -1,1 +1,63 @@
-{}
+{
+  "schema_version": 2,
+  "status": "no_data",
+  "minimum_points": 60,
+  "targets": {
+    "div_lowvol": {
+      "signal": "no_data",
+      "points": 1,
+      "required_points": 60,
+      "metric_column": "spread",
+      "history_window": "5y primary; 10y extension if stable"
+    },
+    "hs300": {
+      "signal": "no_data",
+      "points": 1,
+      "required_points": 60,
+      "metric_column": "pe",
+      "history_window": "5y primary; 10y extension if stable"
+    },
+    "csi_a50": {
+      "signal": "no_data",
+      "points": 1,
+      "required_points": 60,
+      "metric_column": "pe",
+      "history_window": "5y primary; 10y extension if stable"
+    },
+    "cs_ai": {
+      "signal": "no_data",
+      "points": 1,
+      "required_points": 60,
+      "metric_column": "ps",
+      "history_window": "5y primary; 10y extension if stable"
+    },
+    "hk_internet": {
+      "signal": "no_data",
+      "points": 1,
+      "required_points": 60,
+      "metric_column": "ps",
+      "history_window": "5y primary; 10y extension if stable"
+    },
+    "metals": {
+      "signal": "no_data",
+      "points": 1,
+      "required_points": 60,
+      "metric_column": "pb",
+      "history_window": "5y primary; 10y extension if stable"
+    },
+    "ndx": {
+      "signal": "no_data",
+      "points": 1,
+      "required_points": 60,
+      "metric_column": "erp",
+      "history_window": "5y primary; 10y extension if stable"
+    },
+    "spx": {
+      "signal": "no_data",
+      "points": 1,
+      "required_points": 60,
+      "metric_column": "erp",
+      "history_window": "5y primary; 10y extension if stable"
+    }
+  }
+}
