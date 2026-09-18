@@ -49,7 +49,7 @@ def api_current(day,key,target):
         if row.get("dyr") is not None:d["dividend_yield"]=float(row["dyr"])
         if debt and debt[-1].get("tcm_y10") is not None:
             d["cn10y"]=float(debt[-1]["tcm_y10"])*100
-            if d.get("dividend_yield") is not None:d["spread"]=d["dividend_yield"]-d["cn10y"]
+            if d.get("dividend_yield") is not None:d["spread"]=d["dividend_yield"]-d["cn10y"];d["spread_date"]=d["date"]
         return d
     code=target["index"]["code"]
     api_code=code if key not in ("ndx","spx") else (".NDX" if key=="ndx" else ".INX")
@@ -69,8 +69,8 @@ def api_current(day,key,target):
     if v5 is not None:d[target["primary_metric"]]=float(v5)*100
     if key in ("ndx","spx"):
         debt=national_debt("us",day,day,["tcm_y10"])
-        if debt and debt[-1].get("tcm_y10") is not None:d["us10y"]=float(debt[-1]["tcm_y10"])*100
-        if row.get(pm) not in (None,0) and d.get("us10y") is not None:d["erp"]=100/float(row[pm])-d["us10y"]
+        if debt and debt[-1].get("tcm_y10") is not None:d["us10y"]=float(debt[-1]["tcm_y10"])*100;d["us10y_date"]=d["date"]
+        if row.get(pm) not in (None,0) and d.get("us10y") is not None:d["erp"]=100/float(row[pm])-d["us10y"];d["erp_date"]=d["date"]
     return d
 
 def fund(code):
