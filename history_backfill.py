@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+import argparse,csv,json,time
+from pathlib import Path
+from datetime import datetime,timedelta,timezone
+from lixinger_api import fundamental,national_debt,years_ago,token
+
+ROOT=Path(__file__).resolve().parent
+DATA=ROOT/"data"; HIST=DATA/"history"; TZ=timezone(timedelta(hours=8))
+TARGETS={
+"div_lowvol":{"market":"cn","code":"H30269","api_metric":"dyr","extra":"cn10y"},
+"hs300":{"market":"cn","code":"000300","api_metric":"pe_ttm.mcw"},
+"csi_a50":{"market":"cn","code":"930050","api_metric":"pe_ttm.mcw"},
+"cs_ai":{"market":"cn","code":"930713","api_metric":"ps_ttm.mcw"},
+"hk_internet":{"market":"cn","code":"931637","api_metric":"ps_ttm.mcw"},
+"metals":{"market":"cn","code":"000819","api_metric":"pb.mcw"},
+"ndx":{"market":"us","code":".NDX","api_metric":"pe_ttm.mcw","extra":"us10y"},
+"spx":{"market":"us","code":".INX","api_metric":"pe_ttm.mcw","extra":"us10y"},
+}
+FIELDS=["date","pe","pb","ps","dividend_yield","cn10y","spread","us10y","erp"]
+
+def write_csv(key,rows):
+    p=HIST/f"{key}.csv";p.parent.mkdir(parents=True,exist_ok=True);old={}
+    if p.exists():
+        with p.open(encoding="utf-8-sig") as f:
+            for r in csv.DictReader(f):
+                if r.get("date"):old[r["date"]]=r
+    for r in rows:old[r["date"]]=r
+    with p.open("w",newline="",encoding="utf-8") as f:
+        w=csv.DictWriter(f,fieldnames=FIELDS);w.writeheader()
+        for d in sorted(old):w.writerow({k:old[d].get(k,"") for k in FIELDS})
+    return len(old)
+
+def backfill(key,start,end):
+    c=TARGETS[key]; rows=fundamental(c["market"],c["code"],start,end,[c["api_metric"]]); debt=[]
+    if c.get("extra")=="cn10y":debt=national_debt("cn",start,end,["tcm_y10"])
+    if c.get("extra")=="us10y":debt=national_debt("us",start,end,["tcm_y10"])
+    debt_map={}
+    for r in debt:
+        if r.get("date") and r.get("tcm_y10") is not None:
+            v=float(r["tcm_y10"]); debt_map[str(r["date"])[:10]]=v*100 if abs(v)<1 else v
+    out=[]
+    for r in rows:
+        d=str(r.get("date",""))[:10]
+        if not d:continue
+        z={"date":d};m=c["api_metric"]
+        if m.startswith("pe_ttm"):z["pe"]=r.get(m)
+        elif m.startswith("pb"):z["pb"]=r.get(m)
+        elif m.startswith("ps_ttm"):z["ps"]=r.get(m)
+        elif m=="dyr":z["dividend_yield"]=r.get(m)
+        if d in debt_map:
+            z[c["extra"]]=debt_map[d]
+        if key=="div_lowvol" and z.get("dividend_yield") is not None and z.get("cn10y") is not None:
+            z["spread"]=float(z["dividend_yield"])-float(z["cn10y"])
+        if key in ("ndx","spx") and z.get("pe") not in (None,0) and z.get("us10y") is not None:
+            z["erp"]=100.0/float(z["pe"])-float(z["us10y"])
+        out.append(z)
+    return write_csv(key,out)
+
+def main():
+    ap=argparse.ArgumentParser();ap.add_argument("--date",default=datetime.now(TZ).strftime("%Y-%m-%d"));ap.add_argument("--years",type=int,default=5);ap.add_argument("--extend-years",type=int,default=10);a=ap.parse_args()
+    status={"run_at":datetime.now(TZ).isoformat(timespec="seconds"),"requested_window_years":a.years,"extended_window_years":a.extend_years,"token_configured":bool(token()),"targets":{}}
+    if not token():
+        status["status"]="token_missing";(DATA/"history_status.json").write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding="utf-8");print(json.dumps(status,ensure_ascii=False));return
+    base=years_ago(a.date,a.years);ext=years_ago(a.date,a.extend_years)
+    for key in TARGETS:
+        try:
+            p=HIST/f"{key}.csv";points=max(0,len(p.read_text(encoding="utf-8").splitlines())-1) if p.exists() else 0
+            years=a.extend_years if points>=60 else a.years
+            start=ext if years==a.extend_years else base
+            n=backfill(key,start,a.date);status["targets"][key]={"status":"ok","points":n,"window_years":years}
+        except Exception as e:status["targets"][key]={"status":"failed","error":str(e)}
+        time.sleep(.25)
+    status["status"]="complete";(DATA/"history_status.json").write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding="utf-8");print(json.dumps(status,ensure_ascii=False))
+if __name__=="__main__":main()
