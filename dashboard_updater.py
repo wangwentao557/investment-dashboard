@@ -46,7 +46,8 @@ def api_current(day,key,target):
         row=rows[-1] if rows else {}
         debt=national_debt("cn",day,day,["tcm_y10"])
         d={"date":str(row.get("date",day))[:10],"source":"Lixinger API","fetch_status":"success_actual"}
-        if row.get("dyr") is not None:d["dividend_yield"]=float(row["dyr"])
+        if row.get("dyr") is not None:
+            dv=float(row["dyr"]); d["dividend_yield"]=dv*100 if abs(dv)<1 else dv
         if debt and debt[-1].get("tcm_y10") is not None:
             d["cn10y"]=float(debt[-1]["tcm_y10"])*100
             if d.get("dividend_yield") is not None:d["spread"]=d["dividend_yield"]-d["cn10y"];d["spread_date"]=d["date"]
