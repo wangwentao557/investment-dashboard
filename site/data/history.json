@@ -1,118 +1,120 @@
 {
-  "records": [
-    {
-      "data_basis_date": "2026-09-18",
-      "run_at": "2026-09-19T00:10:56+08:00",
-      "completeness": "complete_with_explicit_anomalies",
-      "allocation_deviation": [
-        {
-          "key": "spx",
-          "current_pct": 15.31,
-          "reference_pct": 15,
-          "range_pct": [
-            12,
-            18
-          ],
-          "state": "within"
-        },
-        {
-          "key": "ndx",
-          "current_pct": 15.05,
-          "reference_pct": 12,
-          "range_pct": [
-            10,
-            15
-          ],
-          "state": "above"
-        },
-        {
-          "key": "div_lowvol",
-          "current_pct": 14.68,
-          "reference_pct": 18,
-          "range_pct": [
-            15,
-            20
-          ],
-          "state": "below"
-        },
-        {
-          "key": "hs300",
-          "current_pct": 1.23,
-          "reference_pct": 12,
-          "range_pct": [
-            10,
-            15
-          ],
-          "state": "below"
-        },
-        {
-          "key": "csi_a50",
-          "current_pct": 1.21,
-          "reference_pct": 7,
-          "range_pct": [
-            5,
-            8
-          ],
-          "state": "below"
-        },
-        {
-          "key": "hk_internet",
-          "current_pct": 4.89,
-          "reference_pct": 8,
-          "range_pct": [
-            5,
-            10
-          ],
-          "state": "below"
-        },
-        {
-          "key": "cs_ai",
-          "current_pct": 4.63,
-          "reference_pct": 5,
-          "range_pct": [
-            3,
-            6
-          ],
-          "state": "within"
-        },
-        {
-          "key": "metals",
-          "current_pct": 14.36,
-          "reference_pct": 7,
-          "range_pct": [
-            5,
-            8
-          ],
-          "state": "above"
-        },
-        {
-          "key": "gold",
-          "current_pct": 3.24,
-          "reference_pct": 8,
-          "range_pct": [
-            6,
-            10
-          ],
-          "state": "below"
-        },
-        {
-          "key": "reserve",
-          "current_pct": 25.4,
-          "reference_pct": 8,
-          "range_pct": [
-            5,
-            10
-          ],
-          "state": "above"
-        }
-      ],
-      "anomalies": [
-        {
-          "target": "L2",
-          "type": "历史不足",
-          "message": "正式L2序列当前仅1个真实点，门槛60；不输出正式L2信号"
-        }
-      ]
-    }
-  ]
+  "records": {
+    "records": [
+      {
+        "data_basis_date": "2026-09-18",
+        "run_at": "2026-09-19T00:10:56+08:00",
+        "completeness": "complete_with_explicit_anomalies",
+        "allocation_deviation": [
+          {
+            "key": "spx",
+            "current_pct": 15.31,
+            "reference_pct": 15,
+            "range_pct": [
+              12,
+              18
+            ],
+            "state": "within"
+          },
+          {
+            "key": "ndx",
+            "current_pct": 15.05,
+            "reference_pct": 12,
+            "range_pct": [
+              10,
+              15
+            ],
+            "state": "above"
+          },
+          {
+            "key": "div_lowvol",
+            "current_pct": 14.68,
+            "reference_pct": 18,
+            "range_pct": [
+              15,
+              20
+            ],
+            "state": "below"
+          },
+          {
+            "key": "hs300",
+            "current_pct": 1.23,
+            "reference_pct": 12,
+            "range_pct": [
+              10,
+              15
+            ],
+            "state": "below"
+          },
+          {
+            "key": "csi_a50",
+            "current_pct": 1.21,
+            "reference_pct": 7,
+            "range_pct": [
+              5,
+              8
+            ],
+            "state": "below"
+          },
+          {
+            "key": "hk_internet",
+            "current_pct": 4.89,
+            "reference_pct": 8,
+            "range_pct": [
+              5,
+              10
+            ],
+            "state": "below"
+          },
+          {
+            "key": "cs_ai",
+            "current_pct": 4.63,
+            "reference_pct": 5,
+            "range_pct": [
+              3,
+              6
+            ],
+            "state": "within"
+          },
+          {
+            "key": "metals",
+            "current_pct": 14.36,
+            "reference_pct": 7,
+            "range_pct": [
+              5,
+              8
+            ],
+            "state": "above"
+          },
+          {
+            "key": "gold",
+            "current_pct": 3.24,
+            "reference_pct": 8,
+            "range_pct": [
+              6,
+              10
+            ],
+            "state": "below"
+          },
+          {
+            "key": "reserve",
+            "current_pct": 25.4,
+            "reference_pct": 8,
+            "range_pct": [
+              5,
+              10
+            ],
+            "state": "above"
+          }
+        ],
+        "anomalies": [
+          {
+            "target": "L2",
+            "type": "历史不足",
+            "message": "正式L2序列当前仅1个真实点，门槛60；不输出正式L2信号"
+          }
+        ]
+      }
+    ]
+  }
 }
