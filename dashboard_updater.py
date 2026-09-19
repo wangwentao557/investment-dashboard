@@ -30,6 +30,24 @@ def dump(path,obj):
     p=Path(path);p.parent.mkdir(parents=True,exist_ok=True)
     p.write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding="utf-8")
 
+def ndx_public_pe(day):
+    urls=[
+        ("https://www.gurufocus.com/economic_indicators/6778/nasdaq-100-pe-ratio","GuruFocus"),
+        ("https://trendonify.com/united-states/stock-market/nasdaq-100/pe-ratio","Trendonify")
+    ]
+    for url,source in urls:
+        try:
+            r=SESSION.get(url,timeout=15);r.raise_for_status();text=r.text
+            m=re.search(r"Nasdaq 100 PE Ratio\\s*[:：]\\s*([0-9.]+)\\s*\\(As of\\s*([0-9-]+)",text,re.I)
+            if not m:
+                m=re.search(r"current(?:ly)?[^\\n]{0,120}([0-9.]+)",text,re.I)
+            if m:
+                value=float(m.group(1)); d=m.group(2) if len(m.groups())>1 and m.group(2) else day
+                return {"date":d,"pe":value,"source":source+" public fallback","fetch_status":"success_public_fallback","frequency":"daily" if source=="GuruFocus" else "monthly_fallback"}
+        except Exception:
+            continue
+    return {"fetch_status":"failed","failure_reason":"NDX public PE fallback unavailable"}
+
 def public_page(url):
     try:
         r=SESSION.get(url,timeout=15);r.raise_for_status();text=r.text
@@ -122,8 +140,18 @@ def main(day):
         if token():
             try:
                 market[key]=dict(market.get(key,{}));market[key].update(api_current(day,key,target))
+                if key=="ndx" and market[key].get("fetch_status")=="failed":
+                    fb=ndx_public_pe(day)
+                    if fb.get("pe") is not None: market[key].update(fb)
             except Exception as e:
-                market[key]["fetch_status"]="stale_failed";market[key]["fetch_error"]=str(e)
+                if key=="ndx":
+                    fb=ndx_public_pe(day)
+                    if fb.get("pe") is not None:
+                        market[key]=dict(market.get(key,{}));market[key].update(fb)
+                    else:
+                        market[key]["fetch_status"]="stale_failed";market[key]["fetch_error"]=str(e)
+                else:
+                    market[key]["fetch_status"]="stale_failed";market[key]["fetch_error"]=str(e)
         else:
             q=public_page(url);d=market.setdefault(key,{})
             if q.get("value") is not None:
