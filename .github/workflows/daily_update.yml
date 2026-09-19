@@ -6,6 +6,7 @@ on:
   push:
     paths:
       - ".github/daily.trigger"
+      - ".github/workflows/daily_update.yml"
 permissions:
   contents: write
 concurrency:
