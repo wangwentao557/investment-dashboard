@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-19T09:52:20+00:00",
+  "generated_at": "2026-09-19T09:53:06+00:00",
   "latest": {
     "_daily_fetch": {
       "attempted_at": "2026-09-19T00:10:56+08:00",
@@ -549,13 +549,13 @@
     "minimum_points": 60,
     "targets": {
       "div_lowvol": {
-        "signal": "watch",
+        "signal": "hold",
         "points": 2429,
         "required_points": 60,
-        "percentile": 95.84,
-        "sigma": 1.73,
-        "mean": -2.7399,
-        "stdev": 0.6361,
+        "percentile": 57.64,
+        "sigma": 0.36,
+        "mean": 2.1365,
+        "stdev": 1.5141,
         "metric_column": "spread",
         "history_window": "5y primary; 10y extension if stable"
       },
@@ -642,7 +642,7 @@
     }
   },
   "history_status": {
-    "run_at": "2026-09-19T17:52:11+08:00",
+    "run_at": "2026-09-19T17:52:56+08:00",
     "requested_window_years": 5,
     "extended_window_years": 10,
     "token_configured": true,
@@ -651,37 +651,37 @@
         "status": "ok",
         "points": 2431,
         "window_years": 10,
-        "existing_points_before": 1
+        "existing_points_before": 2431
       },
       "hs300": {
         "status": "ok",
         "points": 2431,
         "window_years": 10,
-        "existing_points_before": 1
+        "existing_points_before": 2431
       },
       "csi_a50": {
         "status": "ok",
         "points": 659,
         "window_years": 10,
-        "existing_points_before": 1
+        "existing_points_before": 659
       },
       "cs_ai": {
         "status": "ok",
         "points": 2431,
         "window_years": 10,
-        "existing_points_before": 1
+        "existing_points_before": 2431
       },
       "hk_internet": {
         "status": "ok",
         "points": 1431,
         "window_years": 10,
-        "existing_points_before": 1
+        "existing_points_before": 1431
       },
       "metals": {
         "status": "ok",
         "points": 2431,
         "window_years": 10,
-        "existing_points_before": 1
+        "existing_points_before": 2431
       },
       "ndx": {
         "status": "restricted",
@@ -692,7 +692,7 @@
         "status": "ok",
         "points": 2514,
         "window_years": 10,
-        "existing_points_before": 1
+        "existing_points_before": 2514
       }
     },
     "status": "complete_with_anomalies",

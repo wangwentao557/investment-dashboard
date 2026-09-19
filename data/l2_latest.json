@@ -4,13 +4,13 @@
   "minimum_points": 60,
   "targets": {
     "div_lowvol": {
-      "signal": "watch",
+      "signal": "hold",
       "points": 2429,
       "required_points": 60,
-      "percentile": 95.84,
-      "sigma": 1.73,
-      "mean": -2.7399,
-      "stdev": 0.6361,
+      "percentile": 57.64,
+      "sigma": 0.36,
+      "mean": 2.1365,
+      "stdev": 1.5141,
       "metric_column": "spread",
       "history_window": "5y primary; 10y extension if stable"
     },
