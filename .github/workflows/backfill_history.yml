@@ -10,6 +10,9 @@ on:
         description: "Extended history years"
         required: true
         default: "10"
+  push:
+    paths:
+      - ".github/backfill.trigger"
 permissions:
   contents: write
 jobs:
@@ -24,7 +27,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python history_backfill.py --date "$(TZ=Asia/Shanghai date +%F)" --years "${{ inputs.years }}" --extend-years "${{ inputs.extend_years }}"
+      - run: python history_backfill.py --date "$(TZ=Asia/Shanghai date +%F)" --years "${{ inputs.years || '5' }}" --extend-years "${{ inputs.extend_years || '10' }}"
       - run: python valuation_engine.py --config watchlist.json
       - run: python sync_site.py
       - name: Commit backfill
