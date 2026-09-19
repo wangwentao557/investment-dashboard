@@ -7,7 +7,7 @@ from lixinger_api import fundamental,national_debt,years_ago,token
 ROOT=Path(__file__).resolve().parent
 DATA=ROOT/"data"; HIST=DATA/"history"; TZ=timezone(timedelta(hours=8))
 TARGETS={
-"div_lowvol":{"market":"cn","code":"H30269","api_metric":"dyr","extra":"cn10y"},
+"div_lowvol":{"market":"cn","code":"H30269","api_metric":"dyr.mcw","extra":"cn10y"},
 "hs300":{"market":"cn","code":"000300","api_metric":"pe_ttm.mcw"},
 "csi_a50":{"market":"cn","code":"930050","api_metric":"pe_ttm.mcw"},
 "cs_ai":{"market":"cn","code":"930713","api_metric":"ps_ttm.mcw"},
@@ -58,7 +58,7 @@ def backfill(key,start,end):
         if m.startswith("pe_ttm"): z["pe"]=r.get(m)
         elif m.startswith("pb"): z["pb"]=r.get(m)
         elif m.startswith("ps_ttm"): z["ps"]=r.get(m)
-        elif m=="dyr": z["dividend_yield"]=r.get(m)
+        elif m.startswith("dyr"): z["dividend_yield"]=r.get(m)
 
         if d in debt_map:
             z[c["extra"]]=debt_map[d]
@@ -120,11 +120,15 @@ def main():
         try:
             status["targets"][key]=run_target(key,a,base,ext)
         except Exception as e:
-            failures+=1
-            status["targets"][key]={"status":"failed","error":str(e)}
+            msg=str(e)
+            if key=="ndx" and "HTTP 403" in msg:
+                status["targets"][key]={"status":"restricted","error":msg,"blocking":False}
+            else:
+                failures+=1
+                status["targets"][key]={"status":"failed","error":msg}
         time.sleep(.25)
 
-    status["status"]="failed" if failures else "complete"
+    status["status"]="failed" if failures else ("complete_with_anomalies" if any(v.get("status")=="restricted" for v in status["targets"].values()) else "complete")
     status["failed_targets"]=failures
     (DATA/"history_status.json").write_text(
         json.dumps(status,ensure_ascii=False,indent=2),encoding="utf-8")
