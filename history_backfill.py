@@ -125,7 +125,7 @@ def main():
         except Exception as e:
             msg=str(e)
             if key=="ndx" and "HTTP 403" in msg:
-                status["targets"][key]={"status":"restricted","error":msg,"blocking":False}
+                status["targets"][key]={"status":"restricted","error":msg,"blocking":False,"fallback_history_available":(HIST/f"{key}.csv").exists()}
             else:
                 failures+=1
                 status["targets"][key]={"status":"failed","error":msg}
