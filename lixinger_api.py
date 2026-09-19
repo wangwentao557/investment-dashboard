@@ -7,7 +7,10 @@ S=requests.Session()
 S.headers.update({"User-Agent":"InvestmentDashboard/2.0"})
 
 def token():
-    return os.environ.get("LIXINGER_TOKEN","").strip()
+    value=os.environ.get("LIXINGER_TOKEN","").strip()
+    if len(value)>=2 and value[0]==value[-1] and value[0] in {"'", '"'}:
+        value=value[1:-1].strip()
+    return value
 
 def request_json(endpoint,payload):
     t=token()
@@ -15,8 +18,13 @@ def request_json(endpoint,payload):
         raise RuntimeError("LIXINGER_TOKEN is not configured")
     body=dict(payload); body["token"]=t
     r=S.post(BASE+endpoint,json=body,timeout=30)
-    r.raise_for_status()
-    j=r.json()
+    if not r.ok:
+        detail=r.text[:500].replace("\n"," ")
+        raise RuntimeError(f"Lixinger HTTP {r.status_code}: {detail}")
+    try:
+        j=r.json()
+    except ValueError as e:
+        raise RuntimeError(f"Lixinger invalid JSON (HTTP {r.status_code}): {r.text[:500]}") from e
     if j.get("code") not in (1,"1",None):
         raise RuntimeError(j.get("message") or str(j))
     return j
