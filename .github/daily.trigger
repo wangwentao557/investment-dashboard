@@ -1,1 +1,1 @@
-manual daily test 2026-09-19T18:20:00+08:00
+manual NDX L2 fallback test 2026-09-19T10:21:44.142Z
