@@ -58,7 +58,10 @@ def backfill(key,start,end):
         if m.startswith("pe_ttm"): z["pe"]=r.get(m)
         elif m.startswith("pb"): z["pb"]=r.get(m)
         elif m.startswith("ps_ttm"): z["ps"]=r.get(m)
-        elif m.startswith("dyr"): z["dividend_yield"]=r.get(m)
+        elif m.startswith("dyr"):
+            dv=r.get(m)
+            if dv is not None:
+                dv=float(dv); z["dividend_yield"]=dv*100 if abs(dv)<1 else dv
 
         if d in debt_map:
             z[c["extra"]]=debt_map[d]
