@@ -7,7 +7,8 @@ D=R/"data";S=R/"site/data"
 S.mkdir(parents=True,exist_ok=True)
 
 latest=json.loads((D/"market_snapshot_latest.json").read_text(encoding="utf-8"))
-hist=json.loads((D/"dashboard_history.json").read_text(encoding="utf-8"))
+hist_raw=json.loads((D/"dashboard_history.json").read_text(encoding="utf-8"))
+hist=hist_raw.get("records",[]) if isinstance(hist_raw,dict) else hist_raw
 portfolio=json.loads((R/"portfolio.json").read_text(encoding="utf-8"))
 watchlist=json.loads((R/"watchlist.json").read_text(encoding="utf-8"))
 l2=json.loads((D/"l2_latest.json").read_text(encoding="utf-8")) if (D/"l2_latest.json").exists() else {}
