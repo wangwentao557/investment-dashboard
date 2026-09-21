@@ -94,16 +94,6 @@
             10
           ],
           "state": "below"
-        },
-        {
-          "key": "reserve",
-          "current_pct": 25.4,
-          "reference_pct": 8,
-          "range_pct": [
-            5,
-            10
-          ],
-          "state": "above"
         }
       ],
       "anomalies": [
