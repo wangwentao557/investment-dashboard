@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-19T09:53:06+00:00",
+  "generated_at": "2026-09-21T16:30:59Z",
   "latest": {
     "_daily_fetch": {
       "attempted_at": "2026-09-19T00:10:56+08:00",
@@ -159,7 +159,7 @@
   },
   "portfolio": {
     "account_summary": {
-      "total_assets": 4151.27,
+      "total_assets": 4176.27,
       "total_pnl": -1.02,
       "today_pnl": 40.6
     },
@@ -231,14 +231,14 @@
         "key": "gold",
         "name": "国泰黄金ETF联接A",
         "code": "000218",
-        "holding_value": 134.57,
+        "holding_value": 144.57,
         "valuation_target": "gold"
       },
       {
         "key": "gold_equity",
         "name": "华夏中证沪深黄金产业股票ETF发起式联接C",
         "code": "021075",
-        "holding_value": 93.13,
+        "holding_value": 108.13,
         "valuation_target": null
       },
       {
@@ -254,6 +254,30 @@
         "code": "021207",
         "holding_value": 50.3,
         "valuation_target": "csi_a50"
+      }
+    ],
+    "transactions": [
+      {
+        "date": "2026-09-21",
+        "action": "buy",
+        "code": "021075",
+        "name": "华夏中证沪深港黄金产业股票ETF发起式联接C",
+        "amount": 15,
+        "nav_date": "2026-09-21",
+        "nav_verified": true,
+        "source_note": "2026-09-21单位净值1.4885；来源：华夏基金历史净值/新浪财经核验",
+        "nav": 1.4885,
+        "shares": 10.077258985555929
+      },
+      {
+        "date": "2026-09-21",
+        "action": "buy",
+        "code": "000218",
+        "name": "国泰黄金ETF联接A",
+        "amount": 10,
+        "nav_date": "2026-09-21",
+        "nav_verified": false,
+        "source_note": "按用户补仓记录入账10元；截至本次更新未找到可独立核验的2026-09-21正式单位净值，因此不编造净值或份额"
       }
     ]
   },
