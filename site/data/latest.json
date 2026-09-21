@@ -648,15 +648,17 @@
         "history_window": "5y primary; 10y extension if stable"
       },
       "spx": {
-        "signal": "buy",
+        "signal": "watch",
         "points": 2493,
         "required_points": 60,
-        "percentile": 2.21,
-        "sigma": -1.6,
-        "mean": 1.1491,
+        "percentile": 97.79,
+        "sigma": 1.6,
+        "mean": -1.1491,
         "stdev": 1.3816,
         "metric_column": "erp",
-        "history_window": "5y primary; 10y extension if stable"
+        "history_window": "5y primary; 10y extension if stable",
+        "raw_percentile": 2.21,
+        "valuation_direction": "higher_is_cheaper"
       }
     }
   },
