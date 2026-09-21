@@ -314,8 +314,8 @@
         "primary_metric": "dividend_spread",
         "frequency": "daily",
         "thresholds": {
-          "heavy_buy": 4.0,
-          "buy": 3.0,
+          "heavy_buy": 4,
+          "buy": 3,
           "stop_buy": 1.5
         }
       },
@@ -456,9 +456,9 @@
         "primary_metric": "erp",
         "frequency": "daily",
         "erp_thresholds": {
-          "buy": 2.0,
-          "hold_low": 0.0,
-          "stop_buy": 0.0
+          "buy": 2,
+          "hold_low": 0,
+          "stop_buy": 0
         }
       },
       {
@@ -479,9 +479,9 @@
         "primary_metric": "erp",
         "frequency": "daily",
         "erp_thresholds": {
-          "buy": 2.0,
-          "hold_low": 0.0,
-          "stop_buy": 0.0
+          "buy": 2,
+          "hold_low": 0,
+          "stop_buy": 0
         }
       }
     ],
@@ -495,8 +495,7 @@
         "hk_internet": 8,
         "cs_ai": 5,
         "metals": 7,
-        "gold": 8,
-        "reserve": 8
+        "gold": 8
       },
       "range_pct": {
         "spx": [
@@ -533,10 +532,6 @@
         ],
         "gold": [
           6,
-          10
-        ],
-        "reserve": [
-          5,
           10
         ]
       },
