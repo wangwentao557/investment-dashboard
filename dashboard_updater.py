@@ -200,8 +200,9 @@ def main(day):
     subprocess.run([sys.executable,str(ROOT/"valuation_engine.py"),"--config",str(ROOT/"watchlist.json")],check=True)
     l2=load(DATA/"l2_latest.json",{})
 
-    hist=load(DATA/"dashboard_history.json",[]) or []
-    hist=[x for x in hist if x.get("data_basis_date")!=day]
+    hist_raw=load(DATA/"dashboard_history.json",[]) or []
+    hist=hist_raw.get("records",[]) if isinstance(hist_raw,dict) else hist_raw
+    hist=[x for x in hist if isinstance(x,dict) and x.get("data_basis_date")!=day]
     total=sum(float(h.get("holding_value",0)) for h in portfolio.get("holdings",[]))
     holdings=[]
     fund_to_target={}
@@ -239,7 +240,7 @@ def main(day):
         "allocation_deviation":alloc,"l2":l2,"anomalies":anomalies,
         "completeness":"complete_with_explicit_anomalies" if anomalies else "complete"
     }
-    hist.append(rec);dump(DATA/"dashboard_history.json",hist)
+    hist.append(rec);dump(DATA/"dashboard_history.json",{"records":hist})
 
     reports=DATA/"reports";reports.mkdir(exist_ok=True)
     lines=["# 每日盯盘更新 · "+day,"","运行时间："+rec["run_at"],"数据完整性："+rec["completeness"],f"持仓数据：{rec['fund_success_count']}/{rec['fund_total']}","",
