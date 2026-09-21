@@ -1,5 +1,5 @@
 {
-  "meta":{"version":"3.4","updated":"2026-09-19","owner":"小王"},
+  "meta":{"version":"3.5","updated":"2026-09-19","owner":"小王"},
   "settings":{"benchmark_years":5,"min_history_points":60,"fetch_policy":"daily_active_fetch","freshness_policy":"每次主动抓取；失败/过期必须显式标记，不冒充当日数据。","allocation_policy":"参考仓位，不是硬性目标；不自动调仓。","history_fetch_policy":{"primary_window_years":5,"secondary_window_years":[1,3],"extended_window_years":10,"min_formal_points":60,"do_not_synthesize":true}},
   "signal_thresholds":{"percentile":{"heavy_buy":20,"buy":30,"hold_high":70,"watch":80},"sigma":{"heavy_buy":-2,"buy":-1,"hold_high":1,"watch":2},"resonance_rule":"both_tracks_must_agree_else_hold"},
   "targets":[
