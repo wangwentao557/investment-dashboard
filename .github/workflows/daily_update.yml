@@ -1,7 +1,7 @@
 name: Daily investment dashboard update
 on:
   schedule:
-    - cron: "0 9 * * *" # 17:00 Asia/Shanghai
+    - cron: "0 16 * * *" # 00:00 Asia/Shanghai, after domestic fund NAV publication window
   workflow_dispatch:
   push:
     paths:
