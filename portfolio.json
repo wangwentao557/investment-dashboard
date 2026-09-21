@@ -1,18 +1,122 @@
 {
-  "account_summary":{"total_assets":4151.27,"total_pnl":-1.02,"today_pnl":40.6},
-  "holdings":[
-    {"key":"spx","name":"摩根标普500指数(QDII)C","code":"019305","holding_value":635.36,"valuation_target":"spx"},
-    {"key":"ndx","name":"建信纳斯达克100指数(QDII)C人民币","code":"012752","holding_value":624.64,"valuation_target":"ndx"},
-    {"key":"div_lowvol","name":"华泰柏瑞中证红利低波ETF联接C","code":"007467","holding_value":609.43,"valuation_target":"div_lowvol"},
-    {"key":"metals","name":"南方有色金属ETF联接C","code":"004433","holding_value":596.19,"valuation_target":"metals"},
-    {"key":"penghua_hongli","name":"鹏华弘利混合C","code":"001123","holding_value":514.47,"valuation_target":null},
-    {"key":"cdb_7_10","name":"广发中债7-10年国开债指数E","code":"011062","holding_value":301.19,"valuation_target":null},
-    {"key":"hk_internet","name":"富国中证港股通互联网ETF联接C","code":"014674","holding_value":203.10,"valuation_target":"hk_internet"},
-    {"key":"cs_ai","name":"中欧中证人工智能主题指数发起C","code":"023462","holding_value":192.36,"valuation_target":"cs_ai"},
-    {"key":"growth","name":"广发成长甄选混合C","code":"026733","holding_value":145.65,"valuation_target":null},
-    {"key":"gold","name":"国泰黄金ETF联接A","code":"000218","holding_value":134.57,"valuation_target":"gold"},
-    {"key":"gold_equity","name":"华夏中证沪深黄金产业股票ETF发起式联接C","code":"021075","holding_value":93.13,"valuation_target":null},
-    {"key":"hs300","name":"汇添富沪深300基本面增强指数C","code":"010855","holding_value":50.88,"valuation_target":"hs300"},
-    {"key":"csi_a50","name":"易方达中证A50ETF联接发起式C","code":"021207","holding_value":50.30,"valuation_target":"csi_a50"}
+  "account_summary": {
+    "total_assets": 4176.27,
+    "total_pnl": -1.02,
+    "today_pnl": 40.6
+  },
+  "holdings": [
+    {
+      "key": "spx",
+      "name": "摩根标普500指数(QDII)C",
+      "code": "019305",
+      "holding_value": 635.36,
+      "valuation_target": "spx"
+    },
+    {
+      "key": "ndx",
+      "name": "建信纳斯达克100指数(QDII)C人民币",
+      "code": "012752",
+      "holding_value": 624.64,
+      "valuation_target": "ndx"
+    },
+    {
+      "key": "div_lowvol",
+      "name": "华泰柏瑞中证红利低波ETF联接C",
+      "code": "007467",
+      "holding_value": 609.43,
+      "valuation_target": "div_lowvol"
+    },
+    {
+      "key": "metals",
+      "name": "南方有色金属ETF联接C",
+      "code": "004433",
+      "holding_value": 596.19,
+      "valuation_target": "metals"
+    },
+    {
+      "key": "penghua_hongli",
+      "name": "鹏华弘利混合C",
+      "code": "001123",
+      "holding_value": 514.47,
+      "valuation_target": null
+    },
+    {
+      "key": "cdb_7_10",
+      "name": "广发中债7-10年国开债指数E",
+      "code": "011062",
+      "holding_value": 301.19,
+      "valuation_target": null
+    },
+    {
+      "key": "hk_internet",
+      "name": "富国中证港股通互联网ETF联接C",
+      "code": "014674",
+      "holding_value": 203.1,
+      "valuation_target": "hk_internet"
+    },
+    {
+      "key": "cs_ai",
+      "name": "中欧中证人工智能主题指数发起C",
+      "code": "023462",
+      "holding_value": 192.36,
+      "valuation_target": "cs_ai"
+    },
+    {
+      "key": "growth",
+      "name": "广发成长甄选混合C",
+      "code": "026733",
+      "holding_value": 145.65,
+      "valuation_target": null
+    },
+    {
+      "key": "gold",
+      "name": "国泰黄金ETF联接A",
+      "code": "000218",
+      "holding_value": 144.57,
+      "valuation_target": "gold"
+    },
+    {
+      "key": "gold_equity",
+      "name": "华夏中证沪深黄金产业股票ETF发起式联接C",
+      "code": "021075",
+      "holding_value": 108.13,
+      "valuation_target": null
+    },
+    {
+      "key": "hs300",
+      "name": "汇添富沪深300基本面增强指数C",
+      "code": "010855",
+      "holding_value": 50.88,
+      "valuation_target": "hs300"
+    },
+    {
+      "key": "csi_a50",
+      "name": "易方达中证A50ETF联接发起式C",
+      "code": "021207",
+      "holding_value": 50.3,
+      "valuation_target": "csi_a50"
+    }
+  ],
+  "transactions": [
+    {
+      "date": "2026-09-21",
+      "action": "buy",
+      "code": "021075",
+      "name": "华夏中证沪深港黄金产业股票ETF发起式联接C",
+      "amount": 15,
+      "nav_date": "2026-09-21",
+      "nav_verified": false,
+      "source_note": "按用户补仓记录入账；9/21实际净值当前公开检索未能核验，不据此编造份额"
+    },
+    {
+      "date": "2026-09-21",
+      "action": "buy",
+      "code": "000218",
+      "name": "国泰黄金ETF联接A",
+      "amount": 10,
+      "nav_date": "2026-09-21",
+      "nav_verified": false,
+      "source_note": "按用户补仓记录入账；9/21实际净值当前公开检索未能核验，不据此编造份额"
+    }
   ]
 }
