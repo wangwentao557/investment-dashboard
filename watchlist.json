@@ -11,7 +11,7 @@
     {"key":"hk_internet","layer":"进攻","name":"港股通互联网","funds":[{"code":"014674","name":"富国中证港股通互联网ETF联接C"}],"index":{"code":"931637","name":"中证港股通互联网指数","source":"lixinger"},"primary_metric":"ps_percentile","frequency":"daily"},
     {"key":"metals","layer":"资源","name":"有色金属","funds":[{"code":"004433","name":"南方有色金属ETF联接C"}],"index":{"code":"000819","name":"有色金属","source":"lixinger"},"primary_metric":"pb_percentile","frequency":"daily"},
     {"key":"ndx","layer":"海外","name":"纳斯达克100","funds":[{"code":"012752","name":"建信纳斯达克100指数(QDII)C人民币"}],"index":{"code":"NDX","name":"纳斯达克100","source":"lixinger_with_gurufocus_fallback"},"primary_metric":"pe_percentile","frequency":"daily","erp_thresholds":{"buy":2.0,"hold_low":0.0,"stop_buy":0.0}},
-    {"key":"spx","layer":"海外","name":"标普500","funds":[{"code":"019305","name":"摩根标普500指数(QDII)C"}],"index":{"code":"SPX","name":"标普500","source":"yahoo"},"primary_metric":"erp","frequency":"daily","erp_thresholds":{"buy":2.0,"hold_low":0.0,"stop_buy":0.0}}
+    {"key":"spx","layer":"海外","name":"标普500","funds":[{"code":"019305","name":"摩根标普500指数(QDII)C"}],"index":{"code":"SPX","name":"标普500","source":"yahoo"},"primary_metric":"erp","valuation_direction":"higher_is_cheaper","frequency":"daily","erp_thresholds":{"buy":2.0,"hold_low":0.0,"stop_buy":0.0}}
   ],
   "allocation_framework":{
     "reference_pct":{"spx":15,"ndx":12,"div_lowvol":18,"hs300":12,"csi_a50":7,"hk_internet":8,"cs_ai":5,"metals":7,"gold":8},
