@@ -14,8 +14,8 @@
     {"key":"spx","layer":"海外","name":"标普500","funds":[{"code":"019305","name":"摩根标普500指数(QDII)C"}],"index":{"code":"SPX","name":"标普500","source":"yahoo"},"primary_metric":"erp","frequency":"daily","erp_thresholds":{"buy":2.0,"hold_low":0.0,"stop_buy":0.0}}
   ],
   "allocation_framework":{
-    "reference_pct":{"spx":15,"ndx":12,"div_lowvol":18,"hs300":12,"csi_a50":7,"hk_internet":8,"cs_ai":5,"metals":7,"gold":8,"reserve":8},
-    "range_pct":{"spx":[12,18],"ndx":[10,15],"div_lowvol":[15,20],"hs300":[10,15],"csi_a50":[5,8],"hk_internet":[5,10],"cs_ai":[3,6],"metals":[5,8],"gold":[6,10],"reserve":[5,10]},
+    "reference_pct":{"spx":15,"ndx":12,"div_lowvol":18,"hs300":12,"csi_a50":7,"hk_internet":8,"cs_ai":5,"metals":7,"gold":8},
+    "range_pct":{"spx":[12,18],"ndx":[10,15],"div_lowvol":[15,20],"hs300":[10,15],"csi_a50":[5,8],"hk_internet":[5,10],"cs_ai":[3,6],"metals":[5,8],"gold":[6,10]},
     "gold_note":"黄金8%仅参考中心，不是硬目标。"
   }
 }
