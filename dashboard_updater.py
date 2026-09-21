@@ -202,7 +202,7 @@ def main(day):
 
     hist=load(DATA/"dashboard_history.json",[]) or []
     hist=[x for x in hist if x.get("data_basis_date")!=day]
-    total=float(portfolio["account_summary"]["total_assets"])
+    total=sum(float(h.get("holding_value",0)) for h in portfolio.get("holdings",[]))
     holdings=[]
     fund_to_target={}
     for t in watch["targets"]:
@@ -215,10 +215,9 @@ def main(day):
         if x["valuation_target"]:by[x["valuation_target"]]=by.get(x["valuation_target"],0)+x["weight_pct"]
 
     ref=watch["allocation_framework"]["reference_pct"];rng=watch["allocation_framework"]["range_pct"]
-    reserve=round(sum(h["weight_pct"] for h in holdings if not h.get("valuation_target")),2)
     alloc=[]
     for key in ref:
-        cur=reserve if key=="reserve" else round(by.get(key,0),2)
+        cur=round(by.get(key,0),2)
         lo,hi=rng[key];state="within" if lo<=cur<=hi else "below" if cur<lo else "above"
         alloc.append({"key":key,"current_pct":cur,"reference_pct":ref[key],"range_pct":rng[key],"state":state,"deviation_from_center_pct":round(cur-ref[key],2)})
 
