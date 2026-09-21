@@ -9,6 +9,8 @@ def percentile(v,a):
     return sum(x<=v for x in a)/len(a)*100 if a else None
 
 def calc(v,a,p_th,s_th,direction="lower_is_cheaper"):
+    raw_v=v
+    raw_a=list(a)
     if direction=="higher_is_cheaper":
         a=[-x for x in a]; v=-v
     if len(a)<MIN_POINTS:
@@ -75,6 +77,7 @@ def main():
             direction=t.get("valuation_direction","lower_is_cheaper")
             item=calc(vals[-1],vals,pth,sth,direction)
             item["raw_percentile"]=round(percentile(vals[-1],vals),2)
+            item["raw_value"]=round(vals[-1],6)
             item["valuation_direction"]=direction
 
         out_targets[key]=dict(
