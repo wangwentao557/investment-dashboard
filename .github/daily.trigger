@@ -1,1 +1,1 @@
-manual run for 2026-09-22 data refresh
+TARGET_DATE_OVERRIDE=2026-09-22
