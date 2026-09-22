@@ -100,7 +100,7 @@ def fund(code):
         try:
             t=SESSION.get(url,timeout=8).text
             if not estimated:
-                n=re.search(r"FundMNAV\\s*=\\s*([0-9.]+)",t)
+                n=re.search(r"FundMNAV\s*=\s*([0-9.]+)",t)
                 d=re.search(r"(?:NetWorthDate|FundMNVDate|FundMNAVDate)\\s*=\\s*[\"']?([0-9]{4}-[0-9]{2}-[0-9]{2})",t)
                 if n and d:return {"nav":float(n.group(1)),"date":d.group(1),"source":"Eastmoney","fetch_status":"success_actual","estimated":False}
             else:
