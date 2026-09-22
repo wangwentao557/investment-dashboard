@@ -25,7 +25,14 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - name: Resolve target date
-        run: echo "TARGET_DATE=$(TZ=Asia/Shanghai date +%F)" >> "$GITHUB_ENV"
+        run: |
+          if [ -f .github/daily.trigger ] && grep -q '^TARGET_DATE_OVERRIDE=' .github/daily.trigger; then
+            TARGET_DATE="$(grep '^TARGET_DATE_OVERRIDE=' .github/daily.trigger | tail -1 | cut -d= -f2)"
+          else
+            TARGET_DATE="$(TZ=Asia/Shanghai date +%F)"
+          fi
+          echo "TARGET_DATE=$TARGET_DATE" >> "$GITHUB_ENV"
+          echo "Using target date: $TARGET_DATE"
       - name: Backfill 5y/10y valuation history
         run: python history_backfill.py --date "$TARGET_DATE" --years 5 --extend-years 10
       - name: Update today's data and run L2
