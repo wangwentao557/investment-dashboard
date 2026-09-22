@@ -1,9 +1,7 @@
 name: Daily investment dashboard update
 on:
   schedule:
-    - cron: "20 14 * * 1-5" # 22:20 Asia/Shanghai, first post-close attempt
-    - cron: "20 15 * * 1-5" # 23:20 Asia/Shanghai, retry after NAV publication
-    - cron: "20 13 * * 1-5" # 21:20 Asia/Shanghai, first post-close attempt
+    - cron: "30 9 * * *" # 17:30 Asia/Shanghai, every day
   workflow_dispatch:
   push:
     paths:
@@ -26,10 +24,12 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - name: Resolve target date
+        run: echo "TARGET_DATE=$(TZ=Asia/Shanghai date +%F)" >> "$GITHUB_ENV"
       - name: Backfill 5y/10y valuation history
-        run: python history_backfill.py --date "$(TZ=Asia/Shanghai date +%F)" --years 5 --extend-years 10
+        run: python history_backfill.py --date "$TARGET_DATE" --years 5 --extend-years 10
       - name: Update today's data and run L2
-        run: python dashboard_updater.py --date "$(TZ=Asia/Shanghai date +%F)"
+        run: python dashboard_updater.py --date "$TARGET_DATE"
       - name: Commit data
         run: |
           git config user.name "github-actions[bot]"
