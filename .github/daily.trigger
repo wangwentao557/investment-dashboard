@@ -1,1 +1,1 @@
-test run after 2026-09-21 portfolio update and post-close automation fix
+manual run for 2026-09-22 data refresh
