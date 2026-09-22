@@ -1,1 +1,1 @@
-# Manual historical refresh completed; normal scheduled runs use Asia/Shanghai date.
+TARGET_DATE_OVERRIDE=2026-09-21
