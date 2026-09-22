@@ -1,53 +1,54 @@
 {
-  "run_at": "2026-09-19T17:52:56+08:00",
+  "run_at": "2026-09-23T00:38:58+08:00",
   "requested_window_years": 5,
   "extended_window_years": 10,
   "token_configured": true,
   "targets": {
     "div_lowvol": {
       "status": "ok",
-      "points": 2431,
+      "points": 2433,
       "window_years": 10,
       "existing_points_before": 2431
     },
     "hs300": {
       "status": "ok",
-      "points": 2431,
+      "points": 2433,
       "window_years": 10,
       "existing_points_before": 2431
     },
     "csi_a50": {
       "status": "ok",
-      "points": 659,
+      "points": 661,
       "window_years": 10,
       "existing_points_before": 659
     },
     "cs_ai": {
       "status": "ok",
-      "points": 2431,
+      "points": 2433,
       "window_years": 10,
       "existing_points_before": 2431
     },
     "hk_internet": {
       "status": "ok",
-      "points": 1431,
+      "points": 1433,
       "window_years": 10,
       "existing_points_before": 1431
     },
     "metals": {
       "status": "ok",
-      "points": 2431,
+      "points": 2433,
       "window_years": 10,
       "existing_points_before": 2431
     },
     "ndx": {
       "status": "restricted",
       "error": "Lixinger HTTP 403: {\"code\":0,\"error\":{\"name\":\"ForbiddenError\",\"message\":\"你不能够访问纳斯达克指数的信息。\"}}",
-      "blocking": false
+      "blocking": false,
+      "fallback_history_available": true
     },
     "spx": {
       "status": "ok",
-      "points": 2514,
+      "points": 2515,
       "window_years": 10,
       "existing_points_before": 2514
     }

@@ -1,45 +1,45 @@
 {
-  "synced_at": "2026-09-19T09:53:06+00:00",
+  "synced_at": "2026-09-22T16:39:27+00:00",
   "files": [
     {
       "file": "cs_ai.csv",
-      "points": 2431,
-      "sha256": "a877076fd129c86afd9aa95887e1c03bac691947e55107246e8465856498c412"
+      "points": 2433,
+      "sha256": "eddd9a1aeed595791decaec84e954dda8325a479b9330679c729fd336e4620c5"
     },
     {
       "file": "csi_a50.csv",
-      "points": 659,
-      "sha256": "88b90922bebbf5ddc895856a211e7536224b4de66cfc142afd348ff71a9618d2"
+      "points": 661,
+      "sha256": "d276f312ba1bc6187860a47337bae502c8a0c730a0b94b83b5ccf8e935556ed2"
     },
     {
       "file": "div_lowvol.csv",
-      "points": 2431,
-      "sha256": "9263db5e635976647c68998eb66f477e54803089080693c0ae1c59a8715a65aa"
+      "points": 2433,
+      "sha256": "c28e6f9bb05fc4629c1d5b2d9f809a518e435b17e8d61421bc070ccf9fa14c13"
     },
     {
       "file": "hk_internet.csv",
-      "points": 1431,
-      "sha256": "910cad9f46ac43a8d6065228431ff24fe46c842c9a031a88637ee2fda2c7ad46"
+      "points": 1433,
+      "sha256": "65a46034380e5c6ccf4d1cce3f419787422b73b586b0f67bb59f733b9843e30c"
     },
     {
       "file": "hs300.csv",
-      "points": 2431,
-      "sha256": "c7bdf4ebaf99208bd265b70eb8337e55e7ba576a9cabd47786c20d0b217888ce"
+      "points": 2433,
+      "sha256": "cef85ebe1024b33b1d3bb1fdfd8201017b6ab4373bd26c82242a15669fb3ab61"
     },
     {
       "file": "metals.csv",
-      "points": 2431,
-      "sha256": "09c4349aab8d6d07daa6ae5fc241a6f1318b4be758e2c515ac8adaddbc2fecba"
+      "points": 2433,
+      "sha256": "d346d1214b2ffc93479e895d749a58842ca22ae42d2aef992f9ddf7ac35eb637"
     },
     {
       "file": "ndx.csv",
-      "points": 1,
-      "sha256": "22c84ac2ccfd0557ed97dbd47fa1aaab2f1014a9b29017084ccceade27c2ea67"
+      "points": 129,
+      "sha256": "7d6d3616e95c76f87d5905245a647e150bbdf3361411b6fcaf629bcec7948178"
     },
     {
       "file": "spx.csv",
-      "points": 2514,
-      "sha256": "9057bee1d04525eac7a8d6c18957fa688ceb2a8c8c86b6334e7c3e1f77c67ba5"
+      "points": 2515,
+      "sha256": "39da65870a80077b9c7dce9a2328e8942db7688d52e9c706d9e17e6c21b79be9"
     }
   ],
   "schema_version": 2
