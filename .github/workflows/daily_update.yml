@@ -3,10 +3,11 @@ on:
   schedule:
     - cron: "30 9 * * *" # 17:30 Asia/Shanghai, every day
   workflow_dispatch:
-  push:
-    paths:
-      - ".github/daily.trigger"
-      - ".github/workflows/daily_update.yml"
+    inputs:
+      target_date:
+        description: "Optional data date override (YYYY-MM-DD). Leave blank for today."
+        required: false
+        type: string
 permissions:
   contents: write
 concurrency:
@@ -26,8 +27,8 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Resolve target date
         run: |
-          if [ -f .github/daily.trigger ] && grep -q '^TARGET_DATE_OVERRIDE=' .github/daily.trigger; then
-            TARGET_DATE="$(grep '^TARGET_DATE_OVERRIDE=' .github/daily.trigger | tail -1 | cut -d= -f2)"
+          if [ -n "${{ inputs.target_date }}" ]; then
+            TARGET_DATE="${{ inputs.target_date }}"
           else
             TARGET_DATE="$(TZ=Asia/Shanghai date +%F)"
           fi
@@ -37,6 +38,19 @@ jobs:
         run: python history_backfill.py --date "$TARGET_DATE" --years 5 --extend-years 10
       - name: Update today's data and run L2
         run: python dashboard_updater.py --date "$TARGET_DATE"
+      - name: Data quality gate
+        run: |
+          python - <<'PY'
+          import json, sys
+          p=json.load(open("data/market_snapshot_latest.json", encoding="utf-8"))
+          meta=p.get("_daily_fetch", {})
+          ok=meta.get("fund_success_count", 0)
+          total=meta.get("fund_total", 0)
+          print(f"Fund formal NAV success: {ok}/{total}")
+          if ok == 0:
+              print("ERROR: 0 formal fund NAVs were fetched; refusing to publish stale/empty daily data.")
+              sys.exit(1)
+          PY
       - name: Commit data
         run: |
           git config user.name "github-actions[bot]"
