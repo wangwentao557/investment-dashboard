@@ -2,6 +2,9 @@ name: Daily investment dashboard update
 on:
   schedule:
     - cron: "30 9 * * *" # 17:30 Asia/Shanghai, every day
+  push:
+    paths:
+      - ".github/test.trigger"
   workflow_dispatch:
     inputs:
       target_date:
