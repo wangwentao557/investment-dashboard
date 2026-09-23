@@ -51,7 +51,7 @@ def ndx_public_pe(day):
 def public_page(url):
     try:
         r=SESSION.get(url,timeout=15);r.raise_for_status();text=r.text
-        d=re.search(r"最后更新于：([0-9]{4}-[0-9]{2}-[0-9]{2})",text)
+                d=re.search(r"(?:NetWorthDate|FundMNVDate|FundMNAVDate)\s*=\s*["']?([0-9]{4}-[0-9]{2}-[0-9]{2})",t)
         vals=re.findall(r"当前值[:：]?\s*([0-9.]+)",text)
         p=re.findall(r"当前分位点\s*([0-9.]+)%",text)
         return {"date":d.group(1) if d else None,"value":float(vals[0]) if vals else None,"percentile":float(p[0]) if p else None}
