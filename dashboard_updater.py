@@ -48,6 +48,28 @@ def ndx_public_pe(day):
             continue
     return {"fetch_status":"failed","failure_reason":"NDX public PE fallback unavailable"}
 
+def public_pe(index_name, day):
+    urls = {
+        "SPX": [
+            ("https://www.gurufocus.com/economic_indicators/57/sp-500-pe-ratio", "GuruFocus"),
+            ("https://trendonify.com/united-states/stock-market/pe-ratio", "Trendonify"),
+        ],
+        "NDX": [
+            ("https://www.gurufocus.com/economic_indicators/6778/nasdaq-100-pe-ratio", "GuruFocus"),
+            ("https://trendonify.com/united-states/stock-market/nasdaq-100/pe-ratio", "Trendonify"),
+        ],
+    }.get(index_name, [])
+    for url, source in urls:
+        try:
+            r = SESSION.get(url, timeout=15); r.raise_for_status()
+            text = r.text
+            m = re.search(r"(?:S&P 500|Nasdaq 100) PE Ratio\\s*[:：]\\s*([0-9.]+)\\s*\\(As of\\s*([0-9-]+)", text, re.I)
+            if m:
+                return {"date": m.group(2), "pe": float(m.group(1)), "source": source + " public fallback", "fetch_status": "success_public_fallback"}
+        except Exception:
+            continue
+    return {"fetch_status":"failed","failure_reason":f"{index_name} public PE fallback unavailable"}
+
 def public_page(url):
     try:
         r=SESSION.get(url,timeout=15);r.raise_for_status();text=r.text
@@ -59,6 +81,18 @@ def public_page(url):
         return {"error":str(e)}
 
 def api_current(day,key,target):
+    if key=="spx":
+        pe=public_pe("SPX",day)
+        if pe.get("pe") is None:return pe
+        try:
+            j=SESSION.get("https://query1.finance.yahoo.com/v8/finance/chart/^TNX?range=5d&interval=1d",timeout=10).json()["chart"]["result"][0]
+            i=len(j["timestamp"])-1; us10y=float(j["indicators"]["quote"][0]["close"][i])/10
+            us_date=datetime.fromtimestamp(j["timestamp"][i],timezone.utc).date().isoformat()
+            pe["us10y"]=us10y; pe["us10y_date"]=us_date
+            pe["erp"]=100/float(pe["pe"])-us10y; pe["erp_date"]=pe["date"]
+        except Exception as e:
+            pe["fetch_status"]="stale_failed";pe["fetch_error"]=str(e)
+        return pe
     if key=="div_lowvol":
         rows=fundamental("cn","H30269",day,day,["dyr.mcw"])
         row=rows[-1] if rows else {}
