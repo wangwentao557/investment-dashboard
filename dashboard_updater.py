@@ -60,19 +60,21 @@ def public_page(url):
 
 def api_current(day,key,target):
     if key=="div_lowvol":
-        rows=fundamental("cn","H30269",day,day,["dyr"])
+        rows=fundamental("cn","H30269",day,day,["dyr.mcw"])
         row=rows[-1] if rows else {}
         debt=national_debt("cn",day,day,["tcm_y10"])
         d={"date":str(row.get("date",day))[:10],"source":"Lixinger API","fetch_status":"success_actual"}
-        if row.get("dyr") is not None:
-            dv=float(row["dyr"]); d["dividend_yield"]=dv*100 if abs(dv)<1 else dv
+        if row.get("dyr.mcw") is not None:
+            dv=float(row["dyr.mcw"]); d["dividend_yield"]=dv*100 if abs(dv)<1 else dv
         if debt and debt[-1].get("tcm_y10") is not None:
             d["cn10y"]=float(debt[-1]["tcm_y10"])*100
             if d.get("dividend_yield") is not None:d["spread"]=d["dividend_yield"]-d["cn10y"];d["spread_date"]=d["date"]
         return d
     code=target["index"]["code"]
     api_code=code if key not in ("ndx","spx") else (".NDX" if key=="ndx" else ".INX")
-    pm={"pe_percentile":"pe_ttm.mcw","ps_percentile":"ps_ttm.mcw","pb_percentile":"pb.mcw"}[target["primary_metric"]]
+    pm={"pe_percentile":"pe_ttm.mcw","ps_percentile":"ps_ttm.mcw","pb_percentile":"pb.mcw"}.get(target["primary_metric"])
+    if pm is None:
+        return {"fetch_status":"failed","failure_reason":f"unsupported primary metric: {target["primary_metric"]}"}
     base=pm.split(".")[0]
     metrics=[pm,base+".y3.mcw.cvpos",base+".y5.mcw.cvpos",base+".y10.mcw.cvpos"]
     rows=fundamental("cn" if key not in ("ndx","spx") else "us",api_code,day,day,metrics)
@@ -139,7 +141,10 @@ def main(day):
         target=next(t for t in watch["targets"] if t["key"]==key)
         if token():
             try:
-                market[key]=dict(market.get(key,{}));market[key].update(api_current(day,key,target))
+                fresh=api_current(day,key,target)
+                market[key]=dict(market.get(key,{}));market[key].update(fresh)
+                if fresh.get("fetch_status")=="success_actual":
+                    market[key].pop("failure_reason",None);market[key].pop("fetch_error",None)
                 if key=="ndx" and market[key].get("fetch_status")=="failed":
                     fb=ndx_public_pe(day)
                     if fb.get("pe") is not None: market[key].update(fb)
