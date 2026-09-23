@@ -63,7 +63,7 @@ def public_pe(index_name, day):
         try:
             r = SESSION.get(url, timeout=15); r.raise_for_status()
             text = r.text
-            m = re.search(r"(?:S&P 500|Nasdaq 100) PE Ratio\\s*[:：]\\s*([0-9.]+)\\s*\\(As of\\s*([0-9-]+)", text, re.I)
+            m = re.search(r"(?:S&P 500|Nasdaq 100) PE Ratio\s*[:：]\s*([0-9.]+)\s*\\(As of\s*([0-9-]+)", text, re.I)
             if m:
                 return {"date": m.group(2), "pe": float(m.group(1)), "source": source + " public fallback", "fetch_status": "success_public_fallback"}
         except Exception:
@@ -73,7 +73,7 @@ def public_pe(index_name, day):
 def public_page(url):
     try:
         r=SESSION.get(url,timeout=15);r.raise_for_status();text=r.text
-                d=re.search(r"(?:NetWorthDate|FundMNVDate|FundMNAVDate)\s*=\s*["']?([0-9]{4}-[0-9]{2}-[0-9]{2})",t)
+        d=re.search(r"最后更新于：([0-9]{4}-[0-9]{2}-[0-9]{2})",text)
         vals=re.findall(r"当前值[:：]?\s*([0-9.]+)",text)
         p=re.findall(r"当前分位点\s*([0-9.]+)%",text)
         return {"date":d.group(1) if d else None,"value":float(vals[0]) if vals else None,"percentile":float(p[0]) if p else None}
@@ -137,7 +137,7 @@ def fund(code):
             t=SESSION.get(url,timeout=8).text
             if not estimated:
                 n=re.search(r"FundMNAV\s*=\s*([0-9.]+)",t)
-                d=re.search(r"(?:NetWorthDate|FundMNVDate|FundMNAVDate)\\s*=\\s*[\"']?([0-9]{4}-[0-9]{2}-[0-9]{2})",t)
+                d=re.search(r"(?:NetWorthDate|FundMNVDate|FundMNAVDate)\s*=\s*["']?([0-9]{4}-[0-9]{2}-[0-9]{2})",t)
                 if n and d:return {"nav":float(n.group(1)),"date":d.group(1),"source":"Eastmoney","fetch_status":"success_actual","estimated":False}
             else:
                 m=re.search(r"jsonpgz\((.*)\)",t)
