@@ -165,6 +165,7 @@ def append_point(key,col,day,market,date_field="date"):
     return True
 
 def main(day):
+    is_historical = day < datetime.now(TZ).strftime("%Y-%m-%d")
     watch=load(ROOT/"watchlist.json",{})
     portfolio=load(ROOT/"portfolio.json",{})
     prev=load(DATA/"market_snapshot_latest.json",{"market":{}})
@@ -234,7 +235,8 @@ def main(day):
         "market":market,
         "funds":funds
     }
-    dump(DATA/"market_snapshot_latest.json",snapshot)
+    if not is_historical:
+        dump(DATA/"market_snapshot_latest.json",snapshot)
 
     subprocess.run([sys.executable,str(ROOT/"valuation_engine.py"),"--config",str(ROOT/"watchlist.json")],check=True)
     l2=load(DATA/"l2_latest.json",{})
@@ -289,7 +291,8 @@ def main(day):
         lines.append(f"- {t['name']}：日期={x.get('date','—')} 状态={x.get('fetch_status','—')} L2={z.get('signal','no_data')} 点数={z.get('points',0)}")
     lines += ["","## 异常",json.dumps(anomalies,ensure_ascii=False,indent=2)]
     (reports/f"盯盘报告_{day}.md").write_text("\n".join(lines),encoding="utf-8")
-    subprocess.run([sys.executable,str(ROOT/"sync_site.py")],check=True)
+    if not is_historical:
+        subprocess.run([sys.executable,str(ROOT/"sync_site.py")],check=True)
 
 if __name__=="__main__":
     ap=argparse.ArgumentParser();ap.add_argument("--date",default=datetime.now(TZ).strftime("%Y-%m-%d"));main(ap.parse_args().date)
