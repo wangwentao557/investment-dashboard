@@ -38,9 +38,9 @@ def ndx_public_pe(day):
     for url,source in urls:
         try:
             r=SESSION.get(url,timeout=15);r.raise_for_status();text=r.text
-            m=re.search(r"Nasdaq 100 PE Ratio\\s*[:：]\\s*([0-9.]+)\\s*\\(As of\\s*([0-9-]+)",text,re.I)
+            m=re.search(r"Nasdaq 100 PE Ratio\s*[:：]\s*([0-9.]+)\s*\(As of\s*([0-9-]+)",text,re.I)
             if not m:
-                m=re.search(r"current(?:ly)?[^\\n]{0,120}([0-9.]+)",text,re.I)
+                m=re.search(r"current(?:ly)?[^\n]{0,120}([0-9.]+)",text,re.I)
             if m:
                 value=float(m.group(1)); d=m.group(2) if len(m.groups())>1 and m.group(2) else day
                 return {"date":d,"pe":value,"source":source+" public fallback","fetch_status":"success_public_fallback","frequency":"daily" if source=="GuruFocus" else "monthly_fallback"}
@@ -104,7 +104,7 @@ def fund(code):
                 d=re.search(r"(?:NetWorthDate|FundMNVDate|FundMNAVDate)\\s*=\\s*[\"']?([0-9]{4}-[0-9]{2}-[0-9]{2})",t)
                 if n and d:return {"nav":float(n.group(1)),"date":d.group(1),"source":"Eastmoney","fetch_status":"success_actual","estimated":False}
             else:
-                m=re.search(r"jsonpgz\\((.*)\\)",t)
+                m=re.search(r"jsonpgz\((.*)\)",t)
                 if m:
                     o=json.loads(m.group(1))
                     return {"nav":float(o["gsz"]),"date":str(o.get("gztime",""))[:10],"source":"1234567","fetch_status":"estimated","estimated":True}
