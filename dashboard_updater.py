@@ -63,7 +63,7 @@ def public_pe(index_name, day):
         try:
             r = SESSION.get(url, timeout=15); r.raise_for_status()
             text = r.text
-            m = re.search(r"(?:S&P 500|Nasdaq 100) PE Ratio\s*[:：]\s*([0-9.]+)\s*\\(As of\s*([0-9-]+)", text, re.I)
+            m = re.search(r"(?:S&P 500|Nasdaq 100) PE Ratio\s*[:：]\s*([0-9.]+)\s*\(As of\s*([0-9-]+)", text, re.I)
             if m:
                 return {"date": m.group(2), "pe": float(m.group(1)), "source": source + " public fallback", "fetch_status": "success_public_fallback"}
         except Exception:
