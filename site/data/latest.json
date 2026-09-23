@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-22T16:48:57+00:00",
+  "generated_at": "2026-09-23T14:18:49+00:00",
   "latest": {
     "_daily_fetch": {
-      "attempted_at": "2026-09-23T00:48:57+08:00",
-      "data_basis_date": "2026-09-22",
+      "attempted_at": "2026-09-23T22:18:49+08:00",
+      "data_basis_date": "2026-09-21",
       "fund_codes_requested": [
         "019305",
         "012752",
@@ -44,68 +44,68 @@
       },
       "hs300": {
         "index_name": "沪深300",
-        "pe": 13.500789317065307,
-        "pe_percentile": 75.80511973575558,
+        "pe": 13.483928362214419,
+        "pe_percentile": 75.63996696944673,
         "pb": 1.422,
-        "date": "2026-09-22",
+        "date": "2026-09-21",
         "source": "Lixinger API",
         "fetch_status": "success_actual",
         "failure_reason": "Lixinger API returned no row",
-        "pe_3y_percentile": 63.95027624309392,
-        "pe_5y_percentile": 75.80511973575558,
-        "pe_10y_percentile": 66.9138854552946
+        "pe_3y_percentile": 63.812154696132595,
+        "pe_5y_percentile": 75.63996696944673,
+        "pe_10y_percentile": 66.46065100947672
       },
       "csi_a50": {
         "index_name": "中证A50",
-        "pe": 15.926444654468517,
-        "pe_percentile": 18.484848484848484,
-        "date": "2026-09-22",
+        "pe": 15.868276426497351,
+        "pe_percentile": 17.602427921092563,
+        "date": "2026-09-21",
         "source": "Lixinger API",
         "fetch_status": "success_actual",
         "failure_reason": "Lixinger API returned no row",
-        "pe_3y_percentile": 18.484848484848484,
-        "pe_5y_percentile": 18.484848484848484,
-        "pe_10y_percentile": 18.484848484848484
+        "pe_3y_percentile": 17.602427921092563,
+        "pe_5y_percentile": 17.602427921092563,
+        "pe_10y_percentile": 17.602427921092563
       },
       "cs_ai": {
         "index_name": "CS人工智能",
-        "ps": 4.761906233084687,
-        "ps_percentile": 82.8241123038811,
+        "ps": 4.707598888854571,
+        "ps_percentile": 81.83319570602808,
         "pe": 49.29,
         "pb": 7.86,
-        "date": "2026-09-22",
+        "date": "2026-09-21",
         "source": "Lixinger API",
         "fetch_status": "success_actual",
         "failure_reason": "Lixinger API returned no row",
-        "ps_3y_percentile": 71.68508287292818,
-        "ps_5y_percentile": 82.8241123038811,
-        "ps_10y_percentile": 89.78162340337865
+        "ps_3y_percentile": 70.1657458563536,
+        "ps_5y_percentile": 81.83319570602808,
+        "ps_10y_percentile": 88.87515451174289
       },
       "hk_internet": {
         "index_name": "港股通互联网",
-        "ps": 2.351703188852048,
-        "ps_percentile": 2.6785714285714284,
+        "ps": 2.294634506179661,
+        "ps_percentile": 1.949634443541836,
         "pe": 19.61,
         "pb": 2.27,
-        "date": "2026-09-22",
+        "date": "2026-09-21",
         "source": "Lixinger API",
         "fetch_status": "success_actual",
         "failure_reason": "Lixinger API returned no row",
-        "ps_3y_percentile": 3.6684782608695654,
-        "ps_5y_percentile": 2.6785714285714284,
-        "ps_10y_percentile": 2.3470839260312943
+        "ps_3y_percentile": 2.4456521739130435,
+        "ps_5y_percentile": 1.949634443541836,
+        "ps_10y_percentile": 1.708185053380783
       },
       "metals": {
         "index_name": "有色金属",
-        "pb": 3.2886448349937285,
-        "pb_percentile": 72.08918249380677,
-        "date": "2026-09-22",
+        "pb": 3.2812274085490545,
+        "pb_percentile": 71.34599504541701,
+        "date": "2026-09-21",
         "source": "Lixinger API",
         "fetch_status": "success_actual",
         "failure_reason": "Lixinger API returned no row",
-        "pb_3y_percentile": 72.92817679558011,
-        "pb_5y_percentile": 72.08918249380677,
-        "pb_10y_percentile": 80.0164812525752
+        "pb_3y_percentile": 72.09944751381215,
+        "pb_5y_percentile": 71.34599504541701,
+        "pb_10y_percentile": 79.52204367531932
       },
       "ndx": {
         "index_name": "纳斯达克100",
@@ -609,14 +609,14 @@
     "targets": {
       "div_lowvol": {
         "signal": "hold",
-        "points": 2429,
+        "points": 2428,
         "required_points": 60,
-        "percentile": 55.87,
-        "sigma": 0.34,
-        "mean": 2.1368,
-        "stdev": 1.5141,
-        "raw_percentile": 55.87,
-        "raw_value": 2.644973,
+        "percentile": 57.62,
+        "sigma": 0.36,
+        "mean": 2.1366,
+        "stdev": 1.5144,
+        "raw_percentile": 57.62,
+        "raw_value": 2.680563,
         "valuation_direction": "lower_is_cheaper",
         "metric_column": "spread",
         "history_window": "5y primary; 10y extension if stable"
@@ -728,7 +728,7 @@
     }
   },
   "history_status": {
-    "run_at": "2026-09-23T00:48:37+08:00",
+    "run_at": "2026-09-23T22:17:38+08:00",
     "requested_window_years": 5,
     "extended_window_years": 10,
     "token_configured": true,

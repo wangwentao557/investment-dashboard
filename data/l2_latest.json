@@ -5,14 +5,14 @@
   "targets": {
     "div_lowvol": {
       "signal": "hold",
-      "points": 2429,
+      "points": 2428,
       "required_points": 60,
-      "percentile": 55.87,
-      "sigma": 0.34,
-      "mean": 2.1368,
-      "stdev": 1.5141,
-      "raw_percentile": 55.87,
-      "raw_value": 2.644973,
+      "percentile": 57.62,
+      "sigma": 0.36,
+      "mean": 2.1366,
+      "stdev": 1.5144,
+      "raw_percentile": 57.62,
+      "raw_value": 2.680563,
       "valuation_direction": "lower_is_cheaper",
       "metric_column": "spread",
       "history_window": "5y primary; 10y extension if stable"
