@@ -234,10 +234,17 @@ def main(day):
     for key,col,date_field in [("div_lowvol","spread","spread_date"),("hs300","pe","date"),("csi_a50","pe","date"),("cs_ai","ps","date"),("hk_internet","ps","date"),("metals","pb","date"),("ndx","erp","erp_date"),("spx","erp","erp_date")]:
         append_point(key,col,day,market,date_field)
 
+    actual_dates=[]
+    for v in funds.values():
+        if v.get("fetch_status")=="success_actual" and v.get("date"): actual_dates.append(v["date"])
+    for v in market.values():
+        if v.get("fetch_status") in ("success_actual","success_public_fallback","success_public_page") and v.get("date"): actual_dates.append(v["date"])
+    latest_actual_date=max(actual_dates) if actual_dates else day
     snapshot={
         "_daily_fetch":{
             "attempted_at":datetime.now(TZ).isoformat(timespec="seconds"),
-            "data_basis_date":day,
+            "requested_date":day,
+            "data_basis_date":latest_actual_date,
             "fund_codes_requested":[h["code"] for h in portfolio["holdings"]],
             "fund_success_count":sum(1 for x in funds.values() if x.get("nav") is not None),
             "fund_total":len(funds),
@@ -285,7 +292,7 @@ def main(day):
         if points<60:anomalies.append({"target":key,"type":"历史不足","message":f"当前{points}个真实点；正式L2需要至少60个真实点"})
 
     rec={
-        "run_at":snapshot["_daily_fetch"]["attempted_at"],"data_basis_date":day,
+        "run_at":snapshot["_daily_fetch"]["attempted_at"],"data_basis_date":snapshot["_daily_fetch"]["data_basis_date"],
         "run_type":"daily_market_and_holdings_update",
         "account_summary":portfolio["account_summary"],"fund_success_count":snapshot["_daily_fetch"]["fund_success_count"],
         "fund_total":snapshot["_daily_fetch"]["fund_total"],"holdings":holdings,"market":market,
