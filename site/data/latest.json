@@ -1,10 +1,11 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-24T16:53:34+00:00",
+  "generated_at": "2026-09-24T16:54:37+00:00",
   "latest": {
     "_daily_fetch": {
-      "attempted_at": "2026-09-25T00:53:34+08:00",
-      "data_basis_date": "2026-09-25",
+      "attempted_at": "2026-09-25T00:54:37+08:00",
+      "requested_date": "2026-09-25",
+      "data_basis_date": "2026-09-24",
       "fund_codes_requested": [
         "019305",
         "012752",
@@ -750,7 +751,7 @@
     }
   },
   "history_status": {
-    "run_at": "2026-09-25T00:53:09+08:00",
+    "run_at": "2026-09-25T00:54:11+08:00",
     "requested_window_years": 5,
     "extended_window_years": 10,
     "token_configured": true,

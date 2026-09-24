@@ -1,7 +1,8 @@
 {
   "_daily_fetch": {
-    "attempted_at": "2026-09-25T00:53:34+08:00",
-    "data_basis_date": "2026-09-25",
+    "attempted_at": "2026-09-25T00:54:37+08:00",
+    "requested_date": "2026-09-25",
+    "data_basis_date": "2026-09-24",
     "fund_codes_requested": [
       "019305",
       "012752",

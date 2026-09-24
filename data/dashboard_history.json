@@ -1833,8 +1833,8 @@
       "completeness": "complete_with_explicit_anomalies"
     },
     {
-      "run_at": "2026-09-25T00:53:34+08:00",
-      "data_basis_date": "2026-09-25",
+      "run_at": "2026-09-25T00:54:37+08:00",
+      "data_basis_date": "2026-09-24",
       "run_type": "daily_market_and_holdings_update",
       "account_summary": {
         "total_assets": 4176.27,
