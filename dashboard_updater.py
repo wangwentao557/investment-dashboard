@@ -128,25 +128,28 @@ def api_current(day,key,target):
         if row.get(pm) not in (None,0) and d.get("us10y") is not None:d["erp"]=100/float(row[pm])-d["us10y"];d["erp_date"]=d["date"]
     return d
 
-def fund(code):
-    for url,estimated in [
-        (f"https://fund.eastmoney.com/pingzhongdata/{code}.js",False),
-        (f"https://fundgz.1234567.com.cn/js/{code}.js",True)
-    ]:
-        try:
-            t=SESSION.get(url,timeout=8).text
-            if not estimated:
-                n=re.search(r"FundMNAV\s*=\s*([0-9.]+)",t)
-                d=re.search(r"(?:NetWorthDate|FundMNVDate|FundMNAVDate)\s*=\s*["']?([0-9]{4}-[0-9]{2}-[0-9]{2})",t)
-                if n and d:return {"nav":float(n.group(1)),"date":d.group(1),"source":"Eastmoney","fetch_status":"success_actual","estimated":False}
-            else:
-                m=re.search(r"jsonpgz\((.*)\)",t)
-                if m:
-                    o=json.loads(m.group(1))
-                    return {"nav":float(o["gsz"]),"date":str(o.get("gztime",""))[:10],"source":"1234567","fetch_status":"estimated","estimated":True}
-        except Exception:
-            pass
-    return {"fetch_status":"failed","failure_reason":"primary and backup source unavailable","estimated":False}
+def fund(code, target_day):
+    url=f"https://fund.eastmoney.com/pingzhongdata/{code}.js?v={int(datetime.now().timestamp())}"
+    try:
+        t=SESSION.get(url,timeout=15).text
+        m=re.search(r"Data_netWorthTrend\s*=\s*(\[\{.*?\}\]);",t,re.S)
+        if not m:
+            raise RuntimeError("Eastmoney Data_netWorthTrend not found")
+        rows=json.loads(m.group(1))
+        candidates=[]
+        for row in rows:
+            ts=row.get("x")
+            nav=row.get("y")
+            if ts is None or nav is None: continue
+            d=datetime.fromtimestamp(float(ts)/1000,timezone.utc).date().isoformat()
+            if d<=target_day:
+                candidates.append((d,float(nav)))
+        if not candidates:
+            raise RuntimeError(f"no settled NAV on/before {target_day}")
+        d,nav=max(candidates,key=lambda x:x[0])
+        return {"nav":nav,"date":d,"source":"Eastmoney Data_netWorthTrend","fetch_status":"success_actual","estimated":False}
+    except Exception as e:
+        return {"fetch_status":"failed","failure_reason":str(e),"estimated":False}
 
 def append_point(key,col,day,market,date_field="date"):
     d=market.get(key,{})
@@ -219,7 +222,7 @@ def main(day):
         market.setdefault("gold",{})["index_name"]="黄金";market["gold"]["gold_usd_oz"]=g;market["gold"]["date"]=gd;market["gold"]["source"]="Yahoo Finance";market["gold"]["fetch_status"]="success"
     except Exception:
         if "gold" in market:market["gold"]["fetch_status"]="stale"
-    funds={h["code"]:fund(h["code"]) for h in portfolio["holdings"]}
+    funds={h["code"]:fund(h["code"],day) for h in portfolio["holdings"]}
     for key,col,date_field in [("div_lowvol","spread","spread_date"),("hs300","pe","date"),("csi_a50","pe","date"),("cs_ai","ps","date"),("hk_internet","ps","date"),("metals","pb","date"),("ndx","erp","erp_date"),("spx","erp","erp_date")]:
         append_point(key,col,day,market,date_field)
 
