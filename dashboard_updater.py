@@ -94,10 +94,15 @@ def api_current(day,key,target):
             pe["fetch_status"]="stale_failed";pe["fetch_error"]=str(e)
         return pe
     if key=="div_lowvol":
-        rows=fundamental("cn","H30269",day,day,["dyr.mcw"])
-        row=rows[-1] if rows else {}
-        debt=national_debt("cn",day,day,["tcm_y10"])
-        d={"date":str(row.get("date",day))[:10],"source":"Lixinger API","fetch_status":"success_actual"}
+        start=(datetime.strptime(day,"%Y-%m-%d").date()-timedelta(days=7)).isoformat()
+        rows=fundamental("cn","H30269",start,day,["dyr.mcw"])
+        rows=sorted(rows,key=lambda x:str(x.get("date","")))
+        rows=sorted(rows,key=lambda x:str(x.get("date","")))
+    row=rows[-1] if rows else {}
+        debt=national_debt("cn",start,day,["tcm_y10"])
+        d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","fetch_status":"success_actual"}
+        if row.get("dyr.mcw") is None:
+            return {"fetch_status":"failed","failure_reason":"Lixinger returned no dividend_yield for latest available row","date":d["date"]}
         if row.get("dyr.mcw") is not None:
             dv=float(row["dyr.mcw"]); d["dividend_yield"]=dv*100 if abs(dv)<1 else dv
         if debt and debt[-1].get("tcm_y10") is not None:
@@ -111,9 +116,10 @@ def api_current(day,key,target):
         return {"fetch_status":"failed","failure_reason":f"unsupported primary metric: {target["primary_metric"]}"}
     base=pm.split(".")[0]
     metrics=[pm,base+".y3.mcw.cvpos",base+".y5.mcw.cvpos",base+".y10.mcw.cvpos"]
-    rows=fundamental("cn" if key not in ("ndx","spx") else "us",api_code,day,day,metrics)
+    start=(datetime.strptime(day,"%Y-%m-%d").date()-timedelta(days=7)).isoformat()
+    rows=fundamental("cn" if key not in ("ndx","spx") else "us",api_code,start,day,metrics)
     row=rows[-1] if rows else {}
-    if not row:return {"fetch_status":"failed","failure_reason":"Lixinger API returned no row"}
+    if not row:return {"fetch_status":"failed","failure_reason":"Lixinger API returned no row in last 7 days"}
     d={"date":str(row.get("date",day))[:10],"source":"Lixinger API","fetch_status":"success_actual"}
     d[target["primary_metric"].split("_")[0]]=row.get(pm)
     metric_prefix={"pe_percentile":"pe","ps_percentile":"ps","pb_percentile":"pb"}[target["primary_metric"]]
@@ -123,7 +129,7 @@ def api_current(day,key,target):
     v5=row.get(base+".y5.mcw.cvpos")
     if v5 is not None:d[target["primary_metric"]]=float(v5)*100
     if key in ("ndx","spx"):
-        debt=national_debt("us",day,day,["tcm_y10"])
+        debt=national_debt("us",start,day,["tcm_y10"])
         if debt and debt[-1].get("tcm_y10") is not None:d["us10y"]=float(debt[-1]["tcm_y10"])*100;d["us10y_date"]=d["date"]
         if row.get(pm) not in (None,0) and d.get("us10y") is not None:d["erp"]=100/float(row[pm])-d["us10y"];d["erp_date"]=d["date"]
     return d
