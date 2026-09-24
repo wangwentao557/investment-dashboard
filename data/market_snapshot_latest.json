@@ -1,6 +1,6 @@
 {
   "_daily_fetch": {
-    "attempted_at": "2026-09-25T00:52:06+08:00",
+    "attempted_at": "2026-09-25T00:53:34+08:00",
     "data_basis_date": "2026-09-25",
     "fund_codes_requested": [
       "019305",
@@ -24,12 +24,13 @@
   "market": {
     "div_lowvol": {
       "index_name": "红利低波",
-      "dividend_yield": 4.94,
-      "cn10y": 1.678,
-      "spread": 3.262,
-      "date": "2026-09-25",
+      "dividend_yield": 4.321531468688577,
+      "cn10y": 1.6738,
+      "spread": 2.647731468688577,
+      "date": "2026-09-24",
       "source": "Lixinger API",
-      "fetch_status": "success_actual"
+      "fetch_status": "success_actual",
+      "spread_date": "2026-09-24"
     },
     "gold": {
       "index_name": "黄金",
@@ -40,68 +41,63 @@
     },
     "hs300": {
       "index_name": "沪深300",
-      "pe": 13.483928362214419,
-      "pe_percentile": 75.63996696944673,
+      "pe": 13.288261478885065,
+      "pe_percentile": 72.08918249380677,
       "pb": 1.422,
-      "date": "2026-09-21",
+      "date": "2026-09-24",
       "source": "Lixinger API",
-      "fetch_status": "failed",
-      "failure_reason": "Lixinger API returned no row",
-      "pe_3y_percentile": 63.812154696132595,
-      "pe_5y_percentile": 75.63996696944673,
-      "pe_10y_percentile": 66.46065100947672
+      "fetch_status": "success_actual",
+      "pe_3y_percentile": 60.60606060606061,
+      "pe_5y_percentile": 72.08918249380677,
+      "pe_10y_percentile": 62.52059308072487
     },
     "csi_a50": {
       "index_name": "中证A50",
-      "pe": 15.868276426497351,
-      "pe_percentile": 17.602427921092563,
-      "date": "2026-09-21",
+      "pe": 15.679966851370283,
+      "pe_percentile": 14.803625377643503,
+      "date": "2026-09-24",
       "source": "Lixinger API",
-      "fetch_status": "failed",
-      "failure_reason": "Lixinger API returned no row",
-      "pe_3y_percentile": 17.602427921092563,
-      "pe_5y_percentile": 17.602427921092563,
-      "pe_10y_percentile": 17.602427921092563
+      "fetch_status": "success_actual",
+      "pe_3y_percentile": 14.803625377643503,
+      "pe_5y_percentile": 14.803625377643503,
+      "pe_10y_percentile": 14.803625377643503
     },
     "cs_ai": {
       "index_name": "CS人工智能",
-      "ps": 4.707598888854571,
-      "ps_percentile": 81.83319570602808,
+      "ps": 4.628613845302462,
+      "ps_percentile": 79.93393889347647,
       "pe": 49.29,
       "pb": 7.86,
-      "date": "2026-09-21",
+      "date": "2026-09-24",
       "source": "Lixinger API",
-      "fetch_status": "failed",
-      "failure_reason": "Lixinger API returned no row",
-      "ps_3y_percentile": 70.1657458563536,
-      "ps_5y_percentile": 81.83319570602808,
-      "ps_10y_percentile": 88.87515451174289
+      "fetch_status": "success_actual",
+      "ps_3y_percentile": 67.07988980716253,
+      "ps_5y_percentile": 79.93393889347647,
+      "ps_10y_percentile": 87.60296540362438
     },
     "hk_internet": {
       "index_name": "港股通互联网",
-      "ps": 2.294634506179661,
-      "ps_percentile": 1.949634443541836,
+      "ps": 2.2875872312444,
+      "ps_percentile": 1.948051948051948,
       "pe": 19.61,
       "pb": 2.27,
-      "date": "2026-09-21",
+      "date": "2026-09-24",
       "source": "Lixinger API",
-      "fetch_status": "failed",
-      "failure_reason": "Lixinger API returned no row",
-      "ps_3y_percentile": 2.4456521739130435,
-      "ps_5y_percentile": 1.949634443541836,
-      "ps_10y_percentile": 1.708185053380783
+      "fetch_status": "success_actual",
+      "ps_3y_percentile": 2.4390243902439024,
+      "ps_5y_percentile": 1.948051948051948,
+      "ps_10y_percentile": 1.7045454545454544
     },
     "metals": {
       "index_name": "有色金属",
-      "pb": 3.2812274085490545,
-      "pb_percentile": 71.34599504541701,
-      "date": "2026-09-21",
+      "pb": 3.1436900584716967,
+      "pb_percentile": 65.64822460776219,
+      "date": "2026-09-24",
       "source": "Lixinger API",
-      "fetch_status": "failed",
-      "failure_reason": "Lixinger API returned no row",
-      "pb_3y_percentile": 72.09944751381215,
-      "pb_5y_percentile": 71.34599504541701,
-      "pb_10y_percentile": 79.52204367531932
+      "fetch_status": "success_actual",
+      "pb_3y_percentile": 67.90633608815428,
+      "pb_5y_percentile": 65.64822460776219,
+      "pb_10y_percentile": 72.69357495881383
     },
     "ndx": {
       "index_name": "纳斯达克100",
