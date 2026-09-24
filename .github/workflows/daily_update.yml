@@ -57,4 +57,19 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data site/data
           git diff --cached --quiet || git commit -m "data: daily investment update $TARGET_DATE"
-          git push
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if git rebase origin/main; then
+              if git push origin HEAD:main; then
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+              git reset --hard origin/main
+              git add data site/data
+              git diff --cached --quiet || git commit -m "data: daily investment update $TARGET_DATE"
+            fi
+            sleep 10
+          done
+          echo "ERROR: unable to push daily data after 3 attempts"
+          exit 1
