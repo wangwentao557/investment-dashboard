@@ -81,47 +81,45 @@ def public_page(url):
         return {"error":str(e)}
 
 def api_current(day,key,target):
+    start=(datetime.strptime(day,"%Y-%m-%d").date()-timedelta(days=7)).isoformat()
     if key=="spx":
         pe=public_pe("SPX",day)
         if pe.get("pe") is None:return pe
         try:
             j=SESSION.get("https://query1.finance.yahoo.com/v8/finance/chart/^TNX?range=5d&interval=1d",timeout=10).json()["chart"]["result"][0]
-            i=len(j["timestamp"])-1; us10y=float(j["indicators"]["quote"][0]["close"][i])/10
+            i=len(j["timestamp"])-1;us10y=float(j["indicators"]["quote"][0]["close"][i])/10
             us_date=datetime.fromtimestamp(j["timestamp"][i],timezone.utc).date().isoformat()
-            pe["us10y"]=us10y; pe["us10y_date"]=us_date
-            pe["erp"]=100/float(pe["pe"])-us10y; pe["erp_date"]=pe["date"]
+            pe["us10y"]=us10y;pe["us10y_date"]=us_date;pe["erp"]=100/float(pe["pe"])-us10y;pe["erp_date"]=pe["date"]
         except Exception as e:
             pe["fetch_status"]="stale_failed";pe["fetch_error"]=str(e)
         return pe
     if key=="div_lowvol":
-        start=(datetime.strptime(day,"%Y-%m-%d").date()-timedelta(days=7)).isoformat()
         rows=fundamental("cn","H30269",start,day,["dyr.mcw"])
         rows=sorted(rows,key=lambda x:str(x.get("date","")))
-        rows=sorted(rows,key=lambda x:str(x.get("date","")))
-    row=rows[-1] if rows else {}
+        row=rows[-1] if rows else {}
+        if not row or row.get("dyr.mcw") is None:
+            return {"fetch_status":"failed","failure_reason":"Lixinger returned no dividend_yield row in last 7 days"}
         debt=national_debt("cn",start,day,["tcm_y10"])
-        d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","fetch_status":"success_actual"}
-        if row.get("dyr.mcw") is None:
-            return {"fetch_status":"failed","failure_reason":"Lixinger returned no dividend_yield for latest available row","date":d["date"]}
-        if row.get("dyr.mcw") is not None:
-            dv=float(row["dyr.mcw"]); d["dividend_yield"]=dv*100 if abs(dv)<1 else dv
+        d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","fetch_status":"success_actual","dividend_yield":float(row["dyr.mcw"])*100 if abs(float(row["dyr.mcw"]))<1 else float(row["dyr.mcw"])}
+        debt=sorted(debt,key=lambda x:str(x.get("date",""))) if debt else []
         if debt and debt[-1].get("tcm_y10") is not None:
-            d["cn10y"]=float(debt[-1]["tcm_y10"])*100
-            if d.get("dividend_yield") is not None:d["spread"]=d["dividend_yield"]-d["cn10y"];d["spread_date"]=d["date"]
+            d["cn10y"]=float(debt[-1]["tcm_y10"])*100 if abs(float(debt[-1]["tcm_y10"]))<1 else float(debt[-1]["tcm_y10"])
+            d["spread"]=d["dividend_yield"]-d["cn10y"];d["spread_date"]=d["date"]
         return d
     code=target["index"]["code"]
     api_code=code if key not in ("ndx","spx") else (".NDX" if key=="ndx" else ".INX")
     pm={"pe_percentile":"pe_ttm.mcw","ps_percentile":"ps_ttm.mcw","pb_percentile":"pb.mcw"}.get(target["primary_metric"])
     if pm is None:
-        return {"fetch_status":"failed","failure_reason":f"unsupported primary metric: {target["primary_metric"]}"}
+        return {"fetch_status":"failed","failure_reason":"unsupported primary metric"}
     base=pm.split(".")[0]
     metrics=[pm,base+".y3.mcw.cvpos",base+".y5.mcw.cvpos",base+".y10.mcw.cvpos"]
-    start=(datetime.strptime(day,"%Y-%m-%d").date()-timedelta(days=7)).isoformat()
     rows=fundamental("cn" if key not in ("ndx","spx") else "us",api_code,start,day,metrics)
+    rows=sorted(rows,key=lambda x:str(x.get("date","")))
     row=rows[-1] if rows else {}
-    if not row:return {"fetch_status":"failed","failure_reason":"Lixinger API returned no row in last 7 days"}
-    d={"date":str(row.get("date",day))[:10],"source":"Lixinger API","fetch_status":"success_actual"}
-    d[target["primary_metric"].split("_")[0]]=row.get(pm)
+    if not row or row.get(pm) is None:
+        return {"fetch_status":"failed","failure_reason":"Lixinger returned no primary metric row in last 7 days"}
+    d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","fetch_status":"success_actual"}
+    d[target["primary_metric"].split("_")[0]]=float(row[pm])
     metric_prefix={"pe_percentile":"pe","ps_percentile":"ps","pb_percentile":"pb"}[target["primary_metric"]]
     for y in (3,5,10):
         v=row.get(base+".y"+str(y)+".mcw.cvpos")
@@ -130,8 +128,12 @@ def api_current(day,key,target):
     if v5 is not None:d[target["primary_metric"]]=float(v5)*100
     if key in ("ndx","spx"):
         debt=national_debt("us",start,day,["tcm_y10"])
-        if debt and debt[-1].get("tcm_y10") is not None:d["us10y"]=float(debt[-1]["tcm_y10"])*100;d["us10y_date"]=d["date"]
-        if row.get(pm) not in (None,0) and d.get("us10y") is not None:d["erp"]=100/float(row[pm])-d["us10y"];d["erp_date"]=d["date"]
+        debt=sorted(debt,key=lambda x:str(x.get("date",""))) if debt else []
+        if debt and debt[-1].get("tcm_y10") is not None:
+            d["us10y"]=float(debt[-1]["tcm_y10"])*100 if abs(float(debt[-1]["tcm_y10"]))<1 else float(debt[-1]["tcm_y10"])
+            d["us10y_date"]=debt[-1].get("date",d["date"])
+        if d.get("pe") not in (None,0) and d.get("us10y") is not None:
+            d["erp"]=100/float(d["pe"])-d["us10y"];d["erp_date"]=d["date"]
     return d
 
 def fund(code, target_day):
