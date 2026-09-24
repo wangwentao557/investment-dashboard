@@ -100,7 +100,7 @@ def api_current(day,key,target):
         if not row or row.get("dyr.mcw") is None:
             return {"fetch_status":"failed","failure_reason":"Lixinger returned no dividend_yield row in last 7 days"}
         debt=national_debt("cn",start,day,["tcm_y10"])
-        d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","fetch_status":"success_actual","dividend_yield":float(row["dyr.mcw"])*100 if abs(float(row["dyr.mcw"]))<1 else float(row["dyr.mcw"])}
+        d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","source_url":"https://open.lixinger.com/api/cn/index/fundamental","fetch_status":"success_actual","dividend_yield":float(row["dyr.mcw"])*100 if abs(float(row["dyr.mcw"]))<1 else float(row["dyr.mcw"])}
         debt=sorted(debt,key=lambda x:str(x.get("date",""))) if debt else []
         if debt and debt[-1].get("tcm_y10") is not None:
             d["cn10y"]=float(debt[-1]["tcm_y10"])*100 if abs(float(debt[-1]["tcm_y10"]))<1 else float(debt[-1]["tcm_y10"])
@@ -118,7 +118,7 @@ def api_current(day,key,target):
     row=rows[-1] if rows else {}
     if not row or row.get(pm) is None:
         return {"fetch_status":"failed","failure_reason":"Lixinger returned no primary metric row in last 7 days"}
-    d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","fetch_status":"success_actual"}
+    d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","source_url":"https://open.lixinger.com/api/cn/index/fundamental","fetch_status":"success_actual"}
     d[target["primary_metric"].split("_")[0]]=float(row[pm])
     metric_prefix={"pe_percentile":"pe","ps_percentile":"ps","pb_percentile":"pb"}[target["primary_metric"]]
     for y in (3,5,10):
@@ -155,7 +155,7 @@ def fund(code, target_day):
         if not candidates:
             raise RuntimeError(f"no settled NAV on/before {target_day}")
         d,nav=max(candidates,key=lambda x:x[0])
-        return {"nav":nav,"date":d,"source":"Eastmoney Data_netWorthTrend","fetch_status":"success_actual","estimated":False}
+        return {"nav":nav,"date":d,"source":"Eastmoney Data_netWorthTrend","source_url":url,"fetch_status":"success_actual","estimated":False}
     except Exception as e:
         return {"fetch_status":"failed","failure_reason":str(e),"estimated":False}
 
