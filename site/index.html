@@ -96,6 +96,7 @@ async function loadValuationChanges(){
    if(!rows.length)throw Error('no metric');rows.sort(function(a,b){return a.date.localeCompare(b.date)});
    var latest=rows[rows.length-1], latestDate=latest.date, cur=latest.v;
    if(x.date && x.date!==latestDate){g[key].forEach(function(n){n.querySelector('b').textContent='数据不同步'});return}
+   if(rows.length<10 || (new Date(latestDate)-new Date(rows[Math.max(0,rows.length-2)].date))/(86400000)>10){g[key].forEach(function(n){n.querySelector('b').textContent='日频不足'});return}
    [1,7,30].forEach(function(days){
     var target=new Date(latestDate+'T00:00:00Z');target.setUTCDate(target.getUTCDate()-days);
     var prior=null;for(var j=rows.length-1;j>=0;j--){if(rows[j].date<=target.toISOString().slice(0,10)){prior=rows[j];break}}
