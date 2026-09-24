@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-23T14:18:49+00:00",
+  "generated_at": "2026-09-24T16:52:06+00:00",
   "latest": {
     "_daily_fetch": {
-      "attempted_at": "2026-09-23T22:18:49+08:00",
-      "data_basis_date": "2026-09-21",
+      "attempted_at": "2026-09-25T00:52:06+08:00",
+      "data_basis_date": "2026-09-25",
       "fund_codes_requested": [
         "019305",
         "012752",
@@ -20,7 +20,7 @@
         "010855",
         "021207"
       ],
-      "fund_success_count": 0,
+      "fund_success_count": 13,
       "fund_total": 13,
       "lixinger_api_configured": true
     },
@@ -30,10 +30,9 @@
         "dividend_yield": 4.94,
         "cn10y": 1.678,
         "spread": 3.262,
-        "date": "2026-09-18",
-        "source": "公开核验快照",
-        "fetch_status": "stale_failed",
-        "fetch_error": "Lixinger HTTP 400: {\"code\":0,\"error\":{\"name\":\"ValidationError\",\"messages\":[{\"value\":[\"dyr\"],\"path\":[\"metricsList\"],\"message\":\"(dyr) are invalid price metrics\"}]}}"
+        "date": "2026-09-25",
+        "source": "Lixinger API",
+        "fetch_status": "success_actual"
       },
       "gold": {
         "index_name": "黄金",
@@ -49,7 +48,7 @@
         "pb": 1.422,
         "date": "2026-09-21",
         "source": "Lixinger API",
-        "fetch_status": "success_actual",
+        "fetch_status": "failed",
         "failure_reason": "Lixinger API returned no row",
         "pe_3y_percentile": 63.812154696132595,
         "pe_5y_percentile": 75.63996696944673,
@@ -61,7 +60,7 @@
         "pe_percentile": 17.602427921092563,
         "date": "2026-09-21",
         "source": "Lixinger API",
-        "fetch_status": "success_actual",
+        "fetch_status": "failed",
         "failure_reason": "Lixinger API returned no row",
         "pe_3y_percentile": 17.602427921092563,
         "pe_5y_percentile": 17.602427921092563,
@@ -75,7 +74,7 @@
         "pb": 7.86,
         "date": "2026-09-21",
         "source": "Lixinger API",
-        "fetch_status": "success_actual",
+        "fetch_status": "failed",
         "failure_reason": "Lixinger API returned no row",
         "ps_3y_percentile": 70.1657458563536,
         "ps_5y_percentile": 81.83319570602808,
@@ -89,7 +88,7 @@
         "pb": 2.27,
         "date": "2026-09-21",
         "source": "Lixinger API",
-        "fetch_status": "success_actual",
+        "fetch_status": "failed",
         "failure_reason": "Lixinger API returned no row",
         "ps_3y_percentile": 2.4456521739130435,
         "ps_5y_percentile": 1.949634443541836,
@@ -101,7 +100,7 @@
         "pb_percentile": 71.34599504541701,
         "date": "2026-09-21",
         "source": "Lixinger API",
-        "fetch_status": "success_actual",
+        "fetch_status": "failed",
         "failure_reason": "Lixinger API returned no row",
         "pb_3y_percentile": 72.09944751381215,
         "pb_5y_percentile": 71.34599504541701,
@@ -124,74 +123,101 @@
         "erp": -1.202,
         "date": "2026-09-18",
         "source": "公开核验快照",
-        "fetch_status": "stale_failed",
-        "fetch_error": "'erp'"
+        "fetch_status": "failed",
+        "fetch_error": "'erp'",
+        "failure_reason": "SPX public PE fallback unavailable"
       }
     },
     "funds": {
       "019305": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 1.6894,
+        "date": "2026-09-22",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "012752": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 3.4247,
+        "date": "2026-09-22",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "007467": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 1.5864,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "004433": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 1.5788,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "001123": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 1.844,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "011062": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 1.3787,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "014674": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 0.6124,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "023462": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 1.853,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "026733": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 1.2029,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "000218": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 3.3402,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "021075": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 1.4054,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "010855": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 0.7716,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       },
       "021207": {
-        "fetch_status": "failed",
-        "failure_reason": "primary and backup source unavailable",
+        "nav": 1.235,
+        "date": "2026-09-23",
+        "source": "Eastmoney Data_netWorthTrend",
+        "fetch_status": "success_actual",
         "estimated": false
       }
     }
@@ -609,14 +635,14 @@
     "targets": {
       "div_lowvol": {
         "signal": "hold",
-        "points": 2428,
+        "points": 2432,
         "required_points": 60,
-        "percentile": 57.62,
-        "sigma": 0.36,
-        "mean": 2.1366,
-        "stdev": 1.5144,
-        "raw_percentile": 57.62,
-        "raw_value": 2.680563,
+        "percentile": 56.04,
+        "sigma": 0.34,
+        "mean": 2.1374,
+        "stdev": 1.5133,
+        "raw_percentile": 56.04,
+        "raw_value": 2.647731,
         "valuation_direction": "lower_is_cheaper",
         "metric_column": "spread",
         "history_window": "5y primary; 10y extension if stable"
@@ -629,70 +655,70 @@
       },
       "hs300": {
         "signal": "hold",
-        "points": 2432,
+        "points": 2434,
         "required_points": 60,
-        "percentile": 66.98,
-        "sigma": 0.45,
-        "mean": 12.8875,
-        "stdev": 1.3591,
-        "raw_percentile": 66.98,
-        "raw_value": 13.500789,
+        "percentile": 62.61,
+        "sigma": 0.29,
+        "mean": 12.8879,
+        "stdev": 1.3587,
+        "raw_percentile": 62.61,
+        "raw_value": 13.288261,
         "valuation_direction": "lower_is_cheaper",
         "metric_column": "pe",
         "history_window": "5y primary; 10y extension if stable"
       },
       "csi_a50": {
         "signal": "buy",
-        "points": 661,
+        "points": 663,
         "required_points": 60,
-        "percentile": 18.61,
-        "sigma": -1.02,
-        "mean": 17.0854,
-        "stdev": 1.1359,
-        "raw_percentile": 18.61,
-        "raw_value": 15.926445,
+        "percentile": 14.93,
+        "sigma": -1.23,
+        "mean": 17.0814,
+        "stdev": 1.1366,
+        "raw_percentile": 14.93,
+        "raw_value": 15.679967,
         "valuation_direction": "lower_is_cheaper",
         "metric_column": "pe",
         "history_window": "5y primary; 10y extension if stable"
       },
       "cs_ai": {
         "signal": "watch",
-        "points": 2432,
+        "points": 2434,
         "required_points": 60,
-        "percentile": 89.8,
-        "sigma": 1.32,
-        "mean": 3.8045,
-        "stdev": 0.7265,
-        "raw_percentile": 89.8,
-        "raw_value": 4.761906,
+        "percentile": 87.63,
+        "sigma": 1.13,
+        "mean": 3.8052,
+        "stdev": 0.7267,
+        "raw_percentile": 87.63,
+        "raw_value": 4.628614,
         "valuation_direction": "lower_is_cheaper",
         "metric_column": "ps",
         "history_window": "5y primary; 10y extension if stable"
       },
       "hk_internet": {
         "signal": "hold",
-        "points": 1407,
+        "points": 1409,
         "required_points": 60,
-        "percentile": 2.42,
-        "sigma": -0.9,
-        "mean": 3.8657,
-        "stdev": 1.6839,
-        "raw_percentile": 2.42,
-        "raw_value": 2.351703,
+        "percentile": 1.77,
+        "sigma": -0.94,
+        "mean": 3.8634,
+        "stdev": 1.6837,
+        "raw_percentile": 1.77,
+        "raw_value": 2.287587,
         "valuation_direction": "lower_is_cheaper",
         "metric_column": "ps",
         "history_window": "5y primary; 10y extension if stable"
       },
       "metals": {
         "signal": "hold",
-        "points": 2432,
+        "points": 2434,
         "required_points": 60,
-        "percentile": 80.06,
-        "sigma": 0.91,
-        "mean": 2.7318,
-        "stdev": 0.6146,
-        "raw_percentile": 80.06,
-        "raw_value": 3.288645,
+        "percentile": 72.76,
+        "sigma": 0.67,
+        "mean": 2.7322,
+        "stdev": 0.6145,
+        "raw_percentile": 72.76,
+        "raw_value": 3.14369,
         "valuation_direction": "lower_is_cheaper",
         "metric_column": "pb",
         "history_window": "5y primary; 10y extension if stable"
@@ -713,14 +739,14 @@
       },
       "spx": {
         "signal": "watch",
-        "points": 2493,
+        "points": 2495,
         "required_points": 60,
-        "percentile": 98.84,
-        "sigma": 1.65,
-        "mean": -1.1476,
-        "stdev": 1.382,
-        "raw_percentile": 1.2,
-        "raw_value": -1.136422,
+        "percentile": 98.96,
+        "sigma": 1.66,
+        "mean": -1.1457,
+        "stdev": 1.383,
+        "raw_percentile": 1.08,
+        "raw_value": -1.145208,
         "valuation_direction": "higher_is_cheaper",
         "metric_column": "erp",
         "history_window": "5y primary; 10y extension if stable"
@@ -728,44 +754,44 @@
     }
   },
   "history_status": {
-    "run_at": "2026-09-23T22:17:38+08:00",
+    "run_at": "2026-09-25T00:51:41+08:00",
     "requested_window_years": 5,
     "extended_window_years": 10,
     "token_configured": true,
     "targets": {
       "div_lowvol": {
         "status": "ok",
-        "points": 2433,
+        "points": 2435,
         "window_years": 10,
         "existing_points_before": 2433
       },
       "hs300": {
         "status": "ok",
-        "points": 2433,
+        "points": 2435,
         "window_years": 10,
         "existing_points_before": 2433
       },
       "csi_a50": {
         "status": "ok",
-        "points": 661,
+        "points": 663,
         "window_years": 10,
         "existing_points_before": 661
       },
       "cs_ai": {
         "status": "ok",
-        "points": 2433,
+        "points": 2435,
         "window_years": 10,
         "existing_points_before": 2433
       },
       "hk_internet": {
         "status": "ok",
-        "points": 1433,
+        "points": 1435,
         "window_years": 10,
         "existing_points_before": 1433
       },
       "metals": {
         "status": "ok",
-        "points": 2433,
+        "points": 2435,
         "window_years": 10,
         "existing_points_before": 2433
       },
@@ -777,7 +803,7 @@
       },
       "spx": {
         "status": "ok",
-        "points": 2515,
+        "points": 2517,
         "window_years": 10,
         "existing_points_before": 2515
       }

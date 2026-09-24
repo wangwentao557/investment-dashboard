@@ -1,7 +1,7 @@
 {
   "_daily_fetch": {
-    "attempted_at": "2026-09-23T22:18:49+08:00",
-    "data_basis_date": "2026-09-21",
+    "attempted_at": "2026-09-25T00:52:06+08:00",
+    "data_basis_date": "2026-09-25",
     "fund_codes_requested": [
       "019305",
       "012752",
@@ -17,7 +17,7 @@
       "010855",
       "021207"
     ],
-    "fund_success_count": 0,
+    "fund_success_count": 13,
     "fund_total": 13,
     "lixinger_api_configured": true
   },
@@ -27,10 +27,9 @@
       "dividend_yield": 4.94,
       "cn10y": 1.678,
       "spread": 3.262,
-      "date": "2026-09-18",
-      "source": "公开核验快照",
-      "fetch_status": "stale_failed",
-      "fetch_error": "Lixinger HTTP 400: {\"code\":0,\"error\":{\"name\":\"ValidationError\",\"messages\":[{\"value\":[\"dyr\"],\"path\":[\"metricsList\"],\"message\":\"(dyr) are invalid price metrics\"}]}}"
+      "date": "2026-09-25",
+      "source": "Lixinger API",
+      "fetch_status": "success_actual"
     },
     "gold": {
       "index_name": "黄金",
@@ -46,7 +45,7 @@
       "pb": 1.422,
       "date": "2026-09-21",
       "source": "Lixinger API",
-      "fetch_status": "success_actual",
+      "fetch_status": "failed",
       "failure_reason": "Lixinger API returned no row",
       "pe_3y_percentile": 63.812154696132595,
       "pe_5y_percentile": 75.63996696944673,
@@ -58,7 +57,7 @@
       "pe_percentile": 17.602427921092563,
       "date": "2026-09-21",
       "source": "Lixinger API",
-      "fetch_status": "success_actual",
+      "fetch_status": "failed",
       "failure_reason": "Lixinger API returned no row",
       "pe_3y_percentile": 17.602427921092563,
       "pe_5y_percentile": 17.602427921092563,
@@ -72,7 +71,7 @@
       "pb": 7.86,
       "date": "2026-09-21",
       "source": "Lixinger API",
-      "fetch_status": "success_actual",
+      "fetch_status": "failed",
       "failure_reason": "Lixinger API returned no row",
       "ps_3y_percentile": 70.1657458563536,
       "ps_5y_percentile": 81.83319570602808,
@@ -86,7 +85,7 @@
       "pb": 2.27,
       "date": "2026-09-21",
       "source": "Lixinger API",
-      "fetch_status": "success_actual",
+      "fetch_status": "failed",
       "failure_reason": "Lixinger API returned no row",
       "ps_3y_percentile": 2.4456521739130435,
       "ps_5y_percentile": 1.949634443541836,
@@ -98,7 +97,7 @@
       "pb_percentile": 71.34599504541701,
       "date": "2026-09-21",
       "source": "Lixinger API",
-      "fetch_status": "success_actual",
+      "fetch_status": "failed",
       "failure_reason": "Lixinger API returned no row",
       "pb_3y_percentile": 72.09944751381215,
       "pb_5y_percentile": 71.34599504541701,
@@ -121,74 +120,101 @@
       "erp": -1.202,
       "date": "2026-09-18",
       "source": "公开核验快照",
-      "fetch_status": "stale_failed",
-      "fetch_error": "'erp'"
+      "fetch_status": "failed",
+      "fetch_error": "'erp'",
+      "failure_reason": "SPX public PE fallback unavailable"
     }
   },
   "funds": {
     "019305": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 1.6894,
+      "date": "2026-09-22",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "012752": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 3.4247,
+      "date": "2026-09-22",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "007467": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 1.5864,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "004433": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 1.5788,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "001123": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 1.844,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "011062": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 1.3787,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "014674": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 0.6124,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "023462": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 1.853,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "026733": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 1.2029,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "000218": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 3.3402,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "021075": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 1.4054,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "010855": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 0.7716,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     },
     "021207": {
-      "fetch_status": "failed",
-      "failure_reason": "primary and backup source unavailable",
+      "nav": 1.235,
+      "date": "2026-09-23",
+      "source": "Eastmoney Data_netWorthTrend",
+      "fetch_status": "success_actual",
       "estimated": false
     }
   }

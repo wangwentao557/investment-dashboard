@@ -3,33 +3,33 @@
   "files": [
     {
       "file": "cs_ai.csv",
-      "points": 2433,
-      "sha256": "eddd9a1aeed595791decaec84e954dda8325a479b9330679c729fd336e4620c5"
+      "points": 2435,
+      "sha256": "2d9a1a59e4d7a536f38f80a2e70c683305e891cdfbc0196420142afb7e97217e"
     },
     {
       "file": "csi_a50.csv",
-      "points": 661,
-      "sha256": "d276f312ba1bc6187860a47337bae502c8a0c730a0b94b83b5ccf8e935556ed2"
+      "points": 663,
+      "sha256": "fa4109c9e6dd65c0fdc0830ceef3ba73922a670f14903c2620b3d3fdd4622663"
     },
     {
       "file": "div_lowvol.csv",
-      "points": 2433,
-      "sha256": "91fe53327d0cf6445720791b216768e022a87fd3fb9e093e7fe1efd6821164af"
+      "points": 2435,
+      "sha256": "41656ebca6e1234a365ea3bb72ef10d96c36350ea1d80de29a073446e4871745"
     },
     {
       "file": "hk_internet.csv",
-      "points": 1433,
-      "sha256": "457d66c59cd099f3c5dad0a07e8b47f7ccbfc32d40608a2795aa25569444214a"
+      "points": 1435,
+      "sha256": "9515b185fca6dd13b5d8b2fa9baffe65b0098b7aa7fe993b7668ab9c49775c7c"
     },
     {
       "file": "hs300.csv",
-      "points": 2433,
-      "sha256": "cef85ebe1024b33b1d3bb1fdfd8201017b6ab4373bd26c82242a15669fb3ab61"
+      "points": 2435,
+      "sha256": "965128cb7c8b8280fb7ae427f2c9831caf853b1b85dae9252594135ca7202b37"
     },
     {
       "file": "metals.csv",
-      "points": 2433,
-      "sha256": "d346d1214b2ffc93479e895d749a58842ca22ae42d2aef992f9ddf7ac35eb637"
+      "points": 2435,
+      "sha256": "ba8c5eac4795d4c408678374ac0227d48bb06e0800330d2fb10d0058f40d4eb1"
     },
     {
       "file": "ndx.csv",
@@ -38,8 +38,8 @@
     },
     {
       "file": "spx.csv",
-      "points": 2515,
-      "sha256": "138f4b5b63490c4e6672e8f4f0988010026f91a051929c0c14eb338ceed07aff"
+      "points": 2517,
+      "sha256": "b944e8e3a5644b02ab14084d22a9a7a8ca53566725fe8fa67b2b28aa2be88ce5"
     }
   ]
 }

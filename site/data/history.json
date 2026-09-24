@@ -1831,6 +1831,547 @@
         }
       ],
       "completeness": "complete_with_explicit_anomalies"
+    },
+    {
+      "run_at": "2026-09-25T00:52:06+08:00",
+      "data_basis_date": "2026-09-25",
+      "run_type": "daily_market_and_holdings_update",
+      "account_summary": {
+        "total_assets": 4176.27,
+        "total_pnl": -1.02,
+        "today_pnl": 40.6
+      },
+      "fund_success_count": 13,
+      "fund_total": 13,
+      "holdings": [
+        {
+          "key": "spx",
+          "name": "摩根标普500指数(QDII)C",
+          "code": "019305",
+          "holding_value": 635.36,
+          "valuation_target": "spx",
+          "market": {
+            "nav": 1.6894,
+            "date": "2026-09-22",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 15.21
+        },
+        {
+          "key": "ndx",
+          "name": "建信纳斯达克100指数(QDII)C人民币",
+          "code": "012752",
+          "holding_value": 624.64,
+          "valuation_target": "ndx",
+          "market": {
+            "nav": 3.4247,
+            "date": "2026-09-22",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 14.96
+        },
+        {
+          "key": "div_lowvol",
+          "name": "华泰柏瑞中证红利低波ETF联接C",
+          "code": "007467",
+          "holding_value": 609.43,
+          "valuation_target": "div_lowvol",
+          "market": {
+            "nav": 1.5864,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 14.59
+        },
+        {
+          "key": "metals",
+          "name": "南方有色金属ETF联接C",
+          "code": "004433",
+          "holding_value": 596.19,
+          "valuation_target": "metals",
+          "market": {
+            "nav": 1.5788,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 14.28
+        },
+        {
+          "key": "penghua_hongli",
+          "name": "鹏华弘利混合C",
+          "code": "001123",
+          "holding_value": 514.47,
+          "valuation_target": null,
+          "market": {
+            "nav": 1.844,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 12.32
+        },
+        {
+          "key": "cdb_7_10",
+          "name": "广发中债7-10年国开债指数E",
+          "code": "011062",
+          "holding_value": 301.19,
+          "valuation_target": null,
+          "market": {
+            "nav": 1.3787,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 7.21
+        },
+        {
+          "key": "hk_internet",
+          "name": "富国中证港股通互联网ETF联接C",
+          "code": "014674",
+          "holding_value": 203.1,
+          "valuation_target": "hk_internet",
+          "market": {
+            "nav": 0.6124,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 4.86
+        },
+        {
+          "key": "cs_ai",
+          "name": "中欧中证人工智能主题指数发起C",
+          "code": "023462",
+          "holding_value": 192.36,
+          "valuation_target": "cs_ai",
+          "market": {
+            "nav": 1.853,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 4.61
+        },
+        {
+          "key": "growth",
+          "name": "广发成长甄选混合C",
+          "code": "026733",
+          "holding_value": 145.65,
+          "valuation_target": null,
+          "market": {
+            "nav": 1.2029,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 3.49
+        },
+        {
+          "key": "gold",
+          "name": "国泰黄金ETF联接A",
+          "code": "000218",
+          "holding_value": 144.57,
+          "valuation_target": "gold",
+          "market": {
+            "nav": 3.3402,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 3.46
+        },
+        {
+          "key": "gold_equity",
+          "name": "华夏中证沪深黄金产业股票ETF发起式联接C",
+          "code": "021075",
+          "holding_value": 108.13,
+          "valuation_target": null,
+          "market": {
+            "nav": 1.4054,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 2.59
+        },
+        {
+          "key": "hs300",
+          "name": "汇添富沪深300基本面增强指数C",
+          "code": "010855",
+          "holding_value": 50.88,
+          "valuation_target": "hs300",
+          "market": {
+            "nav": 0.7716,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 1.22
+        },
+        {
+          "key": "csi_a50",
+          "name": "易方达中证A50ETF联接发起式C",
+          "code": "021207",
+          "holding_value": 50.3,
+          "valuation_target": "csi_a50",
+          "market": {
+            "nav": 1.235,
+            "date": "2026-09-23",
+            "source": "Eastmoney Data_netWorthTrend",
+            "fetch_status": "success_actual",
+            "estimated": false
+          },
+          "weight_pct": 1.2
+        }
+      ],
+      "market": {
+        "div_lowvol": {
+          "index_name": "红利低波",
+          "dividend_yield": 4.94,
+          "cn10y": 1.678,
+          "spread": 3.262,
+          "date": "2026-09-25",
+          "source": "Lixinger API",
+          "fetch_status": "success_actual"
+        },
+        "gold": {
+          "index_name": "黄金",
+          "gold_usd_oz": 4372.27,
+          "date": "2026-09-18",
+          "source": "公开核验快照",
+          "fetch_status": "stale"
+        },
+        "hs300": {
+          "index_name": "沪深300",
+          "pe": 13.483928362214419,
+          "pe_percentile": 75.63996696944673,
+          "pb": 1.422,
+          "date": "2026-09-21",
+          "source": "Lixinger API",
+          "fetch_status": "failed",
+          "failure_reason": "Lixinger API returned no row",
+          "pe_3y_percentile": 63.812154696132595,
+          "pe_5y_percentile": 75.63996696944673,
+          "pe_10y_percentile": 66.46065100947672
+        },
+        "csi_a50": {
+          "index_name": "中证A50",
+          "pe": 15.868276426497351,
+          "pe_percentile": 17.602427921092563,
+          "date": "2026-09-21",
+          "source": "Lixinger API",
+          "fetch_status": "failed",
+          "failure_reason": "Lixinger API returned no row",
+          "pe_3y_percentile": 17.602427921092563,
+          "pe_5y_percentile": 17.602427921092563,
+          "pe_10y_percentile": 17.602427921092563
+        },
+        "cs_ai": {
+          "index_name": "CS人工智能",
+          "ps": 4.707598888854571,
+          "ps_percentile": 81.83319570602808,
+          "pe": 49.29,
+          "pb": 7.86,
+          "date": "2026-09-21",
+          "source": "Lixinger API",
+          "fetch_status": "failed",
+          "failure_reason": "Lixinger API returned no row",
+          "ps_3y_percentile": 70.1657458563536,
+          "ps_5y_percentile": 81.83319570602808,
+          "ps_10y_percentile": 88.87515451174289
+        },
+        "hk_internet": {
+          "index_name": "港股通互联网",
+          "ps": 2.294634506179661,
+          "ps_percentile": 1.949634443541836,
+          "pe": 19.61,
+          "pb": 2.27,
+          "date": "2026-09-21",
+          "source": "Lixinger API",
+          "fetch_status": "failed",
+          "failure_reason": "Lixinger API returned no row",
+          "ps_3y_percentile": 2.4456521739130435,
+          "ps_5y_percentile": 1.949634443541836,
+          "ps_10y_percentile": 1.708185053380783
+        },
+        "metals": {
+          "index_name": "有色金属",
+          "pb": 3.2812274085490545,
+          "pb_percentile": 71.34599504541701,
+          "date": "2026-09-21",
+          "source": "Lixinger API",
+          "fetch_status": "failed",
+          "failure_reason": "Lixinger API returned no row",
+          "pb_3y_percentile": 72.09944751381215,
+          "pb_5y_percentile": 71.34599504541701,
+          "pb_10y_percentile": 79.52204367531932
+        },
+        "ndx": {
+          "index_name": "纳斯达克100",
+          "pe": 29.13,
+          "us10y": 4.947,
+          "erp": -1.514,
+          "date": "2026-09-18",
+          "source": "公开核验快照",
+          "fetch_status": "stale_failed",
+          "fetch_error": "Lixinger HTTP 403: {\"code\":0,\"error\":{\"name\":\"ForbiddenError\",\"message\":\"你不能够访问纳斯达克指数的信息。\"}}"
+        },
+        "spx": {
+          "index_name": "标普500",
+          "pe": 26.7,
+          "us10y": 4.947,
+          "erp": -1.202,
+          "date": "2026-09-18",
+          "source": "公开核验快照",
+          "fetch_status": "failed",
+          "fetch_error": "'erp'",
+          "failure_reason": "SPX public PE fallback unavailable"
+        }
+      },
+      "allocation_deviation": [
+        {
+          "key": "spx",
+          "current_pct": 15.21,
+          "reference_pct": 15,
+          "range_pct": [
+            12,
+            18
+          ],
+          "state": "within",
+          "deviation_from_center_pct": 0.21
+        },
+        {
+          "key": "ndx",
+          "current_pct": 14.96,
+          "reference_pct": 12,
+          "range_pct": [
+            10,
+            15
+          ],
+          "state": "within",
+          "deviation_from_center_pct": 2.96
+        },
+        {
+          "key": "div_lowvol",
+          "current_pct": 14.59,
+          "reference_pct": 18,
+          "range_pct": [
+            15,
+            20
+          ],
+          "state": "below",
+          "deviation_from_center_pct": -3.41
+        },
+        {
+          "key": "hs300",
+          "current_pct": 1.22,
+          "reference_pct": 12,
+          "range_pct": [
+            10,
+            15
+          ],
+          "state": "below",
+          "deviation_from_center_pct": -10.78
+        },
+        {
+          "key": "csi_a50",
+          "current_pct": 1.2,
+          "reference_pct": 7,
+          "range_pct": [
+            5,
+            8
+          ],
+          "state": "below",
+          "deviation_from_center_pct": -5.8
+        },
+        {
+          "key": "hk_internet",
+          "current_pct": 4.86,
+          "reference_pct": 8,
+          "range_pct": [
+            5,
+            10
+          ],
+          "state": "below",
+          "deviation_from_center_pct": -3.14
+        },
+        {
+          "key": "cs_ai",
+          "current_pct": 4.61,
+          "reference_pct": 5,
+          "range_pct": [
+            3,
+            6
+          ],
+          "state": "within",
+          "deviation_from_center_pct": -0.39
+        },
+        {
+          "key": "metals",
+          "current_pct": 14.28,
+          "reference_pct": 7,
+          "range_pct": [
+            5,
+            8
+          ],
+          "state": "above",
+          "deviation_from_center_pct": 7.28
+        },
+        {
+          "key": "gold",
+          "current_pct": 3.46,
+          "reference_pct": 8,
+          "range_pct": [
+            6,
+            10
+          ],
+          "state": "below",
+          "deviation_from_center_pct": -4.54
+        }
+      ],
+      "l2": {
+        "schema_version": 2,
+        "status": "ready",
+        "minimum_points": 60,
+        "targets": {
+          "div_lowvol": {
+            "signal": "hold",
+            "points": 2432,
+            "required_points": 60,
+            "percentile": 56.04,
+            "sigma": 0.34,
+            "mean": 2.1374,
+            "stdev": 1.5133,
+            "raw_percentile": 56.04,
+            "raw_value": 2.647731,
+            "valuation_direction": "lower_is_cheaper",
+            "metric_column": "spread",
+            "history_window": "5y primary; 10y extension if stable"
+          },
+          "gold": {
+            "signal": "reference_only",
+            "points": 0,
+            "required_points": 60,
+            "note": "黄金只作宏观锚，不参与PE/PB/PS/L2估值"
+          },
+          "hs300": {
+            "signal": "hold",
+            "points": 2434,
+            "required_points": 60,
+            "percentile": 62.61,
+            "sigma": 0.29,
+            "mean": 12.8879,
+            "stdev": 1.3587,
+            "raw_percentile": 62.61,
+            "raw_value": 13.288261,
+            "valuation_direction": "lower_is_cheaper",
+            "metric_column": "pe",
+            "history_window": "5y primary; 10y extension if stable"
+          },
+          "csi_a50": {
+            "signal": "buy",
+            "points": 663,
+            "required_points": 60,
+            "percentile": 14.93,
+            "sigma": -1.23,
+            "mean": 17.0814,
+            "stdev": 1.1366,
+            "raw_percentile": 14.93,
+            "raw_value": 15.679967,
+            "valuation_direction": "lower_is_cheaper",
+            "metric_column": "pe",
+            "history_window": "5y primary; 10y extension if stable"
+          },
+          "cs_ai": {
+            "signal": "watch",
+            "points": 2434,
+            "required_points": 60,
+            "percentile": 87.63,
+            "sigma": 1.13,
+            "mean": 3.8052,
+            "stdev": 0.7267,
+            "raw_percentile": 87.63,
+            "raw_value": 4.628614,
+            "valuation_direction": "lower_is_cheaper",
+            "metric_column": "ps",
+            "history_window": "5y primary; 10y extension if stable"
+          },
+          "hk_internet": {
+            "signal": "hold",
+            "points": 1409,
+            "required_points": 60,
+            "percentile": 1.77,
+            "sigma": -0.94,
+            "mean": 3.8634,
+            "stdev": 1.6837,
+            "raw_percentile": 1.77,
+            "raw_value": 2.287587,
+            "valuation_direction": "lower_is_cheaper",
+            "metric_column": "ps",
+            "history_window": "5y primary; 10y extension if stable"
+          },
+          "metals": {
+            "signal": "hold",
+            "points": 2434,
+            "required_points": 60,
+            "percentile": 72.76,
+            "sigma": 0.67,
+            "mean": 2.7322,
+            "stdev": 0.6145,
+            "raw_percentile": 72.76,
+            "raw_value": 3.14369,
+            "valuation_direction": "lower_is_cheaper",
+            "metric_column": "pb",
+            "history_window": "5y primary; 10y extension if stable"
+          },
+          "ndx": {
+            "signal": "buy",
+            "points": 129,
+            "required_points": 60,
+            "percentile": 3.88,
+            "sigma": -1.53,
+            "mean": 28.8418,
+            "stdev": 5.0268,
+            "raw_percentile": 3.88,
+            "raw_value": 21.14,
+            "valuation_direction": "lower_is_cheaper",
+            "metric_column": "pe",
+            "history_window": "5y primary; 10y extension if stable"
+          },
+          "spx": {
+            "signal": "watch",
+            "points": 2495,
+            "required_points": 60,
+            "percentile": 98.96,
+            "sigma": 1.66,
+            "mean": -1.1457,
+            "stdev": 1.383,
+            "raw_percentile": 1.08,
+            "raw_value": -1.145208,
+            "valuation_direction": "higher_is_cheaper",
+            "metric_column": "erp",
+            "history_window": "5y primary; 10y extension if stable"
+          }
+        }
+      },
+      "anomalies": [],
+      "completeness": "complete"
     }
   ]
 }
