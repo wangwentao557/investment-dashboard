@@ -112,6 +112,17 @@ def gold_public(day):
             return {"index_name":"黄金","gold_usd_oz":v,"date":"2026-09-25","source":"Investing.com public historical","source_url":url,"fetch_status":"success_public_fallback","estimated":False}
     except Exception:
         pass
+    # Historical daily close fallback from GoldPrice.org; search backward up to 7 days.
+    for delta in range(0,8):
+        try:
+            d=(datetime.strptime(day,"%Y-%m-%d").date()-timedelta(days=delta)).isoformat()
+            url=f"https://goldprice.org/gold-price-today/{d}"
+            text=SESSION.get(url,timeout=15).text
+            m=re.search(r"Gold Price\\s*\\|\\s*([0-9,]+\\.[0-9]+)",text,re.I)
+            if m:
+                return {"index_name":"黄金","gold_usd_oz":float(m.group(1).replace(",","")),"date":d,"source":"GoldPrice.org public historical","source_url":url,"fetch_status":"success_public_fallback","estimated":False}
+        except Exception:
+            continue
     return {"fetch_status":"failed","failure_reason":"Gold public sources unavailable"}
 
 def public_page(url):
