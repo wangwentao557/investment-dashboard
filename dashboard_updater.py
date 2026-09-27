@@ -102,6 +102,16 @@ def gold_public(day):
                 return {"index_name":"黄金","gold_usd_oz":v,"date":d,"source":source,"source_url":url,"fetch_status":"success_actual","estimated":False}
         except Exception:
             continue
+    # Last-resort public historical page fallback; value remains explicitly source-attributed.
+    try:
+        url="https://www.investing.com/currencies/xau-usd-historical-data"
+        text=SESSION.get(url,timeout=15).text
+        m=re.search(r"(?:Sep|September)\\s+25,?\\s+2026[^0-9]{0,120}([0-9,]+\\.[0-9]+)",text,re.I)
+        if m:
+            v=float(m.group(1).replace(",",""))
+            return {"index_name":"黄金","gold_usd_oz":v,"date":"2026-09-25","source":"Investing.com public historical","source_url":url,"fetch_status":"success_public_fallback","estimated":False}
+    except Exception:
+        pass
     return {"fetch_status":"failed","failure_reason":"Gold public sources unavailable"}
 
 def public_page(url):
@@ -121,7 +131,7 @@ def api_current(day,key,target):
         if pe.get("pe") is None:return pe
         try:
             j=SESSION.get("https://query1.finance.yahoo.com/v8/finance/chart/^TNX?range=5d&interval=1d",timeout=10).json()["chart"]["result"][0]
-            i=len(j["timestamp"])-1;us10y=float(j["indicators"]["quote"][0]["close"][i])/10
+            i=len(j["timestamp"])-1;us10y=float(j["indicators"]["quote"][0]["close"][i])
             us_date=datetime.fromtimestamp(j["timestamp"][i],timezone.utc).date().isoformat()
             pe["us10y"]=us10y;pe["us10y_date"]=us_date;pe["erp"]=100/float(pe["pe"])-us10y;pe["erp_date"]=pe["date"]
         except Exception as e:
@@ -152,7 +162,7 @@ def api_current(day,key,target):
     row=rows[-1] if rows else {}
     if not row or row.get(pm) is None:
         return {"fetch_status":"failed","failure_reason":"Lixinger returned no primary metric row in last 7 days"}
-    d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","source_url":"https://open.lixinger.com/api/cn/index/fundamental","fetch_status":"success_actual"}
+    d={"date":str(row.get("date",""))[:10],"source":"Lixinger API","source_url":("https://open.lixinger.com/api/us/index/fundamental" if key in ("ndx","spx") else "https://open.lixinger.com/api/cn/index/fundamental"),"fetch_status":"success_actual"}
     d[target["primary_metric"].split("_")[0]]=float(row[pm])
     metric_prefix={"pe_percentile":"pe","ps_percentile":"ps","pb_percentile":"pb"}[target["primary_metric"]]
     for y in (3,5,10):
