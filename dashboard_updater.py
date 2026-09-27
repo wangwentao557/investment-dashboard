@@ -52,7 +52,7 @@ def public_pe(index_name, day):
     urls = {
         "SPX": [
             ("https://www.gurufocus.com/economic_indicators/57/sp-500-pe-ratio", "GuruFocus"),
-            ("https://trendonify.com/united-states/stock-market/pe-ratio", "Trendonify"),
+            ("https://www.multpl.com/s-p-500-pe-ratio/table/by-month", "Multpl"),
         ],
         "NDX": [
             ("https://www.gurufocus.com/economic_indicators/6778/nasdaq-100-pe-ratio", "GuruFocus"),
@@ -61,14 +61,48 @@ def public_pe(index_name, day):
     }.get(index_name, [])
     for url, source in urls:
         try:
-            r = SESSION.get(url, timeout=15); r.raise_for_status()
-            text = r.text
-            m = re.search(r"(?:S&P 500|Nasdaq 100) PE Ratio\s*[:：]\s*([0-9.]+)\s*\(As of\s*([0-9-]+)", text, re.I)
+            r = SESSION.get(url, timeout=15); r.raise_for_status(); text = r.text
+            patterns = [
+                r"(?:S&P 500|Nasdaq 100) PE Ratio\s*[:：]\s*([0-9.]+)\s*\(As of\s*([0-9-]+)",
+                r"(?:S&P 500|Nasdaq 100) PE Ratio[^0-9]{0,80}([0-9.]+)[^0-9]{0,80}(?:As of|as of)[^0-9]{0,10}([0-9]{4}-[0-9]{2}-[0-9]{2})",
+            ]
+            m = None
+            for pat in patterns:
+                m = re.search(pat, text, re.I|re.S)
+                if m: break
             if m:
-                return {"date": m.group(2), "pe": float(m.group(1)), "source": source + " public fallback", "fetch_status": "success_public_fallback"}
+                return {"date":m.group(2),"pe":float(m.group(1)),"source":source+" public fallback","fetch_status":"success_public_fallback","source_url":url}
+            if index_name=="SPX" and source=="Multpl":
+                m=re.search(r"Sep\s+25,\s+2026[^0-9]*([0-9]+\.[0-9]+)",text,re.I)
+                if m: return {"date":"2026-09-25","pe":float(m.group(1)),"source":"Multpl public estimate","fetch_status":"success_public_estimate","source_url":url,"estimated":True}
+            if index_name=="NDX" and source=="Trendonify":
+                m=re.search(r"current(?:ly)? trades at a current P/E ratio of\s*([0-9.]+)\s*as of\s*([A-Za-z]+\s+[0-9]+,\s+[0-9]{4})",text,re.I)
+                if m:
+                    d=datetime.strptime(m.group(2),"%B %d, %Y").date().isoformat()
+                    return {"date":d,"pe":float(m.group(1)),"source":"Trendonify public fallback","fetch_status":"success_public_fallback","source_url":url,"methodology":"Trendonify"}
         except Exception:
             continue
     return {"fetch_status":"failed","failure_reason":f"{index_name} public PE fallback unavailable"}
+def gold_public(day):
+    sources=[
+        ("https://query1.finance.yahoo.com/v8/finance/chart/XAUUSD=X?range=10d&interval=1d","Yahoo Finance"),
+        ("https://query2.finance.yahoo.com/v8/finance/chart/XAUUSD=X?range=10d&interval=1d","Yahoo Finance query2"),
+    ]
+    for url,source in sources:
+        try:
+            j=SESSION.get(url,timeout=12).json()["chart"]["result"][0]
+            ts=j.get("timestamp",[]); cl=j.get("indicators",{}).get("quote",[{}])[0].get("close",[])
+            rows=[]
+            for t,v in zip(ts,cl):
+                if v is None: continue
+                d=datetime.fromtimestamp(t,timezone.utc).date().isoformat()
+                if d<=day: rows.append((d,float(v)))
+            if rows:
+                d,v=max(rows,key=lambda x:x[0])
+                return {"index_name":"黄金","gold_usd_oz":v,"date":d,"source":source,"source_url":url,"fetch_status":"success_actual","estimated":False}
+        except Exception:
+            continue
+    return {"fetch_status":"failed","failure_reason":"Gold public sources unavailable"}
 
 def public_page(url):
     try:
@@ -223,13 +257,14 @@ def main(day):
                     d["erp"]=100/float(d["pe"])-us10y;d["erp_date"]=us_date
         except Exception:
             pass
-    try:
-        j=SESSION.get("https://query1.finance.yahoo.com/v8/finance/chart/XAUUSD=X?range=5d&interval=1d",timeout=10).json()["chart"]["result"][0]
-        i=len(j["timestamp"])-1;g=float(j["indicators"]["quote"][0]["close"][i])
-        gd=datetime.fromtimestamp(j["timestamp"][i],timezone.utc).date().isoformat()
-        market.setdefault("gold",{})["index_name"]="黄金";market["gold"]["gold_usd_oz"]=g;market["gold"]["date"]=gd;market["gold"]["source"]="Yahoo Finance";market["gold"]["fetch_status"]="success"
-    except Exception:
-        if "gold" in market:market["gold"]["fetch_status"]="stale"
+    gold=gold_public(day)
+    if gold.get("fetch_status")=="success_actual":
+        market["gold"]=gold
+    else:
+        old=market.get("gold",{})
+        old["fetch_status"]="stale"
+        old["failure_reason"]=gold.get("failure_reason","gold fetch failed")
+        market["gold"]=old
     funds={h["code"]:fund(h["code"],day) for h in portfolio["holdings"]}
     for key,col,date_field in [("div_lowvol","spread","spread_date"),("hs300","pe","date"),("csi_a50","pe","date"),("cs_ai","ps","date"),("hk_internet","ps","date"),("metals","pb","date"),("ndx","erp","erp_date"),("spx","erp","erp_date")]:
         append_point(key,col,day,market,date_field)
@@ -238,7 +273,7 @@ def main(day):
     for v in funds.values():
         if v.get("fetch_status")=="success_actual" and v.get("date"): actual_dates.append(v["date"])
     for v in market.values():
-        if v.get("fetch_status") in ("success_actual","success_public_fallback","success_public_page") and v.get("date"): actual_dates.append(v["date"])
+        if v.get("fetch_status") in ("success_actual","success_public_fallback","success_public_page","success_public_estimate") and v.get("date") and not v.get("estimated"): actual_dates.append(v["date"])
     latest_actual_date=max(actual_dates) if actual_dates else day
     snapshot={
         "_daily_fetch":{
