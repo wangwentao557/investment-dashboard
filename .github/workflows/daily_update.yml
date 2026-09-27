@@ -1,8 +1,5 @@
 name: Daily investment dashboard update
 on:
-  push:
-    paths:
-      - ".github/manual-run"
   schedule:
     - cron: "30 9 * * *" # 17:30 Asia/Shanghai, every day
   workflow_dispatch:
