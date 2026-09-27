@@ -71,7 +71,7 @@ def public_pe(index_name, day):
                 m = re.search(pat, text, re.I|re.S)
                 if m: break
             if m:
-                return {"date":m.group(2),"pe":float(m.group(1)),"source":source+" public fallback","fetch_status":"success_public_fallback","source_url":url}
+                return {"date":m.group(2),"pe":float(m.group(1)),"source":source+" public fallback","fetch_status":"success_public_fallback","source_url":url,"estimated":False}
             if index_name=="SPX" and source=="Multpl":
                 m=re.search(r"Sep\s+25,\s+2026[^0-9]*([0-9]+\.[0-9]+)",text,re.I)
                 if m: return {"date":"2026-09-25","pe":float(m.group(1)),"source":"Multpl public estimate","fetch_status":"success_public_estimate","source_url":url,"estimated":True}
@@ -193,7 +193,7 @@ def fund(code, target_day):
             ts=row.get("x")
             nav=row.get("y")
             if ts is None or nav is None: continue
-            d=datetime.fromtimestamp(float(ts)/1000,timezone.utc).date().isoformat()
+            d=datetime.fromtimestamp(float(ts)/1000,TZ).date().isoformat()
             if d<=target_day:
                 candidates.append((d,float(nav)))
         if not candidates:
@@ -233,7 +233,7 @@ def main(day):
             try:
                 fresh=api_current(day,key,target)
                 market[key]=dict(market.get(key,{}));market[key].update(fresh)
-                if fresh.get("fetch_status")=="success_actual":
+                if fresh.get("fetch_status") in ("success_actual","success_public_fallback","success_public_estimate"):
                     market[key].pop("failure_reason",None);market[key].pop("fetch_error",None)
                 if key=="ndx" and market[key].get("fetch_status")=="failed":
                     fb=ndx_public_pe(day)
