@@ -14,7 +14,7 @@
     {
       "file": "div_lowvol.csv",
       "points": 2435,
-      "sha256": "3e04423c3df2469352ec0af1022ad5db08f74d4f9fa1a581f480d34082efee05"
+      "sha256": "47b46914c9927e423c6c58ab3bd7d406f8105402cd314e38f682a2002b0578d8"
     },
     {
       "file": "hk_internet.csv",
@@ -39,7 +39,7 @@
     {
       "file": "spx.csv",
       "points": 2519,
-      "sha256": "13d4624741ba0fd04213d95f0544b4f25aa0c8dd7b56dd476ce23aed25dd7c1a"
+      "sha256": "31454be5ba5d08ee0a0def2c7bfe4d3a2d65989b13b6e2c439fc49bdd7f3c060"
     }
   ]
 }
