@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import argparse,csv,json,re,subprocess,sys
+import argparse,csv,io,json,re,subprocess,sys
 from pathlib import Path
 from datetime import datetime,timezone,timedelta
 import requests
@@ -84,6 +84,30 @@ def public_pe(index_name, day):
             continue
     return {"fetch_status":"failed","failure_reason":f"{index_name} public PE fallback unavailable"}
 def gold_public(day):
+    # 首选：新浪财经 hf_XAU（国内可达；原 Yahoo 源在当前网络下返回 403）
+    try:
+        r=SESSION.get("https://hq.sinajs.cn/list=hf_XAU",headers={"Referer":"https://finance.sina.com.cn"},timeout=12)
+        m=re.search(r'hq_str_hf_XAU="([^"]*)"',r.text)
+        if m:
+            parts=m.group(1).split(",")
+            if len(parts)>12 and parts[0] not in ("","0"):
+                return {"index_name":"黄金","gold_usd_oz":float(parts[0]),"date":parts[12],
+                        "source":"Sina hf_XAU (伦敦金现)","source_url":"https://hq.sinajs.cn/list=hf_XAU",
+                        "fetch_status":"success_actual","estimated":False}
+    except Exception:
+        pass
+    # 次选：上金所 Au99.99（人民币/克，用于国内金价交叉校验）
+    try:
+        r=SESSION.get("https://hq.sinajs.cn/list=SGE_AU9999",headers={"Referer":"https://finance.sina.com.cn"},timeout=12)
+        m=re.search(r'hq_str_SGE_AU9999="([^"]*)"',r.text)
+        if m:
+            parts=m.group(1).split(",")
+            if len(parts)>16 and parts[3] not in ("","0"):
+                return {"index_name":"黄金","gold_cny_gram":float(parts[3]),"date":parts[16].split(" ")[0],
+                        "source":"Sina SGE_AU9999 (上金所)","source_url":"https://hq.sinajs.cn/list=SGE_AU9999",
+                        "fetch_status":"success_public_fallback","estimated":False}
+    except Exception:
+        pass
     sources=[
         ("https://query1.finance.yahoo.com/v8/finance/chart/XAUUSD=X?range=10d&interval=1d","Yahoo Finance"),
         ("https://query2.finance.yahoo.com/v8/finance/chart/XAUUSD=X?range=10d&interval=1d","Yahoo Finance query2"),
@@ -125,6 +149,94 @@ def gold_public(day):
             continue
     return {"fetch_status":"failed","failure_reason":"Gold public sources unavailable"}
 
+US_TREASURY_URL="https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/{y}/all?type=daily_treasury_yield_curve&field_tdr_date_value={y}&page&_format=csv"
+
+# 纳指 PE 锚点：锚点日必须同时有「官方 PE」与「当日指数收盘」
+NDX_ANCHOR={"date":"2026-09-18","pe":29.13,"price":29644.17,"source":"公开核验快照"}
+
+def us_treasury_10y():
+    """美国财政部官方每日国债收益率曲线（10Y）。替代被墙的 Yahoo ^TNX。"""
+    y=datetime.now(TZ).strftime("%Y")
+    url=US_TREASURY_URL.format(y=y)
+    try:
+        r=SESSION.get(url,timeout=25);r.raise_for_status()
+        rd=list(csv.reader(io.StringIO(r.text)))
+        if not rd: raise RuntimeError("empty csv")
+        header=rd[0]
+        idx=None
+        for i,h in enumerate(header):
+            if h.strip().replace(" ","").lower() in ("10yr","10year","10years"):
+                idx=i;break
+        if idx is None:
+            for i,h in enumerate(header):
+                if h.strip().startswith("10"):idx=i;break
+        rows=[]
+        for row in rd[1:]:
+            if len(row)>idx and row[idx] and row[0]:
+                try:
+                    dt=datetime.strptime(row[0].strip(),"%m/%d/%Y")
+                except Exception:
+                    continue
+                rows.append((dt,float(row[idx])))
+        if not rows: raise RuntimeError("no rows")
+        rows.sort(key=lambda x:x[0])
+        dt,v=rows[-1]
+        return {"us10y":v,"us10y_date":dt.date().isoformat(),"source":"US Treasury daily yield curve","source_url":url,"fetch_status":"success_actual"}
+    except Exception as e:
+        return {"us10y":None,"fetch_status":"failed","failure_reason":str(e)}
+
+def us10y_yahoo():
+    """Yahoo ^TNX（在 GitHub Actions 环境下可用）。"""
+    for host in ("query1","query2"):
+        try:
+            j=SESSION.get(f"https://{host}.finance.yahoo.com/v8/finance/chart/%5ETNX?range=5d&interval=1d",timeout=12).json()["chart"]["result"][0]
+            i=len(j["timestamp"])-1
+            v=j["indicators"]["quote"][0]["close"][i]
+            if v is None: continue
+            d=datetime.fromtimestamp(j["timestamp"][i],timezone.utc).date().isoformat()
+            return {"us10y":float(v),"us10y_date":d,"source":"Yahoo ^TNX","fetch_status":"success_actual"}
+        except Exception:
+            continue
+    return {"us10y":None,"fetch_status":"failed","failure_reason":"yahoo ^TNX unavailable"}
+
+def us10y_best():
+    """美债10Y：Yahoo 优先，美国财政部官方 CSV 兜底。"""
+    for fn in (us10y_yahoo,us_treasury_10y):
+        try:
+            r=fn()
+        except Exception:
+            continue
+        if isinstance(r,dict) and r.get("us10y") is not None:
+            return r
+    return {"us10y":None,"fetch_status":"failed","failure_reason":"all us10y sources failed"}
+
+def ndx_price():
+    """新浪财经 纳斯达克100 实时点位。"""
+    try:
+        r=SESSION.get("https://hq.sinajs.cn/list=gb_ndx",headers={"Referer":"https://finance.sina.com.cn"},timeout=12)
+        m=re.search(r'hq_str_gb_ndx="([^"]*)"',r.text)
+        if m:
+            parts=m.group(1).split(",")
+            if len(parts)>3 and parts[1]:
+                return {"price":float(parts[1]),"pct":float(parts[2]) if parts[2] else None,
+                        "quote_time":parts[3],"source":"Sina gb_ndx"}
+    except Exception:
+        pass
+    return None
+
+def ndx_estimated_pe(day):
+    """纳指PE：以锚点(PE,指数)为基准，按指数涨跌比例推算（EPS 短期近似不变）。
+    月度用官方PE校准即可持续对齐。明确标注 estimated=True。"""
+    q=ndx_price()
+    if not q or not q.get("price"):
+        return {"fetch_status":"failed","failure_reason":"NDX price source unavailable"}
+    pe=round(NDX_ANCHOR["pe"]*q["price"]/NDX_ANCHOR["price"],2)
+    return {"index_name":"纳斯达克100","pe":pe,"date":day,
+            "source":"价格推算(锚点 %s PE=%s @%.2f)"%(NDX_ANCHOR["date"],NDX_ANCHOR["pe"],NDX_ANCHOR["price"]),
+            "fetch_status":"success_public_estimate","estimated":True,
+            "estimate_method":"anchor_PE × (price_now / price_anchor)",
+            "anchor":dict(NDX_ANCHOR),"ndx_price":q["price"],"ndx_price_time":q.get("quote_time")}
+
 def public_page(url):
     try:
         r=SESSION.get(url,timeout=15);r.raise_for_status();text=r.text
@@ -141,10 +253,10 @@ def api_current(day,key,target):
         pe=public_pe("SPX",day)
         if pe.get("pe") is None:return pe
         try:
-            j=SESSION.get("https://query1.finance.yahoo.com/v8/finance/chart/^TNX?range=5d&interval=1d",timeout=10).json()["chart"]["result"][0]
-            i=len(j["timestamp"])-1;us10y=float(j["indicators"]["quote"][0]["close"][i])
-            us_date=datetime.fromtimestamp(j["timestamp"][i],timezone.utc).date().isoformat()
-            pe["us10y"]=us10y;pe["us10y_date"]=us_date;pe["erp"]=100/float(pe["pe"])-us10y;pe["erp_date"]=pe["date"]
+            t=us10y_best()
+            if t.get("us10y") is None: raise RuntimeError("us10y sources unavailable")
+            pe["us10y"]=t["us10y"];pe["us10y_date"]=t["us10y_date"]
+            pe["erp"]=100/float(pe["pe"])-t["us10y"];pe["erp_date"]=pe["date"]
         except Exception as e:
             pe["fetch_status"]="stale_failed";pe["fetch_error"]=str(e)
         return pe
@@ -210,7 +322,10 @@ def fund(code, target_day):
         if not candidates:
             raise RuntimeError(f"no settled NAV on/before {target_day}")
         d,nav=max(candidates,key=lambda x:x[0])
-        return {"nav":nav,"date":d,"source":"Eastmoney Data_netWorthTrend","source_url":url,"fetch_status":"success_actual","estimated":False}
+        prev=max([c for c in candidates if c[0]<d],key=lambda x:x[0]) if len(candidates)>1 else (d,nav)
+        return {"nav":nav,"date":d,"prev_nav":prev[1],"prev_date":prev[0],
+                "nav_map":{dd:vv for dd,vv in candidates[-90:]},
+                "source":"Eastmoney Data_netWorthTrend","source_url":url,"fetch_status":"success_actual","estimated":False}
     except Exception as e:
         return {"fetch_status":"failed","failure_reason":str(e),"estimated":False}
 
@@ -246,12 +361,14 @@ def main(day):
                 market[key]=dict(market.get(key,{}));market[key].update(fresh)
                 if fresh.get("fetch_status") in ("success_actual","success_public_fallback","success_public_estimate"):
                     market[key].pop("failure_reason",None);market[key].pop("fetch_error",None)
-                if key=="ndx" and market[key].get("fetch_status")=="failed":
+                if key=="ndx" and market[key].get("fetch_status") in ("failed","stale_failed"):
                     fb=ndx_public_pe(day)
-                    if fb.get("pe") is not None: market[key].update(fb)
+                    if fb.get("pe") is None: fb=ndx_estimated_pe(day)
+                    market[key]=dict(market.get(key,{}));market[key].update(fb)
             except Exception as e:
                 if key=="ndx":
                     fb=ndx_public_pe(day)
+                    if fb.get("pe") is None: fb=ndx_estimated_pe(day)
                     if fb.get("pe") is not None:
                         market[key]=dict(market.get(key,{}));market[key].update(fb)
                     else:
@@ -287,6 +404,20 @@ def main(day):
         old["failure_reason"]=gold.get("failure_reason","gold fetch failed")
         market["gold"]=old
     funds={h["code"]:fund(h["code"],day) for h in portfolio["holdings"]}
+    # 待入账买入：净值确认后自动折算份额（T日买入按T日净值），入账后从 pending 移除
+    for h in portfolio["holdings"]:
+        f=funds.get(h["code"],{}) or {};nm=f.get("nav_map",{}) or {}
+        keep=[]
+        for pb in list(h.get("pending_buys",[]) or []):
+            nav=nm.get(pb.get("date"))
+            if nav:
+                add=round(float(pb["amount"])/float(nav),6)
+                h["shares"]=round(float(h.get("shares",0))+add,6)
+                h.setdefault("shares_history",[]).append({"date":pb["date"],"action":"buy","amount":pb["amount"],"nav":nav,"shares_added":add})
+            else:
+                keep.append(pb)
+        if keep: h["pending_buys"]=keep
+        elif "pending_buys" in h: h.pop("pending_buys")
     for key,col,date_field in [("div_lowvol","spread","spread_date"),("hs300","pe","date"),("csi_a50","pe","date"),("cs_ai","ps","date"),("hk_internet","ps","date"),("metals","pb","date"),("ndx","erp","erp_date"),("spx","erp","erp_date")]:
         append_point(key,col,day,market,date_field)
 
@@ -318,17 +449,42 @@ def main(day):
     hist_raw=load(DATA/"dashboard_history.json",[]) or []
     hist=hist_raw.get("records",[]) if isinstance(hist_raw,dict) else hist_raw
     hist=[x for x in hist if isinstance(x,dict) and x.get("data_basis_date")!=day]
-    total=sum(float(h.get("holding_value",0)) for h in portfolio.get("holdings",[]))
-    holdings=[]
-    fund_to_target={}
+    holdings=[];fund_to_target={}
     for t in watch["targets"]:
         for fh in t.get("funds",[]):fund_to_target[fh["code"]]=t["key"]
+    live_value={};today_pnl=0.0;nav_basis=set()
+    for h in portfolio.get("holdings",[]):
+        f=funds.get(h["code"],{}) or {}
+        sh=h.get("shares")
+        if sh and f.get("nav"):
+            live_value[h["code"]]=round(float(sh)*float(f["nav"]),2)
+            nav_basis.add(str(f.get("date")))
+            if f.get("prev_nav"):
+                today_pnl+=float(sh)*(float(f["nav"])-float(f["prev_nav"]))
+        else:
+            live_value[h["code"]]=float(h.get("holding_value",0))
+    total=round(sum(live_value.values()),2)
     by={}
     for h in portfolio["holdings"]:
-        x=dict(h);x["market"]=funds.get(h["code"],{});x["weight_pct"]=round(float(h["holding_value"])/total*100,2)
+        x=dict(h);x["market"]=funds.get(h["code"],{})
+        x["holding_value"]=live_value.get(h["code"],float(h.get("holding_value",0)))
+        if x.get("shares") and (funds.get(h["code"],{}) or {}).get("nav"):
+            x["holding_value_basis"]="shares×nav@"+str(funds[h["code"]].get("date"))
+        x["weight_pct"]=round(float(x["holding_value"])/total*100,2) if total else 0
         x["valuation_target"]=fund_to_target.get(h["code"])
         holdings.append(x)
         if x["valuation_target"]:by[x["valuation_target"]]=by.get(x["valuation_target"],0)+x["weight_pct"]
+    _cb=portfolio.get("account_summary",{}).get("cost_basis")
+    cost_basis=float(_cb) if _cb not in (None,"") else total
+    portfolio["account_summary"]={
+        "total_assets":total,
+        "today_pnl":round(today_pnl,2),
+        "total_pnl":round(total-cost_basis,2),
+        "cost_basis":round(cost_basis,2),
+        "nav_basis_dates":sorted(nav_basis),
+        "pending_buys":sum(len(h.get("pending_buys",[]) or []) for h in portfolio.get("holdings",[])),
+        "note":"total_assets/today_pnl 由脚本按 shares×nav 自动计算；cost_basis 手工维护（总投入本金）",
+    }
 
     ref=watch["allocation_framework"]["reference_pct"];rng=watch["allocation_framework"]["range_pct"]
     alloc=[]
@@ -342,6 +498,16 @@ def main(day):
         st=h["market"].get("fetch_status")
         if st in ("failed","estimated","stale_failed"):
             anomalies.append({"target":h["code"],"type":"基金数据","message":st+"；当前值不作为当日正式净值"})
+    for key,v in market.items():
+        if not isinstance(v,dict):continue
+        st=v.get("fetch_status");dt=v.get("date") or v.get("erp_date") or v.get("spread_date")
+        if st in ("stale","stale_failed") or (st=="failed"):
+            anomalies.append({"target":key,"type":"数据陈旧","message":f"最新数据日期 {dt or '—'}（状态 {st}），未更新到 {day}"})
+        elif v.get("estimated") and dt and dt<day:
+            anomalies.append({"target":key,"type":"估算值","message":f"{dt} 为估算数据（{v.get('source')}），非官方口径"})
+    for h in holdings:
+        if not h.get("valuation_target"):
+            anomalies.append({"target":h["code"],"type":"无估值目标","message":h["name"]+" 未纳入估值雷达（valuation_target 为空）"})
     for key in ["div_lowvol","hs300","csi_a50","cs_ai","hk_internet","metals","ndx","spx"]:
         p=DATA/"history"/f"{key}.csv"
         points=max(0,len(p.read_text(encoding="utf-8").splitlines())-1) if p.exists() else 0
@@ -356,6 +522,8 @@ def main(day):
         "completeness":"complete_with_explicit_anomalies" if anomalies else "complete"
     }
     hist.append(rec);dump(DATA/"dashboard_history.json",{"records":hist})
+    if not is_historical:
+        dump(ROOT/"portfolio.json",portfolio)
 
     reports=DATA/"reports";reports.mkdir(exist_ok=True)
     lines=["# 每日盯盘更新 · "+day,"","运行时间："+rec["run_at"],"数据完整性："+rec["completeness"],f"持仓数据：{rec['fund_success_count']}/{rec['fund_total']}","",
