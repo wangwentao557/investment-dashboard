@@ -1,7 +1,9 @@
 {
   "account_summary": {
     "total_assets": 4172.36,
-    "today_pnl": -55.31,
+    "today_pnl": -3.91,
+    "today_pnl_basis": "与上一条记录(2026-09-28)市值差 -3.91 − 当日净买入 0.00",
+    "net_inflow_today": 0.0,
     "total_pnl": -4.93,
     "cost_basis": 4177.29,
     "nav_basis_dates": [
