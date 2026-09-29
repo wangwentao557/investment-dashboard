@@ -2,7 +2,9 @@
   "account_summary": {
     "total_assets": 4176.27,
     "total_pnl": -1.02,
-    "today_pnl": 40.6
+    "today_pnl": 40.6,
+    "cost_basis": 4177.29,
+    "note": "total_assets / today_pnl / total_pnl 由 dash.py 每日按 shares×nav 自动重算；cost_basis=总投入本金（手工维护）"
   },
   "holdings": [
     {
@@ -10,91 +12,131 @@
       "name": "摩根标普500指数(QDII)C",
       "code": "019305",
       "holding_value": 635.36,
-      "valuation_target": "spx"
+      "valuation_target": "spx",
+      "shares": 376.041667,
+      "shares_source": "推算：holding_value ÷ 单位净值(1.6896@2026-09-24)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "ndx",
       "name": "建信纳斯达克100指数(QDII)C人民币",
       "code": "012752",
       "holding_value": 624.64,
-      "valuation_target": "ndx"
+      "valuation_target": "ndx",
+      "shares": 182.296804,
+      "shares_source": "推算：holding_value ÷ 单位净值(3.4265@2026-09-24)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "div_lowvol",
       "name": "华泰柏瑞中证红利低波ETF联接C",
       "code": "007467",
       "holding_value": 609.43,
-      "valuation_target": "div_lowvol"
+      "valuation_target": "div_lowvol",
+      "shares": 384.886952,
+      "shares_source": "推算：holding_value ÷ 单位净值(1.5834@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "metals",
       "name": "南方有色金属ETF联接C",
       "code": "004433",
       "holding_value": 596.19,
-      "valuation_target": "metals"
+      "valuation_target": "metals",
+      "shares": 391.817823,
+      "shares_source": "推算：holding_value ÷ 单位净值(1.5216@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段",
+      "pending_buys": [
+        {
+          "date": "2026-09-29",
+          "amount": 10,
+          "note": "有色金属自动定投"
+        }
+      ]
     },
     {
       "key": "penghua_hongli",
       "name": "鹏华弘利混合C",
       "code": "001123",
       "holding_value": 514.47,
-      "valuation_target": null
+      "valuation_target": null,
+      "shares": 279.512116,
+      "shares_source": "推算：holding_value ÷ 单位净值(1.8406@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "cdb_7_10",
       "name": "广发中债7-10年国开债指数E",
       "code": "011062",
       "holding_value": 301.19,
-      "valuation_target": null
+      "valuation_target": null,
+      "shares": 218.554532,
+      "shares_source": "推算：holding_value ÷ 单位净值(1.3781@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "hk_internet",
       "name": "富国中证港股通互联网ETF联接C",
       "code": "014674",
       "holding_value": 203.1,
-      "valuation_target": "hk_internet"
+      "valuation_target": "hk_internet",
+      "shares": 334.155972,
+      "shares_source": "推算：holding_value ÷ 单位净值(0.6078@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "cs_ai",
       "name": "中欧中证人工智能主题指数发起C",
       "code": "023462",
       "holding_value": 192.36,
-      "valuation_target": "cs_ai"
+      "valuation_target": "cs_ai",
+      "shares": 108.445146,
+      "shares_source": "推算：holding_value ÷ 单位净值(1.7738@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "growth",
       "name": "广发成长甄选混合C",
       "code": "026733",
       "holding_value": 145.65,
-      "valuation_target": null
+      "valuation_target": null,
+      "shares": 126.905986,
+      "shares_source": "推算：holding_value ÷ 单位净值(1.1477@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "gold",
       "name": "国泰黄金ETF联接A",
       "code": "000218",
       "holding_value": 144.57,
-      "valuation_target": "gold"
+      "valuation_target": "gold",
+      "shares": 44.474866,
+      "shares_source": "推算：holding_value ÷ 单位净值(3.2506@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段",
+      "pending_buys": [
+        {
+          "date": "2026-09-29",
+          "amount": 15,
+          "note": "黄金手动补仓"
+        }
+      ]
     },
     {
       "key": "gold_equity",
       "name": "华夏中证沪深黄金产业股票ETF发起式联接C",
       "code": "021075",
       "holding_value": 108.13,
-      "valuation_target": null
+      "valuation_target": null,
+      "shares": 80.645883,
+      "shares_source": "推算：holding_value ÷ 单位净值(1.3408@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "hs300",
       "name": "汇添富沪深300基本面增强指数C",
       "code": "010855",
       "holding_value": 50.88,
-      "valuation_target": "hs300"
+      "valuation_target": "hs300",
+      "shares": 67.867147,
+      "shares_source": "推算：holding_value ÷ 单位净值(0.7497@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     },
     {
       "key": "csi_a50",
       "name": "易方达中证A50ETF联接发起式C",
       "code": "021207",
       "holding_value": 50.3,
-      "valuation_target": "csi_a50"
+      "valuation_target": "csi_a50",
+      "shares": 41.382147,
+      "shares_source": "推算：holding_value ÷ 单位净值(1.2155@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段"
     }
   ],
   "transactions": [
@@ -120,5 +162,6 @@
       "nav_verified": false,
       "source_note": "按用户补仓记录入账10元；截至本次更新未找到可独立核验的2026-09-21正式单位净值，因此不编造净值或份额"
     }
-  ]
+  ],
+  "_schema_note": "shares 为份额（自动维护）；pending_buys 为待入账买单（净值确认后自动折算并移出）"
 }
