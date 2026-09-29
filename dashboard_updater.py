@@ -73,8 +73,13 @@ def public_pe(index_name, day):
             if m:
                 return {"date":m.group(2),"pe":float(m.group(1)),"source":source+" public fallback","fetch_status":"success_public_fallback","source_url":url,"estimated":False}
             if index_name=="SPX" and source=="Multpl":
-                m=re.search(r"Sep\s+25,\s+2026[^0-9]*([0-9]+\.[0-9]+)",text,re.I)
-                if m: return {"date":"2026-09-25","pe":float(m.group(1)),"source":"Multpl public estimate","fetch_status":"success_public_estimate","source_url":url,"estimated":True}
+                # 原先此处硬编码了某一天日期，仅在当天有效；改为动态取最新一期
+                _MON={m2:i+1 for i,m2 in enumerate(["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"])}
+                _mm=re.findall(r"([A-Z][a-z]{2})\s+(\d{1,2}),\s+(\d{4})[^0-9]{0,120}?([0-9]+\.[0-9]+)",text)
+                if _mm:
+                    _best=max(_mm,key=lambda x:(int(x[2]),_MON.get(x[0],0),int(x[1])))
+                    _d=datetime(int(_best[2]),_MON.get(_best[0],1),int(_best[1])).date().isoformat()
+                    return {"date":_d,"pe":float(_best[3]),"source":"Multpl public estimate","fetch_status":"success_public_estimate","source_url":url,"estimated":True}
             if index_name=="NDX" and source=="Trendonify":
                 m=re.search(r"current(?:ly)? trades at a current P/E ratio of\s*([0-9.]+)\s*as of\s*([A-Za-z]+\s+[0-9]+,\s+[0-9]{4})",text,re.I)
                 if m:
@@ -185,6 +190,34 @@ def us_treasury_10y():
     except Exception as e:
         return {"us10y":None,"fetch_status":"failed","failure_reason":str(e)}
 
+# 标普 PE 锚点（锚点日同时有官方 PE 与当日指数收盘）
+SPX_ANCHOR={"date":"2026-09-25","pe":26.4,"price":7743.41,"source":"Multpl public estimate / 新华社收盘"}
+
+def spx_price():
+    """新浪财经 标普500 实时点位。"""
+    try:
+        r=SESSION.get("https://hq.sinajs.cn/list=gb_inx",headers={"Referer":"https://finance.sina.com.cn"},timeout=12)
+        m=re.search(r'hq_str_gb_inx="([^"]*)"',r.text)
+        if m:
+            parts=m.group(1).split(",")
+            if len(parts)>3 and parts[1]:
+                return {"price":float(parts[1]),"pct":float(parts[2]) if parts[2] else None,"quote_time":parts[3],"source":"Sina gb_inx"}
+    except Exception:
+        pass
+    return None
+
+def spx_estimated_pe(day):
+    """标普PE：锚点 × 指数涨跌比例（EPS 短期近似不变）。"""
+    q=spx_price()
+    if not q or not q.get("price"):
+        return {"fetch_status":"failed","failure_reason":"SPX price source unavailable"}
+    pe=round(SPX_ANCHOR["pe"]*q["price"]/SPX_ANCHOR["price"],2)
+    return {"index_name":"标普500","pe":pe,"date":day,
+            "source":"价格推算(锚点 %s PE=%s @%.2f)"%(SPX_ANCHOR["date"],SPX_ANCHOR["pe"],SPX_ANCHOR["price"]),
+            "fetch_status":"success_public_estimate","estimated":True,
+            "estimate_method":"anchor_PE × (price_now / price_anchor)",
+            "anchor":dict(SPX_ANCHOR),"spx_price":q["price"],"spx_price_time":q.get("quote_time")}
+
 def us10y_yahoo():
     """Yahoo ^TNX（在 GitHub Actions 环境下可用）。"""
     for host in ("query1","query2"):
@@ -251,6 +284,7 @@ def api_current(day,key,target):
     start=(datetime.strptime(day,"%Y-%m-%d").date()-timedelta(days=7)).isoformat()
     if key=="spx":
         pe=public_pe("SPX",day)
+        if pe.get("pe") is None: pe=spx_estimated_pe(day)
         if pe.get("pe") is None:return pe
         try:
             t=us10y_best()
