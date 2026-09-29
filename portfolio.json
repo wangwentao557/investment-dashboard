@@ -1,10 +1,16 @@
 {
   "account_summary": {
-    "total_assets": 4176.27,
-    "total_pnl": -1.02,
-    "today_pnl": 40.6,
+    "total_assets": 4172.36,
+    "today_pnl": -55.31,
+    "total_pnl": -4.93,
     "cost_basis": 4177.29,
-    "note": "total_assets / today_pnl / total_pnl 由 dash.py 每日按 shares×nav 自动重算；cost_basis=总投入本金（手工维护）"
+    "nav_basis_dates": [
+      "2026-09-24",
+      "2026-09-28",
+      "2026-09-29"
+    ],
+    "pending_buys": 2,
+    "note": "total_assets/today_pnl 由脚本按 shares×nav 自动计算；cost_basis 手工维护（总投入本金）"
   },
   "holdings": [
     {
