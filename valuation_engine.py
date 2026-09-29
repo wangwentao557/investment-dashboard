@@ -28,19 +28,25 @@ def calc(v,a,p_th,s_th,direction="lower_is_cheaper"):
             "mean":round(statistics.mean(a),4),"stdev":round(sd,4)}
 
 def read_values(path,col):
-    vals=[]
+    """按日期排序后返回数值序列。
+    注意：绝不能把文件行序当作时间序——ndx.csv 曾因倒序存储，
+    导致引擎把 2016 年的 PE 当成"当前值"，从而输出错误的买入信号。"""
+    rows=[]
     if not path.exists():
-        return vals
+        return []
     with path.open(encoding="utf-8-sig",newline="") as f:
         for r in csv.DictReader(f):
             raw=r.get(col)
             try:
                 v=float(raw)
-                if v==v and abs(v)<1e8:
-                    vals.append(v)
             except (TypeError,ValueError):
                 continue
-    return vals
+            if v!=v or abs(v)>=1e8:
+                continue
+            d=str(r.get("date") or r.get("erp_date") or r.get("spread_date") or "")
+            rows.append((d,v))
+    rows.sort(key=lambda x:x[0])
+    return [v for _,v in rows]
 
 def main():
     ap=argparse.ArgumentParser()
