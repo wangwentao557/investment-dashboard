@@ -439,6 +439,7 @@ def main(day):
         market["gold"]=old
     funds={h["code"]:fund(h["code"],day) for h in portfolio["holdings"]}
     # 待入账买入：净值确认后自动折算份额（T日买入按T日净值），入账后从 pending 移除
+    inflow_today=0.0
     for h in portfolio["holdings"]:
         f=funds.get(h["code"],{}) or {};nm=f.get("nav_map",{}) or {}
         keep=[]
@@ -448,6 +449,7 @@ def main(day):
                 add=round(float(pb["amount"])/float(nav),6)
                 h["shares"]=round(float(h.get("shares",0))+add,6)
                 h.setdefault("shares_history",[]).append({"date":pb["date"],"action":"buy","amount":pb["amount"],"nav":nav,"shares_added":add})
+                inflow_today+=float(pb["amount"])
             else:
                 keep.append(pb)
         if keep: h["pending_buys"]=keep
@@ -498,6 +500,19 @@ def main(day):
         else:
             live_value[h["code"]]=float(h.get("holding_value",0))
     total=round(sum(live_value.values()),2)
+    # 今日盈亏口径：优先用「与上一份记录的市值差 − 当日净买入」。
+    # 这样可避免 QDII 净值滞后（净值日仍为前几日）被每日重复计入。
+    _prev_total=None
+    if hist:
+        try:
+            _prev_total=round(sum(float(x.get("holding_value",0)) for x in hist[-1].get("holdings",[])),2)
+        except Exception:
+            _prev_total=None
+    if _prev_total:
+        today_pnl=round(total-_prev_total-inflow_today,2)
+        _pnl_basis="与上一条记录(%s)市值差 %.2f − 当日净买入 %.2f"%(hist[-1].get("data_basis_date"),round(total-_prev_total,2),inflow_today)
+    else:
+        _pnl_basis="Σ shares×(nav−prev_nav)，无历史基准可比"
     by={}
     for h in portfolio["holdings"]:
         x=dict(h);x["market"]=funds.get(h["code"],{})
@@ -513,6 +528,8 @@ def main(day):
     portfolio["account_summary"]={
         "total_assets":total,
         "today_pnl":round(today_pnl,2),
+        "today_pnl_basis":_pnl_basis,
+        "net_inflow_today":round(inflow_today,2),
         "total_pnl":round(total-cost_basis,2),
         "cost_basis":round(cost_basis,2),
         "nav_basis_dates":sorted(nav_basis),
