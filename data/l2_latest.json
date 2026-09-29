@@ -94,15 +94,15 @@
       "history_window": "5y primary; 10y extension if stable"
     },
     "ndx": {
-      "signal": "buy",
-      "points": 129,
+      "signal": "hold",
+      "points": 131,
       "required_points": 60,
-      "percentile": 3.88,
-      "sigma": -1.53,
-      "mean": 28.8418,
-      "stdev": 5.0268,
-      "raw_percentile": 3.88,
-      "raw_value": 21.14,
+      "percentile": 54.2,
+      "sigma": 0.19,
+      "mean": 28.8561,
+      "stdev": 4.9893,
+      "raw_percentile": 54.2,
+      "raw_value": 29.78,
       "valuation_direction": "lower_is_cheaper",
       "metric_column": "pe",
       "history_window": "5y primary; 10y extension if stable"
