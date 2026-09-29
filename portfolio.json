@@ -1,17 +1,16 @@
 {
   "account_summary": {
-    "total_assets": 4172.36,
-    "today_pnl": -3.91,
-    "today_pnl_basis": "与上一条记录(2026-09-28)市值差 -3.91 − 当日净买入 0.00",
-    "net_inflow_today": 0.0,
-    "total_pnl": -4.93,
+    "total_assets": 4204.98,
+    "today_pnl": 7.62,
+    "today_pnl_basis": "与上一条记录(2026-09-29)市值差 32.62 − 当日净买入 25.00",
+    "net_inflow_today": 25.0,
+    "total_pnl": 27.69,
     "cost_basis": 4177.29,
     "nav_basis_dates": [
-      "2026-09-24",
       "2026-09-28",
       "2026-09-29"
     ],
-    "pending_buys": 2,
+    "pending_buys": 0,
     "note": "total_assets/today_pnl 由脚本按 shares×nav 自动计算；cost_basis 手工维护（总投入本金）"
   },
   "holdings": [
@@ -48,13 +47,15 @@
       "code": "004433",
       "holding_value": 596.19,
       "valuation_target": "metals",
-      "shares": 391.817823,
+      "shares": 398.299965,
       "shares_source": "推算：holding_value ÷ 单位净值(1.5216@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段",
-      "pending_buys": [
+      "shares_history": [
         {
           "date": "2026-09-29",
+          "action": "buy",
           "amount": 10,
-          "note": "有色金属自动定投"
+          "nav": 1.5427,
+          "shares_added": 6.482142
         }
       ]
     },
@@ -109,13 +110,15 @@
       "code": "000218",
       "holding_value": 144.57,
       "valuation_target": "gold",
-      "shares": 44.474866,
+      "shares": 49.109645,
       "shares_source": "推算：holding_value ÷ 单位净值(3.2506@2026-09-28)；如与基金App真实份额不符，请直接改 shares 并删除本字段",
-      "pending_buys": [
+      "shares_history": [
         {
           "date": "2026-09-29",
+          "action": "buy",
           "amount": 15,
-          "note": "黄金手动补仓"
+          "nav": 3.2364,
+          "shares_added": 4.634779
         }
       ]
     },
