@@ -454,7 +454,7 @@ def main(day):
                 keep.append(pb)
         if keep: h["pending_buys"]=keep
         elif "pending_buys" in h: h.pop("pending_buys")
-    for key,col,date_field in [("div_lowvol","spread","spread_date"),("hs300","pe","date"),("csi_a50","pe","date"),("cs_ai","ps","date"),("hk_internet","ps","date"),("metals","pb","date"),("ndx","erp","erp_date"),("spx","erp","erp_date")]:
+    for key,col,date_field in [("div_lowvol","spread","spread_date"),("hs300","pe","date"),("csi_a50","pe","date"),("cs_ai","ps","date"),("hk_internet","ps","date"),("metals","pb","date"),("ndx","pe","date"),("spx","erp","erp_date")]:
         append_point(key,col,day,market,date_field)
 
     actual_dates=[]
