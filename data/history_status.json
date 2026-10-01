@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-09-30T23:59:35+08:00",
+  "run_at": "2026-10-02T00:33:39+08:00",
   "requested_window_years": 5,
   "extended_window_years": 10,
   "token_configured": true,
@@ -8,37 +8,37 @@
       "status": "ok",
       "points": 2438,
       "window_years": 10,
-      "existing_points_before": 2437
+      "existing_points_before": 2438
     },
     "hs300": {
       "status": "ok",
       "points": 2438,
       "window_years": 10,
-      "existing_points_before": 2437
+      "existing_points_before": 2438
     },
     "csi_a50": {
       "status": "ok",
       "points": 666,
       "window_years": 10,
-      "existing_points_before": 665
+      "existing_points_before": 666
     },
     "cs_ai": {
       "status": "ok",
       "points": 2438,
       "window_years": 10,
-      "existing_points_before": 2437
+      "existing_points_before": 2438
     },
     "hk_internet": {
       "status": "ok",
       "points": 1439,
       "window_years": 10,
-      "existing_points_before": 1438
+      "existing_points_before": 1439
     },
     "metals": {
       "status": "ok",
       "points": 2438,
       "window_years": 10,
-      "existing_points_before": 2437
+      "existing_points_before": 2438
     },
     "ndx": {
       "status": "restricted",
@@ -48,9 +48,9 @@
     },
     "spx": {
       "status": "ok",
-      "points": 2521,
+      "points": 2522,
       "window_years": 10,
-      "existing_points_before": 2520
+      "existing_points_before": 2521
     }
   },
   "status": "complete_with_anomalies",
