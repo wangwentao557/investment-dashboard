@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-10-02T00:33:39+08:00",
+  "run_at": "2026-10-02T23:54:18+08:00",
   "requested_window_years": 5,
   "extended_window_years": 10,
   "token_configured": true,
@@ -30,7 +30,7 @@
     },
     "hk_internet": {
       "status": "ok",
-      "points": 1439,
+      "points": 1440,
       "window_years": 10,
       "existing_points_before": 1439
     },
@@ -48,9 +48,9 @@
     },
     "spx": {
       "status": "ok",
-      "points": 2522,
+      "points": 2523,
       "window_years": 10,
-      "existing_points_before": 2521
+      "existing_points_before": 2522
     }
   },
   "status": "complete_with_anomalies",
