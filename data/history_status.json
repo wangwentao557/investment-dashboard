@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-10-03T22:22:23+08:00",
+  "run_at": "2026-10-04T22:53:14+08:00",
   "requested_window_years": 5,
   "extended_window_years": 10,
   "token_configured": true,
@@ -50,7 +50,7 @@
       "status": "ok",
       "points": 2524,
       "window_years": 10,
-      "existing_points_before": 2523
+      "existing_points_before": 2524
     }
   },
   "status": "complete_with_anomalies",
