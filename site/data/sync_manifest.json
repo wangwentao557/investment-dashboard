@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-10-06T16:04:02+00:00",
+  "synced_at": "2026-10-07T16:42:58+00:00",
   "files": [
     {
       "file": "cs_ai.csv",
@@ -18,8 +18,8 @@
     },
     {
       "file": "hk_internet.csv",
-      "points": 1442,
-      "sha256": "be9a311d1867f4da5a3f4c91900194ec6c4da9fe555952c607ff31665ef09eb6"
+      "points": 1443,
+      "sha256": "c4901ac7b80cfe8a12dd245a4034bdb375148f90402e32e013ff880f10b1c02a"
     },
     {
       "file": "hs300.csv",
@@ -33,13 +33,13 @@
     },
     {
       "file": "ndx.csv",
-      "points": 136,
-      "sha256": "2ce0756cd500e87a88c66e5d0a792051d6728ae8674a116cae9569dfc1e0ebe9"
+      "points": 137,
+      "sha256": "40fe114c04f629286ebcac26abe1681779fb54a18b4d84f898c8d58aa1147e73"
     },
     {
       "file": "spx.csv",
-      "points": 2525,
-      "sha256": "023d55fe0fdf2b80399567504fa32df925a5aca49be45f0266943d5f49656a68"
+      "points": 2526,
+      "sha256": "18ee6edb95b58f70bd5ef260d8d2c1fb8485538242cf385a376e8c9d278d4bf8"
     }
   ],
   "schema_version": 2

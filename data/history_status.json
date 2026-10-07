@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-10-07T00:03:22+08:00",
+  "run_at": "2026-10-08T00:42:18+08:00",
   "requested_window_years": 5,
   "extended_window_years": 10,
   "token_configured": true,
@@ -30,9 +30,9 @@
     },
     "hk_internet": {
       "status": "ok",
-      "points": 1442,
+      "points": 1443,
       "window_years": 10,
-      "existing_points_before": 1441
+      "existing_points_before": 1442
     },
     "metals": {
       "status": "ok",
@@ -48,9 +48,9 @@
     },
     "spx": {
       "status": "ok",
-      "points": 2525,
+      "points": 2526,
       "window_years": 10,
-      "existing_points_before": 2524
+      "existing_points_before": 2525
     }
   },
   "status": "complete_with_anomalies",
