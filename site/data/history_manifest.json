@@ -3,43 +3,43 @@
   "files": [
     {
       "file": "cs_ai.csv",
-      "points": 2439,
-      "sha256": "d7e94167ae874dd40f42b94f8544ac51df623381685cb9b41ee7a7e91f8890ba"
+      "points": 2440,
+      "sha256": "e43f176df56b2b951c9cbe6b584c81d9011e7a561c842e0f4e4a9ec877eae1d3"
     },
     {
       "file": "csi_a50.csv",
-      "points": 667,
-      "sha256": "2c5e1e762ebf67e278d69dc0056426109c351bbaf97a99618981807f541b03bc"
+      "points": 668,
+      "sha256": "06eaa82843c8932efeeff25671099bc6d5a67fe85d6558766ff8da36881aea15"
     },
     {
       "file": "div_lowvol.csv",
-      "points": 2439,
-      "sha256": "9ee9d70c556933ddd894aa8e6f78b74f57c50f0f954794375c6aaa7bd5b54d16"
+      "points": 2440,
+      "sha256": "29a1a5e2bf4cec68139ad685585d6be0c1ccd6492ba9e7c5b2d09cf049c43367"
     },
     {
       "file": "hk_internet.csv",
-      "points": 1444,
-      "sha256": "f2a6b00e5055a84bf922169e8eb2dd768a0365cf5ce33ad94b7d9658bd2dd9aa"
+      "points": 1445,
+      "sha256": "eb883fec39db0b8c8b0f72867f64f9e08cccbba6253e2a55a0fe6e6b1809dbe6"
     },
     {
       "file": "hs300.csv",
-      "points": 2439,
-      "sha256": "a4ab2fee5295ea9fc1eaf656c491e4af1d442f0d1f60dfe757ba932741bc420b"
+      "points": 2440,
+      "sha256": "c10f5a02136b43720a27138028dcdf5a2ed4194aaf6dff95fef115d360f411ae"
     },
     {
       "file": "metals.csv",
-      "points": 2439,
-      "sha256": "524726cc78e50752c17b859707e802e6c895e8dcfcf4a4aae3ebdcab4290f158"
+      "points": 2440,
+      "sha256": "4117e1a8a9fa2f296e7d34c17cdb1f5235fa26e4f5159c2362f859d0bc87376c"
     },
     {
       "file": "ndx.csv",
-      "points": 138,
-      "sha256": "92c070fac3eaef3d9892fbba683c914a3c719702f206fbf76bd5c2a6ff697aad"
+      "points": 139,
+      "sha256": "e7456da481018224ad0ac51d45a789b26e41d23874cb0c3e4a91868a3baa21a9"
     },
     {
       "file": "spx.csv",
-      "points": 2527,
-      "sha256": "9b1086edab1f8fb5989f8a4addb7d4f4f89cf37c82690a3af9eb359b64be3234"
+      "points": 2528,
+      "sha256": "95a039f5a8b819eeb152281b97476b53b2107e5c8df6f128a2f75abca05bd901"
     }
   ]
 }
