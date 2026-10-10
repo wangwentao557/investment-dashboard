@@ -34,12 +34,12 @@
     {
       "file": "ndx.csv",
       "points": 139,
-      "sha256": "e7456da481018224ad0ac51d45a789b26e41d23874cb0c3e4a91868a3baa21a9"
+      "sha256": "0eb32e6fe3a5e4d7145ccd74ee97176df10ee3d4ee2aea4c46233b44e4819ba6"
     },
     {
       "file": "spx.csv",
-      "points": 2528,
-      "sha256": "95a039f5a8b819eeb152281b97476b53b2107e5c8df6f128a2f75abca05bd901"
+      "points": 2529,
+      "sha256": "58e10dd3bd23a55e2f48c4cd611321626e1c526509269a8d4ac6a9ade095efae"
     }
   ]
 }

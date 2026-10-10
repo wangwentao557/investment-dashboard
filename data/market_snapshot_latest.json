@@ -1,6 +1,6 @@
 {
   "_daily_fetch": {
-    "attempted_at": "2026-10-10T00:23:33+08:00",
+    "attempted_at": "2026-10-10T23:29:42+08:00",
     "requested_date": "2026-10-10",
     "data_basis_date": "2026-10-10",
     "fund_codes_requested": [
@@ -36,7 +36,7 @@
     },
     "gold": {
       "index_name": "黄金",
-      "gold_usd_oz": 4189.38,
+      "gold_usd_oz": 4194.39,
       "date": "2026-10-10",
       "source": "Sina hf_XAU (伦敦金现)",
       "source_url": "https://hq.sinajs.cn/list=hf_XAU",
@@ -110,7 +110,7 @@
     },
     "ndx": {
       "index_name": "纳斯达克100",
-      "pe": 30.32,
+      "pe": 30.35,
       "us10y": 4.947,
       "erp": -1.514,
       "date": "2026-10-10",
@@ -125,21 +125,21 @@
         "price": 29644.17,
         "source": "公开核验快照"
       },
-      "ndx_price": 30855.5235,
-      "ndx_price_time": "2026-10-10 00:23:07"
+      "ndx_price": 30883.1478,
+      "ndx_price_time": "2026-10-10 05:30:00"
     },
     "spx": {
       "index_name": "标普500",
-      "pe": 26.5,
-      "us10y": 5.256999969482422,
-      "erp": -1.4834150638220445,
-      "date": "2026-10-08",
+      "pe": 26.66,
+      "us10y": 5.24399995803833,
+      "erp": -1.4930622236047215,
+      "date": "2026-10-09",
       "source": "Multpl public estimate",
       "fetch_status": "success_public_estimate",
       "source_url": "https://www.multpl.com/s-p-500-pe-ratio/table/by-month",
       "estimated": true,
       "us10y_date": "2026-10-09",
-      "erp_date": "2026-10-08"
+      "erp_date": "2026-10-09"
     }
   },
   "funds": {
@@ -241,7 +241,7 @@
         "2026-10-08": 1.6998
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/019305.js?v=1791562992",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/019305.js?v=1791646141",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -343,7 +343,7 @@
         "2026-10-08": 3.444
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/012752.js?v=1791562994",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/012752.js?v=1791646145",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -445,7 +445,7 @@
         "2026-10-09": 1.6173
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/007467.js?v=1791562994",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/007467.js?v=1791646146",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -547,7 +547,7 @@
         "2026-10-09": 1.5673
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/004433.js?v=1791562996",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/004433.js?v=1791646151",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -649,7 +649,7 @@
         "2026-10-09": 1.8399
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/001123.js?v=1791563002",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/001123.js?v=1791646153",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -751,7 +751,7 @@
         "2026-10-09": 1.3789
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/011062.js?v=1791563003",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/011062.js?v=1791646165",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -853,7 +853,7 @@
         "2026-10-09": 0.6038
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/014674.js?v=1791563004",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/014674.js?v=1791646168",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -955,7 +955,7 @@
         "2026-10-09": 1.7
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/023462.js?v=1791563008",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/023462.js?v=1791646170",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -1057,7 +1057,7 @@
         "2026-10-09": 1.0743
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/026733.js?v=1791563008",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/026733.js?v=1791646173",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -1159,7 +1159,7 @@
         "2026-10-09": 3.2597
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/000218.js?v=1791563009",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/000218.js?v=1791646173",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -1261,7 +1261,7 @@
         "2026-10-09": 1.4055
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/021075.js?v=1791563010",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/021075.js?v=1791646174",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -1363,7 +1363,7 @@
         "2026-10-09": 0.7392
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/010855.js?v=1791563011",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/010855.js?v=1791646179",
       "fetch_status": "success_actual",
       "estimated": false
     },
@@ -1465,7 +1465,7 @@
         "2026-10-09": 1.2153
       },
       "source": "Eastmoney Data_netWorthTrend",
-      "source_url": "https://fund.eastmoney.com/pingzhongdata/021207.js?v=1791563012",
+      "source_url": "https://fund.eastmoney.com/pingzhongdata/021207.js?v=1791646181",
       "fetch_status": "success_actual",
       "estimated": false
     }
