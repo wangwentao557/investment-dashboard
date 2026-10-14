@@ -3,43 +3,43 @@
   "files": [
     {
       "file": "cs_ai.csv",
-      "points": 2442,
-      "sha256": "a9c4583b8b787226a9727fe15ef5cd76f17e112721a54f89019a3ba3e6947fb4"
+      "points": 2443,
+      "sha256": "d9b776c10f46987d525d57176cd4beb8e291eccc92e04d94752badbf5a980978"
     },
     {
       "file": "csi_a50.csv",
-      "points": 670,
-      "sha256": "ae0cb4b0dab10370a5ce4afd61527891db56ff360adc4990d099474306cc7465"
+      "points": 671,
+      "sha256": "559d4f43d1f0adf2dd0d1cecfafc48b86331f05e01e22aebf696961099b67fcf"
     },
     {
       "file": "div_lowvol.csv",
-      "points": 2442,
-      "sha256": "a49ba0d8bbb6d3dfaada4306896106af56531762331e62f67bf7b09ef22526ce"
+      "points": 2443,
+      "sha256": "ca24bbb960e5fc4717a6dd52217d32251ddee9fafe9d9eed59b58ee003b0a69d"
     },
     {
       "file": "hk_internet.csv",
-      "points": 1447,
-      "sha256": "de771d89a592742d3b2475e59324400044e8dd91cd6dc625e70c22d4b4ebbc9b"
+      "points": 1448,
+      "sha256": "1fb0bc568f48b199a8793545c80e9cfaecac77c6a55a5dfd6743ff2227c2dfd2"
     },
     {
       "file": "hs300.csv",
-      "points": 2442,
-      "sha256": "83204132460d6a237282ce0af6dcd9a825553193a9017cd7e2eb8fa2dc0d3444"
+      "points": 2443,
+      "sha256": "978cdd70bcf43cbf6e0b0b6968aeca6eec6c1ca94b8c035f354b9b316874230b"
     },
     {
       "file": "metals.csv",
-      "points": 2442,
-      "sha256": "c74bf4298a73bc03234c62cd591fcb1066de3da6da7d62e447d9cdeae376efd9"
+      "points": 2443,
+      "sha256": "fe4a04e9a2e6b688b79e71c3040871ec3a020b8196a5075688b0ddfacb9ede1d"
     },
     {
       "file": "ndx.csv",
       "points": 142,
-      "sha256": "f353dbd9bff772f3aab8f08c9a7fd97367d9519c1016197cea446217f9f06862"
+      "sha256": "76d1d454c66009e17eb6ea99ead74d8ac510225d124224b92559650b48b2ed92"
     },
     {
       "file": "spx.csv",
-      "points": 2530,
-      "sha256": "77c843175da8d496001d01b68466c876c15491dcaf652cc62bc5fa6e3fd1afb0"
+      "points": 2531,
+      "sha256": "9807c1aae50573a5fba623af6bd00f0ed7db165ca1bbad8d5a8c010d1bf7317c"
     }
   ]
 }
