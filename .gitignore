@@ -1,0 +1,6 @@
+# Local-only account data. Never commit financial account records.
+account_private/
+account_imports/
+*.private.json
+*.private.csv
+*.private.xlsx
