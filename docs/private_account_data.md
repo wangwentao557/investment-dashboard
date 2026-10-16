@@ -7,6 +7,16 @@
 - Public `site/data/latest.json` is market/valuation-only. Public history may contain market observations and data-quality metadata only.
 - No Tencent Licaitong API adapter is enabled. Add one only after an official API and its authorization scope are confirmed.
 
+## One-time migration from the legacy file
+
+Before merging the privacy-removal change, preserve the currently tracked `portfolio.json` privately:
+1. In a local checkout of the current main branch, copy `portfolio.json` to `account_private/portfolio.json`.
+2. Verify the copy locally; do not upload it, attach it to a public issue, or paste its contents into chat.
+3. Then update to the privacy branch and confirm `account_private/portfolio.json` remains present locally and is ignored by Git.
+4. The legacy `data/dashboard_history.json` and public `site/data/history.json` are reset because they contain historical account-level values. Market valuation history under `data/history/*.csv` is preserved.
+
+If you only use GitHub's web interface and cannot make a local copy, do not merge the deletion yet; first download the legacy file to a private device/location. Removing a file from the latest commit does not erase old Git history. A separate history purge is needed to remove historical copies from the repository's reachable history.
+
 ## First-stage CSV import
 
 Use `account_import.py transactions <file.csv>` or `account_import.py snapshots <file.csv>`.
