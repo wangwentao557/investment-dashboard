@@ -442,7 +442,10 @@ def main(day):
         old["fetch_status"]="stale"
         old["failure_reason"]=gold.get("failure_reason","gold fetch failed")
         market["gold"]=old
-    funds={h["code"]:fund(h["code"],day) for h in portfolio["holdings"]}
+    public_codes=sorted({f["code"] for t in watch.get("targets",[]) for f in t.get("funds",[])})
+    all_codes=sorted(set(public_codes) | {h["code"] for h in portfolio["holdings"]})
+    funds={code:fund(code,day) for code in all_codes}
+    public_funds={code:funds[code] for code in public_codes}
     # 待入账买入：净值确认后自动折算份额（T日买入按T日净值），入账后从 pending 移除
     inflow_today=0.0
     for h in portfolio["holdings"]:
@@ -463,7 +466,7 @@ def main(day):
         append_point(key,col,day,market,date_field)
 
     actual_dates=[]
-    for v in funds.values():
+    for v in public_funds.values():
         if v.get("fetch_status")=="success_actual" and v.get("date"): actual_dates.append(v["date"])
     for v in market.values():
         if v.get("fetch_status") in ("success_actual","success_public_fallback","success_public_page","success_public_estimate") and v.get("date") and not v.get("estimated"): actual_dates.append(v["date"])
@@ -473,13 +476,13 @@ def main(day):
             "attempted_at":datetime.now(TZ).isoformat(timespec="seconds"),
             "requested_date":day,
             "data_basis_date":latest_actual_date,
-            "fund_codes_requested":[h["code"] for h in portfolio["holdings"]],
-            "fund_success_count":sum(1 for x in funds.values() if x.get("nav") is not None),
-            "fund_total":len(funds),
+            "fund_codes_requested":public_codes,
+            "fund_success_count":sum(1 for x in public_funds.values() if x.get("nav") is not None),
+            "fund_total":len(public_funds),
             "lixinger_api_configured":bool(token())
         },
         "market":market,
-        "funds":funds
+        "funds":public_funds
     }
     if not is_historical:
         dump(DATA/"market_snapshot_latest.json",snapshot)
