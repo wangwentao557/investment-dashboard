@@ -1,14 +1,14 @@
 {
   "account_summary": {
-    "total_assets": 4119.38,
-    "today_pnl": -64.61,
-    "today_pnl_basis": "与上一条记录(2026-10-14)市值差 -64.61 − 当日净买入 0.00",
+    "total_assets": 4129.36,
+    "today_pnl": 9.98,
+    "today_pnl_basis": "与上一条记录(2026-10-15)市值差 9.98 − 当日净买入 0.00",
     "net_inflow_today": 0.0,
-    "total_pnl": -57.91,
+    "total_pnl": -47.93,
     "cost_basis": 4177.29,
     "nav_basis_dates": [
-      "2026-10-14",
-      "2026-10-15"
+      "2026-10-15",
+      "2026-10-16"
     ],
     "pending_buys": 0,
     "note": "total_assets/today_pnl 由脚本按 shares×nav 自动计算；cost_basis 手工维护（总投入本金）"

@@ -3,43 +3,43 @@
   "files": [
     {
       "file": "cs_ai.csv",
-      "points": 2444,
-      "sha256": "5ff2feffc7dc1e7a76e581206a621eec9d733b7edb7a8a5014a34c70f037f03a"
+      "points": 2445,
+      "sha256": "df0ef1797f7c323959906694c8d3a7b697ae768bbf0232aa9cafbd35f5155e5d"
     },
     {
       "file": "csi_a50.csv",
-      "points": 672,
-      "sha256": "78051fd98e1b9368c781904eedb4daf218d0012c610b2819e9e7995e6bb60aa0"
+      "points": 673,
+      "sha256": "b3732fd1f93fbb0e0730815b98f52f7848ae47324addc3d2866ee6f5e4fdfeb7"
     },
     {
       "file": "div_lowvol.csv",
-      "points": 2444,
-      "sha256": "378aa791893c98fcc4623798439beae96fdd5fb2b3e6917a5c63d4b0be364f2d"
+      "points": 2445,
+      "sha256": "0ac9c45051488928155f84a93cabaebc9df9e474c6bdb19b274a694d61aee88a"
     },
     {
       "file": "hk_internet.csv",
-      "points": 1449,
-      "sha256": "b28966f3e5f0cc0d55ae5809c163c82babe274ab22d2c3133ce960082712178a"
+      "points": 1450,
+      "sha256": "26fb9a8af1e19da3fd56c1161515b89305cda5de1fd5cd70d69b52a0c8982095"
     },
     {
       "file": "hs300.csv",
-      "points": 2444,
-      "sha256": "3d461dbb9342909f5f52aaee2fd14e25c01e30e876acbaeb866acc55c91e9377"
+      "points": 2445,
+      "sha256": "48c60f72327da8c2aeaa31c474657b13eca31e3822dc78b337c743c7873f01c9"
     },
     {
       "file": "metals.csv",
-      "points": 2444,
-      "sha256": "e53a79c9b1499bb4bbdfaf8fecc19ee51a58a63b9eaeeecbda937b3caacd54e4"
+      "points": 2445,
+      "sha256": "eb395674b85497d0e67f28fb02617f641aaee46c4a34011d2467bc4ff9df1b19"
     },
     {
       "file": "ndx.csv",
-      "points": 143,
-      "sha256": "892cf41a399983f9e79b4f5f18cb5935810b8b6c69f325e35089f063b3b417b5"
+      "points": 144,
+      "sha256": "dd214e386f403801f2954a373893b642c6e906190ae024cb9f71175dd41bcc3f"
     },
     {
       "file": "spx.csv",
-      "points": 2532,
-      "sha256": "ab7aa104ee5feb0a73d8b51ed63b2b470dae813a7f59096e33d42886a34f8cbd"
+      "points": 2533,
+      "sha256": "b30be3fcc65bf2fe37c996e17d7f078cffbcfc1cc4607c3dea9558b2b02f487b"
     }
   ]
 }
