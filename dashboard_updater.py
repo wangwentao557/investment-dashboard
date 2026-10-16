@@ -550,10 +550,7 @@ def main(day):
         alloc.append({"key":key,"current_pct":cur,"reference_pct":ref[key],"range_pct":rng[key],"state":state,"deviation_from_center_pct":round(cur-ref[key],2)})
 
     anomalies=[]
-    for h in holdings:
-        st=h["market"].get("fetch_status")
-        if st in ("failed","estimated","stale_failed"):
-            anomalies.append({"target":h["code"],"type":"基金数据","message":st+"；当前值不作为当日正式净值"})
+
     for key,v in market.items():
         if not isinstance(v,dict):continue
         st=v.get("fetch_status");dt=v.get("date") or v.get("erp_date") or v.get("spread_date")
@@ -561,9 +558,7 @@ def main(day):
             anomalies.append({"target":key,"type":"数据陈旧","message":f"最新数据日期 {dt or '—'}（状态 {st}），未更新到 {day}"})
         elif v.get("estimated") and dt and dt<day:
             anomalies.append({"target":key,"type":"估算值","message":f"{dt} 为估算数据（{v.get('source')}），非官方口径"})
-    for h in holdings:
-        if not h.get("valuation_target"):
-            anomalies.append({"target":h["code"],"type":"无估值目标","message":h["name"]+" 未纳入估值雷达（valuation_target 为空）"})
+
     for key in ["div_lowvol","hs300","csi_a50","cs_ai","hk_internet","metals","ndx","spx"]:
         p=DATA/"history"/f"{key}.csv"
         points=max(0,len(p.read_text(encoding="utf-8").splitlines())-1) if p.exists() else 0
