@@ -9,7 +9,9 @@ S.mkdir(parents=True,exist_ok=True)
 latest=json.loads((D/"market_snapshot_latest.json").read_text(encoding="utf-8"))
 hist_raw=json.loads((D/"dashboard_history.json").read_text(encoding="utf-8"))
 hist=hist_raw.get("records",[]) if isinstance(hist_raw,dict) else hist_raw
-portfolio=json.loads((R/"portfolio.json").read_text(encoding="utf-8"))
+# Public history must never contain account-level holdings, cash, P/L, or transactions.
+public_fields=("run_at","data_basis_date","fund_success_count","fund_total","market","l2","anomalies","completeness")
+hist=[{k:r[k] for k in public_fields if k in r} for r in hist if isinstance(r,dict)]
 watchlist=json.loads((R/"watchlist.json").read_text(encoding="utf-8"))
 l2=json.loads((D/"l2_latest.json").read_text(encoding="utf-8")) if (D/"l2_latest.json").exists() else {}
 history_status=json.loads((D/"history_status.json").read_text(encoding="utf-8")) if (D/"history_status.json").exists() else {"status":"not_run"}
@@ -18,7 +20,6 @@ bundle={
  "schema_version":2,
  "generated_at":datetime.now(timezone.utc).isoformat(timespec="seconds"),
  "latest":latest,
- "portfolio":portfolio,
  "watchlist":watchlist,
  "l2":l2,
  "history_status":history_status

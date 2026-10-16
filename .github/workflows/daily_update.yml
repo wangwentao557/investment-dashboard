@@ -51,11 +51,13 @@ jobs:
               print("ERROR: 0 formal fund NAVs were fetched; refusing to publish stale/empty daily data.")
               sys.exit(1)
           PY
+      - name: Privacy gate
+        run: python privacy_check.py
       - name: Commit data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data site/data portfolio.json
+          git add data site/data
           git diff --cached --quiet || git commit -m "data: daily investment update $TARGET_DATE"
           for attempt in 1 2 3; do
             git fetch origin main
@@ -66,7 +68,7 @@ jobs:
             else
               git rebase --abort || true
               git reset --hard origin/main
-              git add data site/data portfolio.json
+              git add data site/data
               git diff --cached --quiet || git commit -m "data: daily investment update $TARGET_DATE"
             fi
             sleep 10

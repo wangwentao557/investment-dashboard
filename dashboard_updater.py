@@ -382,7 +382,12 @@ def append_point(key,col,day,market,date_field="date"):
 def main(day):
     is_historical = day < datetime.now(TZ).strftime("%Y-%m-%d")
     watch=load(ROOT/"watchlist.json",{})
-    portfolio=load(ROOT/"portfolio.json",{})
+    private_portfolio_path=ROOT/"account_private"/"portfolio.json"
+    portfolio=load(private_portfolio_path,{}) or {}
+    account_enabled=bool(portfolio.get("holdings"))
+    if not account_enabled:
+        # Public valuation mode: fetch only the funds already declared in the public watchlist.
+        portfolio={"holdings":[{"key":t["key"],"name":f.get("name",f["code"]),"code":f["code"],"holding_value":0.0,"shares":0.0,"valuation_target":t["key"]} for t in watch.get("targets",[]) for f in t.get("funds",[])],"account_summary":{}}
     prev=load(DATA/"market_snapshot_latest.json",{"market":{}})
     prev_market=prev.get("market",{}) or {}
     market={k:dict(v) for k,v in prev_market.items() if isinstance(v,dict)}
@@ -437,7 +442,10 @@ def main(day):
         old["fetch_status"]="stale"
         old["failure_reason"]=gold.get("failure_reason","gold fetch failed")
         market["gold"]=old
-    funds={h["code"]:fund(h["code"],day) for h in portfolio["holdings"]}
+    public_codes=sorted({f["code"] for t in watch.get("targets",[]) for f in t.get("funds",[])})
+    all_codes=sorted(set(public_codes) | {h["code"] for h in portfolio["holdings"]})
+    funds={code:fund(code,day) for code in all_codes}
+    public_funds={code:funds[code] for code in public_codes}
     # 待入账买入：净值确认后自动折算份额（T日买入按T日净值），入账后从 pending 移除
     inflow_today=0.0
     for h in portfolio["holdings"]:
@@ -458,7 +466,7 @@ def main(day):
         append_point(key,col,day,market,date_field)
 
     actual_dates=[]
-    for v in funds.values():
+    for v in public_funds.values():
         if v.get("fetch_status")=="success_actual" and v.get("date"): actual_dates.append(v["date"])
     for v in market.values():
         if v.get("fetch_status") in ("success_actual","success_public_fallback","success_public_page","success_public_estimate") and v.get("date") and not v.get("estimated"): actual_dates.append(v["date"])
@@ -468,13 +476,13 @@ def main(day):
             "attempted_at":datetime.now(TZ).isoformat(timespec="seconds"),
             "requested_date":day,
             "data_basis_date":latest_actual_date,
-            "fund_codes_requested":[h["code"] for h in portfolio["holdings"]],
-            "fund_success_count":sum(1 for x in funds.values() if x.get("nav") is not None),
-            "fund_total":len(funds),
+            "fund_codes_requested":public_codes,
+            "fund_success_count":sum(1 for x in public_funds.values() if x.get("nav") is not None),
+            "fund_total":len(public_funds),
             "lixinger_api_configured":bool(token())
         },
         "market":market,
-        "funds":funds
+        "funds":public_funds
     }
     if not is_historical:
         dump(DATA/"market_snapshot_latest.json",snapshot)
@@ -545,10 +553,7 @@ def main(day):
         alloc.append({"key":key,"current_pct":cur,"reference_pct":ref[key],"range_pct":rng[key],"state":state,"deviation_from_center_pct":round(cur-ref[key],2)})
 
     anomalies=[]
-    for h in holdings:
-        st=h["market"].get("fetch_status")
-        if st in ("failed","estimated","stale_failed"):
-            anomalies.append({"target":h["code"],"type":"基金数据","message":st+"；当前值不作为当日正式净值"})
+
     for key,v in market.items():
         if not isinstance(v,dict):continue
         st=v.get("fetch_status");dt=v.get("date") or v.get("erp_date") or v.get("spread_date")
@@ -556,25 +561,25 @@ def main(day):
             anomalies.append({"target":key,"type":"数据陈旧","message":f"最新数据日期 {dt or '—'}（状态 {st}），未更新到 {day}"})
         elif v.get("estimated") and dt and dt<day:
             anomalies.append({"target":key,"type":"估算值","message":f"{dt} 为估算数据（{v.get('source')}），非官方口径"})
-    for h in holdings:
-        if not h.get("valuation_target"):
-            anomalies.append({"target":h["code"],"type":"无估值目标","message":h["name"]+" 未纳入估值雷达（valuation_target 为空）"})
+
     for key in ["div_lowvol","hs300","csi_a50","cs_ai","hk_internet","metals","ndx","spx"]:
         p=DATA/"history"/f"{key}.csv"
         points=max(0,len(p.read_text(encoding="utf-8").splitlines())-1) if p.exists() else 0
         if points<60:anomalies.append({"target":key,"type":"历史不足","message":f"当前{points}个真实点；正式L2需要至少60个真实点"})
 
+    # Public history is valuation-only; never write account-level fields here.
     rec={
         "run_at":snapshot["_daily_fetch"]["attempted_at"],"data_basis_date":snapshot["_daily_fetch"]["data_basis_date"],
-        "run_type":"daily_market_and_holdings_update",
-        "account_summary":portfolio["account_summary"],"fund_success_count":snapshot["_daily_fetch"]["fund_success_count"],
-        "fund_total":snapshot["_daily_fetch"]["fund_total"],"holdings":holdings,"market":market,
-        "allocation_deviation":alloc,"l2":l2,"anomalies":anomalies,
+        "run_type":"daily_market_update","fund_success_count":snapshot["_daily_fetch"]["fund_success_count"],
+        "fund_total":snapshot["_daily_fetch"]["fund_total"],"market":market,
+        "l2":l2,"anomalies":[a for a in anomalies if a.get("type") not in ("基金数据","无估值目标")],
         "completeness":"complete_with_explicit_anomalies" if anomalies else "complete"
     }
     hist.append(rec);dump(DATA/"dashboard_history.json",{"records":hist})
     if not is_historical:
-        dump(ROOT/"portfolio.json",portfolio)
+        if account_enabled:
+            private_portfolio_path.parent.mkdir(parents=True,exist_ok=True)
+            dump(private_portfolio_path,portfolio)
 
     reports=DATA/"reports";reports.mkdir(exist_ok=True)
     lines=["# 每日盯盘更新 · "+day,"","运行时间："+rec["run_at"],"数据完整性："+rec["completeness"],f"持仓数据：{rec['fund_success_count']}/{rec['fund_total']}","",
