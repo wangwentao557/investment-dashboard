@@ -579,7 +579,9 @@ def main(day):
     }
     hist.append(rec);dump(DATA/"dashboard_history.json",{"records":hist})
     if not is_historical:
-        dump(ROOT/"portfolio.json",portfolio)
+        if account_enabled:
+            private_portfolio_path.parent.mkdir(parents=True,exist_ok=True)
+            dump(private_portfolio_path,portfolio)
 
     reports=DATA/"reports";reports.mkdir(exist_ok=True)
     lines=["# 每日盯盘更新 · "+day,"","运行时间："+rec["run_at"],"数据完整性："+rec["completeness"],f"持仓数据：{rec['fund_success_count']}/{rec['fund_total']}","",
