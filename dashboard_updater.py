@@ -382,7 +382,12 @@ def append_point(key,col,day,market,date_field="date"):
 def main(day):
     is_historical = day < datetime.now(TZ).strftime("%Y-%m-%d")
     watch=load(ROOT/"watchlist.json",{})
-    portfolio=load(ROOT/"portfolio.json",{})
+    private_portfolio_path=ROOT/"account_private"/"portfolio.json"
+    portfolio=load(private_portfolio_path,{}) or {}
+    account_enabled=bool(portfolio.get("holdings"))
+    if not account_enabled:
+        # Public valuation mode: fetch only the funds already declared in the public watchlist.
+        portfolio={"holdings":[{"key":t["key"],"name":f.get("name",f["code"]),"code":f["code"],"holding_value":0.0,"shares":0.0,"valuation_target":t["key"]} for t in watch.get("targets",[]) for f in t.get("funds",[])],"account_summary":{}}
     prev=load(DATA/"market_snapshot_latest.json",{"market":{}})
     prev_market=prev.get("market",{}) or {}
     market={k:dict(v) for k,v in prev_market.items() if isinstance(v,dict)}
