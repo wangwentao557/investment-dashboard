@@ -51,6 +51,8 @@ jobs:
               print("ERROR: 0 formal fund NAVs were fetched; refusing to publish stale/empty daily data.")
               sys.exit(1)
           PY
+      - name: Privacy gate
+        run: python privacy_check.py
       - name: Commit data
         run: |
           git config user.name "github-actions[bot]"
