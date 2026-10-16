@@ -569,12 +569,12 @@ def main(day):
         points=max(0,len(p.read_text(encoding="utf-8").splitlines())-1) if p.exists() else 0
         if points<60:anomalies.append({"target":key,"type":"历史不足","message":f"当前{points}个真实点；正式L2需要至少60个真实点"})
 
+    # Public history is valuation-only; never write account-level fields here.
     rec={
         "run_at":snapshot["_daily_fetch"]["attempted_at"],"data_basis_date":snapshot["_daily_fetch"]["data_basis_date"],
-        "run_type":"daily_market_and_holdings_update",
-        "account_summary":portfolio["account_summary"],"fund_success_count":snapshot["_daily_fetch"]["fund_success_count"],
-        "fund_total":snapshot["_daily_fetch"]["fund_total"],"holdings":holdings,"market":market,
-        "allocation_deviation":alloc,"l2":l2,"anomalies":anomalies,
+        "run_type":"daily_market_update","fund_success_count":snapshot["_daily_fetch"]["fund_success_count"],
+        "fund_total":snapshot["_daily_fetch"]["fund_total"],"market":market,
+        "l2":l2,"anomalies":[a for a in anomalies if a.get("type") not in ("基金数据","无估值目标")],
         "completeness":"complete_with_explicit_anomalies" if anomalies else "complete"
     }
     hist.append(rec);dump(DATA/"dashboard_history.json",{"records":hist})
