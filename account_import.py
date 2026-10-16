@@ -96,13 +96,17 @@ def merge_jsonl(path, incoming):
                 item = json.loads(line)
                 existing[str(item.get("_record_id", ""))] = item
     before = len(existing)
+    changed = 0
     for item in incoming:
-        existing[item["_record_id"]] = item
+        key = item["_record_id"]
+        if existing.get(key) != item:
+            changed += 1
+        existing[key] = item
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as f:
         for key in sorted(existing):
             f.write(json.dumps(existing[key], ensure_ascii=False, separators=(",", ":")) + "\n")
-    return len(existing) - before, len(existing)
+    return changed, len(existing)
 
 def main():
     parser = argparse.ArgumentParser(description="将账户导出 CSV 导入本地私有账本")
