@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import argparse,csv,io,json,re,subprocess,sys
+import argparse,csv,io,json,re,subprocess,sys,os
 from pathlib import Path
 from datetime import datetime,timezone,timedelta
 import requests
@@ -7,6 +7,7 @@ from lixinger_api import fundamental,national_debt,token
 
 ROOT=Path(__file__).resolve().parent
 DATA=ROOT/"data"
+PORTFOLIO_PATH=Path(os.environ.get("PORTFOLIO_PATH", str(ROOT/"portfolio.json"))).resolve()
 TZ=timezone(timedelta(hours=8))
 SESSION=requests.Session()
 SESSION.headers.update({"User-Agent":"Mozilla/5.0 InvestmentDashboard/3.5"})
@@ -382,7 +383,7 @@ def append_point(key,col,day,market,date_field="date"):
 def main(day):
     is_historical = day < datetime.now(TZ).strftime("%Y-%m-%d")
     watch=load(ROOT/"watchlist.json",{})
-    portfolio=load(ROOT/"portfolio.json",{})
+    portfolio=load(PORTFOLIO_PATH,{})
     prev=load(DATA/"market_snapshot_latest.json",{"market":{}})
     prev_market=prev.get("market",{}) or {}
     market={k:dict(v) for k,v in prev_market.items() if isinstance(v,dict)}
@@ -574,7 +575,7 @@ def main(day):
     }
     hist.append(rec);dump(DATA/"dashboard_history.json",{"records":hist})
     if not is_historical:
-        dump(ROOT/"portfolio.json",portfolio)
+        dump(PORTFOLIO_PATH,portfolio)
 
     reports=DATA/"reports";reports.mkdir(exist_ok=True)
     lines=["# 每日盯盘更新 · "+day,"","运行时间："+rec["run_at"],"数据完整性："+rec["completeness"],f"持仓数据：{rec['fund_success_count']}/{rec['fund_total']}","",
