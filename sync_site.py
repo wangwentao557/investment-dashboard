@@ -15,7 +15,7 @@ for row in hist:
     if not isinstance(row,dict): continue
     item={k:v for k,v in row.items() if k not in {"account_summary","holdings","allocation_deviation","portfolio","cash_balance","transactions"}}
     public_hist.append(item)
-hist=public_hist_raw
+hist=public_hist
 watchlist=json.loads((R/"watchlist.json").read_text(encoding="utf-8"))
 l2=json.loads((D/"l2_latest.json").read_text(encoding="utf-8")) if (D/"l2_latest.json").exists() else {}
 history_status=json.loads((D/"history_status.json").read_text(encoding="utf-8")) if (D/"history_status.json").exists() else {"status":"not_run"}
