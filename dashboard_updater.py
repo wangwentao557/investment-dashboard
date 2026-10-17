@@ -479,7 +479,7 @@ def main(day):
         "funds":funds
     }
     if not is_historical:
-        dump(DATA/"market_snapshot_latest.json",snapshot)
+        dump(DATA/"market_snapshot_latest.json",{**snapshot,"funds":{},"_daily_fetch":{k:v for k,v in snapshot.get("_daily_fetch",{}).items() if k != "fund_codes_requested"}})
 
     subprocess.run([sys.executable,str(ROOT/"valuation_engine.py"),"--config",str(ROOT/"watchlist.json")],check=True)
     l2=load(DATA/"l2_latest.json",{})
