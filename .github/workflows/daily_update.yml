@@ -19,23 +19,39 @@ jobs:
     timeout-minutes: 20
     env:
       LIXINGER_TOKEN: ${{ secrets.LIXINGER_TOKEN }}
-      PORTFOLIO_JSON: ${{ secrets.PORTFOLIO_JSON }}
+      PRIVATE_DATA_REPO: ${{ secrets.PRIVATE_DATA_REPO }}
+      PRIVATE_DATA_TOKEN: ${{ secrets.PRIVATE_DATA_TOKEN }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - name: Load private portfolio from Actions secret
+      - name: Load private account data
         shell: bash
         run: |
-          if [ -z "$PORTFOLIO_JSON" ]; then
-            echo "ERROR: Configure the repository Actions secret PORTFOLIO_JSON before enabling the private portfolio workflow. No public portfolio file fallback is allowed."
+          if [ -z "$PRIVATE_DATA_REPO" ] || [ -z "$PRIVATE_DATA_TOKEN" ]; then
+            echo "ERROR: Configure PRIVATE_DATA_REPO and PRIVATE_DATA_TOKEN secrets; account data will not fall back to the public repository."
             exit 1
           fi
-          printf '%s' "$PORTFOLIO_JSON" > /tmp/investment-portfolio.json
-          python -m json.tool /tmp/investment-portfolio.json >/dev/null
-          echo "PORTFOLIO_PATH=/tmp/investment-portfolio.json" >> "$GITHUB_ENV"
+          case "$PRIVATE_DATA_REPO" in */*) ;; *) echo "ERROR: PRIVATE_DATA_REPO must be owner/repository"; exit 1;; esac
+          git clone "https://x-access-token:${PRIVATE_DATA_TOKEN}@github.com/${PRIVATE_DATA_REPO}.git" /tmp/private-account
+          if [ ! -s /tmp/private-account/portfolio.json ]; then
+            echo "ERROR: private repository must contain portfolio.json; refusing to reconstruct or invent holdings."
+            exit 1
+          fi
+          if [ ! -s /tmp/private-account/dashboard_history.json ]; then
+            if [ -s data/dashboard_history.json ]; then
+              cp data/dashboard_history.json /tmp/private-account/dashboard_history.json
+              echo "Migrated existing history into private storage; the public copy will be sanitized by the updater."
+            else
+              printf '{"records": []}\n' > /tmp/private-account/dashboard_history.json
+            fi
+          fi
+          python -m json.tool /tmp/private-account/portfolio.json >/dev/null
+          python -m json.tool /tmp/private-account/dashboard_history.json >/dev/null
+          echo "PORTFOLIO_PATH=/tmp/private-account/portfolio.json" >> "$GITHUB_ENV"
+          echo "PRIVATE_HISTORY_PATH=/tmp/private-account/dashboard_history.json" >> "$GITHUB_ENV"
       - name: Resolve target date
         run: |
           if [ -n "${{ inputs.target_date }}" ]; then
@@ -49,6 +65,16 @@ jobs:
         run: python history_backfill.py --date "$TARGET_DATE" --years 5 --extend-years 10
       - name: Update today's data and run L2
         run: python dashboard_updater.py --date "$TARGET_DATE"
+      - name: Persist private account state
+        shell: bash
+        run: |
+          git -C /tmp/private-account config user.name "github-actions[bot]"
+          git -C /tmp/private-account config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C /tmp/private-account add portfolio.json dashboard_history.json
+          if ! git -C /tmp/private-account diff --cached --quiet; then
+            git -C /tmp/private-account commit -m "private data: update account ledger $TARGET_DATE"
+            git -C /tmp/private-account push origin HEAD
+          fi
       - name: Data quality gate
         run: |
           python - <<'PY'
@@ -77,7 +103,7 @@ jobs:
             else
               git rebase --abort || true
               git reset --hard origin/main
-              git add data site/data portfolio.json
+              git add data site/data
               git diff --cached --quiet || git commit -m "data: daily investment update $TARGET_DATE"
             fi
             sleep 10
