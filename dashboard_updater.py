@@ -7,8 +7,9 @@ from lixinger_api import fundamental,national_debt,token
 
 ROOT=Path(__file__).resolve().parent
 DATA=ROOT/"data"
-PORTFOLIO_PATH=Path(os.environ.get("PORTFOLIO_PATH", str(ROOT/"portfolio.json"))).resolve()
-HISTORY_PATH=Path(os.environ.get("PRIVATE_HISTORY_PATH", str(DATA/"dashboard_history.json"))).resolve()
+PRIVATE_DIR=Path(os.environ.get("PRIVATE_ACCOUNT_DIR", str(Path.home()/".investment-dashboard-private"))).resolve()
+PORTFOLIO_PATH=Path(os.environ.get("PORTFOLIO_PATH", str(PRIVATE_DIR/"portfolio.json"))).resolve()
+HISTORY_PATH=Path(os.environ.get("PRIVATE_HISTORY_PATH", str(PRIVATE_DIR/"dashboard_history.json"))).resolve()
 TZ=timezone(timedelta(hours=8))
 SESSION=requests.Session()
 SESSION.headers.update({"User-Agent":"Mozilla/5.0 InvestmentDashboard/3.5"})
@@ -575,10 +576,10 @@ def main(day):
         "completeness":"complete_with_explicit_anomalies" if anomalies else "complete"
     }
     hist.append(rec)
-dump(HISTORY_PATH,{"records":hist})
-if HISTORY_PATH != (DATA/"dashboard_history.json").resolve():
-    public_hist=[{k:v for k,v in row.items() if k not in {"account_summary","holdings","allocation_deviation","portfolio","cash_balance","transactions"}} for row in hist if isinstance(row,dict)]
-    dump(DATA/"dashboard_history.json",{"records":public_hist})
+    dump(HISTORY_PATH,{"records":hist})
+    if HISTORY_PATH != (DATA/"dashboard_history.json").resolve():
+        public_hist=[{k:v for k,v in row.items() if k not in {"account_summary","holdings","allocation_deviation","portfolio","cash_balance","transactions"}} for row in hist if isinstance(row,dict)]
+        dump(DATA/"dashboard_history.json",{"records":public_hist})
     if not is_historical:
         dump(PORTFOLIO_PATH,portfolio)
 
@@ -592,6 +593,5 @@ if HISTORY_PATH != (DATA/"dashboard_history.json").resolve():
     (reports/f"盯盘报告_{day}.md").write_text("\n".join(lines),encoding="utf-8")
     if not is_historical:
         subprocess.run([sys.executable,str(ROOT/"sync_site.py")],check=True)
-
 if __name__=="__main__":
     ap=argparse.ArgumentParser();ap.add_argument("--date",default=datetime.now(TZ).strftime("%Y-%m-%d"));main(ap.parse_args().date)
