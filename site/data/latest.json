@@ -1,11 +1,11 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-10-16T14:05:06+00:00",
+  "generated_at": "2026-10-17T13:05:17+00:00",
   "latest": {
     "_daily_fetch": {
-      "attempted_at": "2026-10-16T22:05:06+08:00",
-      "requested_date": "2026-10-16",
-      "data_basis_date": "2026-10-16",
+      "attempted_at": "2026-10-17T21:05:17+08:00",
+      "requested_date": "2026-10-17",
+      "data_basis_date": "2026-10-17",
       "fund_codes_requested": [
         "019305",
         "012752",
@@ -21,7 +21,7 @@
         "010855",
         "021207"
       ],
-      "fund_success_count": 13,
+      "fund_success_count": 12,
       "fund_total": 13,
       "lixinger_api_configured": true
     },
@@ -29,8 +29,8 @@
       "div_lowvol": {
         "index_name": "红利低波",
         "dividend_yield": 4.119761310677219,
-        "cn10y": 1.6601000000000001,
-        "spread": 2.4596613106772187,
+        "cn10y": 1.6480000000000001,
+        "spread": 2.4717613106772185,
         "date": "2026-10-16",
         "source": "Lixinger API",
         "fetch_status": "success_actual",
@@ -39,8 +39,8 @@
       },
       "gold": {
         "index_name": "黄金",
-        "gold_usd_oz": 4183.9,
-        "date": "2026-10-16",
+        "gold_usd_oz": 4164.05,
+        "date": "2026-10-17",
         "source": "Sina hf_XAU (伦敦金现)",
         "source_url": "https://hq.sinajs.cn/list=hf_XAU",
         "fetch_status": "success_actual",
@@ -113,10 +113,10 @@
       },
       "ndx": {
         "index_name": "纳斯达克100",
-        "pe": 29.14,
+        "pe": 28.68,
         "us10y": 4.947,
         "erp": -1.514,
-        "date": "2026-10-16",
+        "date": "2026-10-17",
         "source": "价格推算(锚点 2026-09-18 PE=29.13 @29644.17)",
         "fetch_status": "success_public_estimate",
         "fetch_error": "Lixinger HTTP 403: {\"code\":0,\"error\":{\"name\":\"ForbiddenError\",\"message\":\"你不能够访问纳斯达克指数的信息。\"}}",
@@ -128,21 +128,21 @@
           "price": 29644.17,
           "source": "公开核验快照"
         },
-        "ndx_price": 29650.6639,
-        "ndx_price_time": "2026-10-16 22:04:33"
+        "ndx_price": 29187.5487,
+        "ndx_price_time": "2026-10-17 05:30:00"
       },
       "spx": {
         "index_name": "标普500",
-        "pe": 26.42,
-        "us10y": 5.105999946594238,
-        "erp": -1.3209885915601736,
-        "date": "2026-10-15",
+        "pe": 26.12,
+        "us10y": 5.0980000495910645,
+        "erp": -1.26951612922353,
+        "date": "2026-10-16",
         "source": "Multpl public estimate",
         "fetch_status": "success_public_estimate",
         "source_url": "https://www.multpl.com/s-p-500-pe-ratio/table/by-month",
         "estimated": true,
         "us10y_date": "2026-10-16",
-        "erp_date": "2026-10-15"
+        "erp_date": "2026-10-16"
       }
     },
     "funds": {
@@ -244,7 +244,7 @@
           "2026-10-15": 1.692
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/019305.js?v=1792159480",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/019305.js?v=1792242237",
         "fetch_status": "success_actual",
         "estimated": false
       },
@@ -346,7 +346,7 @@
           "2026-10-15": 3.3565
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/012752.js?v=1792159482",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/012752.js?v=1792242238",
         "fetch_status": "success_actual",
         "estimated": false
       },
@@ -448,7 +448,7 @@
           "2026-10-16": 1.6277
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/007467.js?v=1792159490",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/007467.js?v=1792242250",
         "fetch_status": "success_actual",
         "estimated": false
       },
@@ -550,110 +550,13 @@
           "2026-10-16": 1.4612
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/004433.js?v=1792159491",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/004433.js?v=1792242252",
         "fetch_status": "success_actual",
         "estimated": false
       },
       "001123": {
-        "nav": 1.8335,
-        "date": "2026-10-16",
-        "prev_nav": 1.8355,
-        "prev_date": "2026-10-15",
-        "nav_map": {
-          "2026-06-04": 1.8407,
-          "2026-06-05": 1.8368,
-          "2026-06-08": 1.8296,
-          "2026-06-09": 1.8365,
-          "2026-06-10": 1.8311,
-          "2026-06-11": 1.8296,
-          "2026-06-12": 1.8292,
-          "2026-06-15": 1.8372,
-          "2026-06-16": 1.8412,
-          "2026-06-17": 1.8494,
-          "2026-06-18": 1.8509,
-          "2026-06-22": 1.8505,
-          "2026-06-23": 1.8483,
-          "2026-06-24": 1.8523,
-          "2026-06-25": 1.8566,
-          "2026-06-26": 1.8546,
-          "2026-06-29": 1.8574,
-          "2026-06-30": 1.867,
-          "2026-07-01": 1.8663,
-          "2026-07-02": 1.8601,
-          "2026-07-03": 1.8592,
-          "2026-07-06": 1.8534,
-          "2026-07-07": 1.8519,
-          "2026-07-08": 1.8514,
-          "2026-07-09": 1.857,
-          "2026-07-10": 1.8506,
-          "2026-07-13": 1.8443,
-          "2026-07-14": 1.8462,
-          "2026-07-15": 1.8451,
-          "2026-07-16": 1.8442,
-          "2026-07-17": 1.8367,
-          "2026-07-20": 1.8376,
-          "2026-07-21": 1.8412,
-          "2026-07-22": 1.8388,
-          "2026-07-23": 1.8381,
-          "2026-07-24": 1.8371,
-          "2026-07-27": 1.8436,
-          "2026-07-28": 1.8404,
-          "2026-07-29": 1.8433,
-          "2026-07-30": 1.8408,
-          "2026-07-31": 1.842,
-          "2026-08-03": 1.8407,
-          "2026-08-04": 1.8419,
-          "2026-08-05": 1.8446,
-          "2026-08-06": 1.8443,
-          "2026-08-07": 1.8474,
-          "2026-08-10": 1.8494,
-          "2026-08-11": 1.8509,
-          "2026-08-12": 1.8515,
-          "2026-08-13": 1.8494,
-          "2026-08-14": 1.8496,
-          "2026-08-17": 1.8532,
-          "2026-08-18": 1.8528,
-          "2026-08-19": 1.846,
-          "2026-08-20": 1.8474,
-          "2026-08-21": 1.847,
-          "2026-08-24": 1.8447,
-          "2026-08-25": 1.8454,
-          "2026-08-26": 1.8456,
-          "2026-08-27": 1.8494,
-          "2026-08-28": 1.8478,
-          "2026-08-31": 1.8493,
-          "2026-09-01": 1.8469,
-          "2026-09-02": 1.8438,
-          "2026-09-03": 1.8437,
-          "2026-09-04": 1.8429,
-          "2026-09-07": 1.845,
-          "2026-09-08": 1.8438,
-          "2026-09-09": 1.8431,
-          "2026-09-10": 1.8403,
-          "2026-09-11": 1.8388,
-          "2026-09-14": 1.8395,
-          "2026-09-15": 1.8393,
-          "2026-09-16": 1.8409,
-          "2026-09-17": 1.8404,
-          "2026-09-18": 1.8451,
-          "2026-09-21": 1.8471,
-          "2026-09-22": 1.8491,
-          "2026-09-23": 1.8484,
-          "2026-09-24": 1.844,
-          "2026-09-28": 1.8406,
-          "2026-09-29": 1.8419,
-          "2026-09-30": 1.8442,
-          "2026-10-08": 1.8389,
-          "2026-10-09": 1.8399,
-          "2026-10-12": 1.8376,
-          "2026-10-13": 1.8372,
-          "2026-10-14": 1.8354,
-          "2026-10-15": 1.8355,
-          "2026-10-16": 1.8335
-        },
-        "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/001123.js?v=1792159492",
-        "fetch_status": "success_actual",
+        "fetch_status": "failed",
+        "failure_reason": "Response ended prematurely",
         "estimated": false
       },
       "011062": {
@@ -754,7 +657,7 @@
           "2026-10-16": 1.3862
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/011062.js?v=1792159493",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/011062.js?v=1792242278",
         "fetch_status": "success_actual",
         "estimated": false
       },
@@ -856,7 +759,7 @@
           "2026-10-16": 0.6062
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/014674.js?v=1792159495",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/014674.js?v=1792242294",
         "fetch_status": "success_actual",
         "estimated": false
       },
@@ -958,7 +861,7 @@
           "2026-10-16": 1.5441
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/023462.js?v=1792159496",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/023462.js?v=1792242301",
         "fetch_status": "success_actual",
         "estimated": false
       },
@@ -1060,17 +963,16 @@
           "2026-10-16": 0.9712
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/026733.js?v=1792159497",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/026733.js?v=1792242303",
         "fetch_status": "success_actual",
         "estimated": false
       },
       "000218": {
-        "nav": 3.2186,
-        "date": "2026-10-15",
-        "prev_nav": 3.2256,
-        "prev_date": "2026-10-14",
+        "nav": 3.2493,
+        "date": "2026-10-16",
+        "prev_nav": 3.2186,
+        "prev_date": "2026-10-15",
         "nav_map": {
-          "2026-06-03": 3.518,
           "2026-06-04": 3.5234,
           "2026-06-05": 3.5224,
           "2026-06-08": 3.4031,
@@ -1159,10 +1061,11 @@
           "2026-10-12": 3.2558,
           "2026-10-13": 3.2599,
           "2026-10-14": 3.2256,
-          "2026-10-15": 3.2186
+          "2026-10-15": 3.2186,
+          "2026-10-16": 3.2493
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/000218.js?v=1792159497",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/000218.js?v=1792242304",
         "fetch_status": "success_actual",
         "estimated": false
       },
@@ -1264,7 +1167,7 @@
           "2026-10-16": 1.3489
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/021075.js?v=1792159503",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/021075.js?v=1792242307",
         "fetch_status": "success_actual",
         "estimated": false
       },
@@ -1366,7 +1269,7 @@
           "2026-10-16": 0.7059
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/010855.js?v=1792159504",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/010855.js?v=1792242310",
         "fetch_status": "success_actual",
         "estimated": false
       },
@@ -1468,7 +1371,7 @@
           "2026-10-16": 1.1907
         },
         "source": "Eastmoney Data_netWorthTrend",
-        "source_url": "https://fund.eastmoney.com/pingzhongdata/021207.js?v=1792159504",
+        "source_url": "https://fund.eastmoney.com/pingzhongdata/021207.js?v=1792242315",
         "fetch_status": "success_actual",
         "estimated": false
       }
@@ -1476,11 +1379,11 @@
   },
   "portfolio": {
     "account_summary": {
-      "total_assets": 4129.36,
-      "today_pnl": 9.98,
-      "today_pnl_basis": "与上一条记录(2026-10-15)市值差 9.98 − 当日净买入 0.00",
+      "total_assets": 4132.85,
+      "today_pnl": 3.49,
+      "today_pnl_basis": "与上一条记录(2026-10-16)市值差 3.49 − 当日净买入 0.00",
       "net_inflow_today": 0.0,
-      "total_pnl": -47.93,
+      "total_pnl": -44.44,
       "cost_basis": 4177.29,
       "nav_basis_dates": [
         "2026-10-15",
@@ -1941,14 +1844,14 @@
     "targets": {
       "div_lowvol": {
         "signal": "hold",
-        "points": 2433,
+        "points": 2432,
         "required_points": 60,
-        "percentile": 46.07,
-        "sigma": 0.21,
+        "percentile": 46.75,
+        "sigma": 0.22,
         "mean": 2.1397,
-        "stdev": 1.5131,
-        "raw_percentile": 46.07,
-        "raw_value": 2.459661,
+        "stdev": 1.5134,
+        "raw_percentile": 46.75,
+        "raw_value": 2.471761,
         "valuation_direction": "lower_is_cheaper",
         "metric_column": "spread",
         "history_window": "5y primary; 10y extension if stable"
@@ -2031,14 +1934,14 @@
       },
       "ndx": {
         "signal": "hold",
-        "points": 144,
+        "points": 145,
         "required_points": 60,
-        "percentile": 47.92,
-        "sigma": 0.03,
-        "mean": 28.9742,
-        "stdev": 4.7742,
-        "raw_percentile": 47.92,
-        "raw_value": 29.14,
+        "percentile": 46.21,
+        "sigma": -0.06,
+        "mean": 28.9722,
+        "stdev": 4.7577,
+        "raw_percentile": 46.21,
+        "raw_value": 28.68,
         "valuation_direction": "lower_is_cheaper",
         "metric_column": "pe",
         "history_window": "5y primary; 10y extension if stable"
@@ -2047,12 +1950,12 @@
         "signal": "watch",
         "points": 2497,
         "required_points": 60,
-        "percentile": 99.44,
-        "sigma": 1.74,
-        "mean": -1.1242,
-        "stdev": 1.3912,
-        "raw_percentile": 0.6,
-        "raw_value": -1.293721,
+        "percentile": 99.08,
+        "sigma": 1.68,
+        "mean": -1.1227,
+        "stdev": 1.3917,
+        "raw_percentile": 0.96,
+        "raw_value": -1.216873,
         "valuation_direction": "higher_is_cheaper",
         "metric_column": "erp",
         "history_window": "5y primary; 10y extension if stable"
@@ -2060,7 +1963,7 @@
     }
   },
   "history_status": {
-    "run_at": "2026-10-16T22:04:23+08:00",
+    "run_at": "2026-10-17T21:03:45+08:00",
     "requested_window_years": 5,
     "extended_window_years": 10,
     "token_configured": true,
@@ -2069,37 +1972,37 @@
         "status": "ok",
         "points": 2445,
         "window_years": 10,
-        "existing_points_before": 2444
+        "existing_points_before": 2445
       },
       "hs300": {
         "status": "ok",
         "points": 2445,
         "window_years": 10,
-        "existing_points_before": 2444
+        "existing_points_before": 2445
       },
       "csi_a50": {
         "status": "ok",
         "points": 673,
         "window_years": 10,
-        "existing_points_before": 672
+        "existing_points_before": 673
       },
       "cs_ai": {
         "status": "ok",
         "points": 2445,
         "window_years": 10,
-        "existing_points_before": 2444
+        "existing_points_before": 2445
       },
       "hk_internet": {
         "status": "ok",
         "points": 1450,
         "window_years": 10,
-        "existing_points_before": 1449
+        "existing_points_before": 1450
       },
       "metals": {
         "status": "ok",
         "points": 2445,
         "window_years": 10,
-        "existing_points_before": 2444
+        "existing_points_before": 2445
       },
       "ndx": {
         "status": "restricted",
@@ -2109,9 +2012,9 @@
       },
       "spx": {
         "status": "ok",
-        "points": 2533,
+        "points": 2534,
         "window_years": 10,
-        "existing_points_before": 2532
+        "existing_points_before": 2533
       }
     },
     "status": "complete_with_anomalies",
