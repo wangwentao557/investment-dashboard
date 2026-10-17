@@ -8,6 +8,7 @@ from lixinger_api import fundamental,national_debt,token
 ROOT=Path(__file__).resolve().parent
 DATA=ROOT/"data"
 PORTFOLIO_PATH=Path(os.environ.get("PORTFOLIO_PATH", str(ROOT/"portfolio.json"))).resolve()
+HISTORY_PATH=Path(os.environ.get("PRIVATE_HISTORY_PATH", str(DATA/"dashboard_history.json"))).resolve()
 TZ=timezone(timedelta(hours=8))
 SESSION=requests.Session()
 SESSION.headers.update({"User-Agent":"Mozilla/5.0 InvestmentDashboard/3.5"})
@@ -483,7 +484,7 @@ def main(day):
     subprocess.run([sys.executable,str(ROOT/"valuation_engine.py"),"--config",str(ROOT/"watchlist.json")],check=True)
     l2=load(DATA/"l2_latest.json",{})
 
-    hist_raw=load(DATA/"dashboard_history.json",[]) or []
+    hist_raw=load(HISTORY_PATH,[]) or []
     hist=hist_raw.get("records",[]) if isinstance(hist_raw,dict) else hist_raw
     hist=[x for x in hist if isinstance(x,dict) and x.get("data_basis_date")!=day]
     holdings=[];fund_to_target={}
@@ -573,7 +574,11 @@ def main(day):
         "allocation_deviation":alloc,"l2":l2,"anomalies":anomalies,
         "completeness":"complete_with_explicit_anomalies" if anomalies else "complete"
     }
-    hist.append(rec);dump(DATA/"dashboard_history.json",{"records":hist})
+    hist.append(rec)
+dump(HISTORY_PATH,{"records":hist})
+if HISTORY_PATH != (DATA/"dashboard_history.json").resolve():
+    public_hist=[{k:v for k,v in row.items() if k not in {"account_summary","holdings","allocation_deviation","portfolio","cash_balance","transactions"}} for row in hist if isinstance(row,dict)]
+    dump(DATA/"dashboard_history.json",{"records":public_hist})
     if not is_historical:
         dump(PORTFOLIO_PATH,portfolio)
 
