@@ -4,3 +4,8 @@ account_imports/
 *.private.json
 *.private.csv
 *.private.xlsx
+
+# Local private account ledger and source exports
+/private_account/
+/private_account_imports/
+/private_account_exports/
