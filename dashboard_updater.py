@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import argparse,csv,io,json,re,subprocess,sys
+import argparse,csv,io,json,re,subprocess,sys,os
 from pathlib import Path
 from datetime import datetime,timezone,timedelta
 import requests
@@ -7,6 +7,9 @@ from lixinger_api import fundamental,national_debt,token
 
 ROOT=Path(__file__).resolve().parent
 DATA=ROOT/"data"
+PRIVATE_DIR=Path(os.environ.get("PRIVATE_ACCOUNT_DIR", str(Path.home()/".investment-dashboard-private"))).resolve()
+PORTFOLIO_PATH=Path(os.environ.get("PORTFOLIO_PATH", str(PRIVATE_DIR/"portfolio.json"))).resolve()
+HISTORY_PATH=Path(os.environ.get("PRIVATE_HISTORY_PATH", str(PRIVATE_DIR/"dashboard_history.json"))).resolve()
 TZ=timezone(timedelta(hours=8))
 SESSION=requests.Session()
 SESSION.headers.update({"User-Agent":"Mozilla/5.0 InvestmentDashboard/3.5"})
@@ -382,7 +385,7 @@ def append_point(key,col,day,market,date_field="date"):
 def main(day):
     is_historical = day < datetime.now(TZ).strftime("%Y-%m-%d")
     watch=load(ROOT/"watchlist.json",{})
-    portfolio=load(ROOT/"portfolio.json",{})
+    portfolio=load(PORTFOLIO_PATH,{})
     prev=load(DATA/"market_snapshot_latest.json",{"market":{}})
     prev_market=prev.get("market",{}) or {}
     market={k:dict(v) for k,v in prev_market.items() if isinstance(v,dict)}
@@ -477,12 +480,12 @@ def main(day):
         "funds":funds
     }
     if not is_historical:
-        dump(DATA/"market_snapshot_latest.json",snapshot)
+        dump(DATA/"market_snapshot_latest.json",{**snapshot,"funds":{},"_daily_fetch":{k:v for k,v in snapshot.get("_daily_fetch",{}).items() if k != "fund_codes_requested"}})
 
     subprocess.run([sys.executable,str(ROOT/"valuation_engine.py"),"--config",str(ROOT/"watchlist.json")],check=True)
     l2=load(DATA/"l2_latest.json",{})
 
-    hist_raw=load(DATA/"dashboard_history.json",[]) or []
+    hist_raw=load(HISTORY_PATH,[]) or []
     hist=hist_raw.get("records",[]) if isinstance(hist_raw,dict) else hist_raw
     hist=[x for x in hist if isinstance(x,dict) and x.get("data_basis_date")!=day]
     holdings=[];fund_to_target={}
@@ -572,9 +575,13 @@ def main(day):
         "allocation_deviation":alloc,"l2":l2,"anomalies":anomalies,
         "completeness":"complete_with_explicit_anomalies" if anomalies else "complete"
     }
-    hist.append(rec);dump(DATA/"dashboard_history.json",{"records":hist})
+    hist.append(rec)
+    dump(HISTORY_PATH,{"records":hist})
+    if HISTORY_PATH != (DATA/"dashboard_history.json").resolve():
+        public_hist=[{k:v for k,v in row.items() if k not in {"account_summary","holdings","allocation_deviation","portfolio","cash_balance","transactions"}} for row in hist if isinstance(row,dict)]
+        dump(DATA/"dashboard_history.json",{"records":public_hist})
     if not is_historical:
-        dump(ROOT/"portfolio.json",portfolio)
+        dump(PORTFOLIO_PATH,portfolio)
 
     reports=DATA/"reports";reports.mkdir(exist_ok=True)
     lines=["# 每日盯盘更新 · "+day,"","运行时间："+rec["run_at"],"数据完整性："+rec["completeness"],f"持仓数据：{rec['fund_success_count']}/{rec['fund_total']}","",
@@ -586,6 +593,5 @@ def main(day):
     (reports/f"盯盘报告_{day}.md").write_text("\n".join(lines),encoding="utf-8")
     if not is_historical:
         subprocess.run([sys.executable,str(ROOT/"sync_site.py")],check=True)
-
 if __name__=="__main__":
     ap=argparse.ArgumentParser();ap.add_argument("--date",default=datetime.now(TZ).strftime("%Y-%m-%d"));main(ap.parse_args().date)
