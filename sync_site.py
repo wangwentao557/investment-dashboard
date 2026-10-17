@@ -45,7 +45,6 @@ bundle={
  "schema_version":3,
  "generated_at":datetime.now(timezone.utc).isoformat(timespec="seconds"),
  "latest":public_latest,
- "portfolio":{"account_summary":{},"holdings":[],"transactions":[],"public_data":"private_account_data_not_published"},
  "watchlist":watchlist,
  "l2":l2,
  "history_status":history_status
