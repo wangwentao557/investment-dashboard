@@ -41,12 +41,8 @@ jobs:
             exit 1
           fi
           if [ ! -s /tmp/private-account/dashboard_history.json ]; then
-            if [ -s data/dashboard_history.json ]; then
-              cp data/dashboard_history.json /tmp/private-account/dashboard_history.json
-              echo "Migrated existing history into private storage; the public copy will be sanitized by the updater."
-            else
-              printf '{"records": []}\n' > /tmp/private-account/dashboard_history.json
-            fi
+            echo "ERROR: private repository must contain dashboard_history.json. Copy the existing history from the pre-migration main branch before merging; refusing to replace it with an empty history."
+            exit 1
           fi
           python -m json.tool /tmp/private-account/portfolio.json >/dev/null
           python -m json.tool /tmp/private-account/dashboard_history.json >/dev/null
