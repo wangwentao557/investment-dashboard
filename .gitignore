@@ -1,0 +1,6 @@
+# Local personal account data must never be committed.
+portfolio.json
+*.private.json
+private-account/
+account/private/
+.investment-dashboard-private/
